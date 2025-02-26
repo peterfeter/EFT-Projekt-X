@@ -90,14 +90,14 @@ namespace eft_dma_radar.UI.SKWidgetControl
                 string quantity = count.ToString();
 
                 // ✅ Round price to nearest hundred & add ₽ symbol
-                string price = item.Price.ToString("N0") + "₽ ";
+                int price = (item.Price / 1000);
 
-                float dist = Vector3.Distance(item.Position, localPlayer.Position);
+                int dist = (int)Vector3.Distance(item.Position, localPlayer.Position);
 
                 sb.AppendFormat("{0,-18}", name)
                     .AppendFormat("{0,-8}", quantity)
-                    .AppendFormat("{0,-8}", price)
-                    .AppendFormat("{0,-8:F1}", $"  {dist}")
+                    .AppendFormat("{0,-8}", $"{price}K")
+                    .AppendFormat("{0,-8:F1}", $"  {dist}m")
                     .AppendLine();
 
                 // **Improve mouse hit detection**
