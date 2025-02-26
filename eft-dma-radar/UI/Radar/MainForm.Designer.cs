@@ -121,6 +121,7 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_MemWrites = new FlowLayoutPanel();
             label3 = new Label();
             checkBox_AdvancedMemWrites = new CheckBox();
+            checkBox_hideRaidcode = new CheckBox();
             checkBox_AntiPage = new CheckBox();
             checkBox_AimBotEnabled = new CheckBox();
             checkBox_NoRecoilSway = new CheckBox();
@@ -1372,6 +1373,7 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_MemWrites.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel_MemWrites.Controls.Add(label3);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_AdvancedMemWrites);
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_hideRaidcode);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_AntiPage);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_AimBotEnabled);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_NoRecoilSway);
@@ -1424,12 +1426,23 @@ namespace eft_dma_radar.UI.Radar
             checkBox_AdvancedMemWrites.Text = "Enable Advanced MemWrites (Very Risky)";
             checkBox_AdvancedMemWrites.UseVisualStyleBackColor = true;
             // 
+            // checkBox_hideRaidcode
+            // 
+            checkBox_hideRaidcode.AutoSize = true;
+            checkBox_hideRaidcode.Location = new Point(255, 28);
+            checkBox_hideRaidcode.Name = "checkBox_hideRaidcode";
+            checkBox_hideRaidcode.Size = new Size(105, 19);
+            checkBox_hideRaidcode.TabIndex = 78;
+            checkBox_hideRaidcode.Text = "Hide RaidCode";
+            checkBox_hideRaidcode.UseVisualStyleBackColor = true;
+            checkBox_hideRaidcode.CheckedChanged += checkBox_hideRaidcode_CheckedChanged;
+            // 
             // checkBox_AntiPage
             // 
             checkBox_AntiPage.AutoSize = true;
             checkBox_AntiPage.Enabled = false;
             flowLayoutPanel_MemWrites.SetFlowBreak(checkBox_AntiPage, true);
-            checkBox_AntiPage.Location = new Point(255, 28);
+            checkBox_AntiPage.Location = new Point(366, 28);
             checkBox_AntiPage.Name = "checkBox_AntiPage";
             checkBox_AntiPage.Size = new Size(79, 19);
             checkBox_AntiPage.TabIndex = 77;
@@ -3710,6 +3723,7 @@ namespace eft_dma_radar.UI.Radar
         private FlowLayoutPanel flowLayoutPanel1;
         private Label label34;
         private CheckedListBox checkedListBox_QuestHelper;
+        private CheckBox checkBox_hideRaidcode;
     }
 }
 

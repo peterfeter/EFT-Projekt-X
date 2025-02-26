@@ -21,6 +21,7 @@ using eft_dma_radar.UI.Misc;
 using eft_dma_radar.UI.SKWidgetControl;
 using eft_dma_shared.Common.ESP;
 using eft_dma_shared.Common.Features;
+using eft_dma_shared.Common.Features.MemoryWrites;
 using eft_dma_shared.Common.Maps;
 using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Commercial;
@@ -399,13 +400,13 @@ namespace eft_dma_radar.UI.Radar
                             }
                         }
                     } // End Grp Connect
-                    
+
                     DrawSelectedLootLine(canvas, localPlayer, mapParams);
 
                     if (allPlayers is not null &&
                         checkBox_ShowInfoTab.Checked) // Players Overlay
                         _playerInfo?.Draw(canvas, localPlayer, allPlayers);
-                        closestToMouse?.DrawMouseover(canvas, mapParams, localPlayer);// draw tooltip for object the mouse is closest to
+                    closestToMouse?.DrawMouseover(canvas, mapParams, localPlayer);// draw tooltip for object the mouse is closest to
                     if (checkBox_ShowLootTab.Checked) // Loot Overlay
                         _lootInfo?.Draw(canvas, localPlayer, mousePos, mouseClicked);
                     if (Config.ESPWidgetEnabled)
@@ -530,7 +531,17 @@ namespace eft_dma_radar.UI.Radar
                 }
             }
         }
-
+        private void checkBox_hideRaidcode_CheckedChanged(object sender, EventArgs e)
+        {
+            // Update config
+            Program.Config.MemWrites.HideRaidCode = checkBox_hideRaidcode.Checked;
+        
+            // Enable or disable the feature
+            MemPatchFeature<HideRaidCode>.Instance.Enabled = checkBox_hideRaidcode.Checked;
+        
+            // Apply the changes immediately
+            MemPatchFeature<HideRaidCode>.Instance.TryApply();
+        }
         private void checkBox_LootWishlist_CheckedChanged(object sender, EventArgs e)
         {
             Config.LootWishlist = checkBox_LootWishlist.Checked;
@@ -1808,6 +1819,7 @@ namespace eft_dma_radar.UI.Radar
             toolTip1.SetToolTip(radioButton_Loot_VendorPrice, "Loot prices use the highest trader price for displayed loot items.");
             toolTip1.SetToolTip(checkBox_AntiPage, "Attempts to prevent memory paging out. This can help if you are experiencing 'paging out' (see the FAQ in Discord).\n" +
                 "For best results start the Radar Client BEFORE opening the Game.");
+            toolTip1.SetToolTip(checkBox_hideRaidcode, "Hides the Raid Code from displaying in the bottom left corner of the Game. Send your Cheating clips safely!");
             toolTip1.SetToolTip(checkBox_AIAimlines, "Enables dynamic aimlines for AI Players. When you are being aimed at the aimlines will extend.");
             toolTip1.SetToolTip(checkBox_LootWishlist, "Tracks loot on your account's Loot Wishlist (Manual Adds Only, does not work for Automatically Added Items).");
             toolTip1.SetToolTip(checkedListBox_QuestHelper, "Active Quest List (populates once you are in raid). Uncheck a quest to untrack it.");
@@ -1848,6 +1860,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_EnableMemWrite.CheckedChanged += checkBox_EnableMemWrite_CheckedChanged;
             checkBox_AdvancedMemWrites.CheckedChanged += checkBox_AdvancedMemWrites_CheckedChanged;
             /// Set Features
+            checkBox_hideRaidcode.Checked = MemPatchFeature<HideRaidCode>.Instance.Enabled;
             checkBox_AntiPage.Checked = Config.MemWrites.AntiPage;
             checkBox_EnableMemWrite.Checked = MemWrites.Enabled;
             checkBox_NoRecoilSway.Checked = MemWriteFeature<NoRecoil>.Instance.Enabled;
@@ -2251,26 +2264,27 @@ namespace eft_dma_radar.UI.Radar
         }
 
         /// <summary>
-        /// Process mousewheel events.
+        /// Process mouse wheel events.
         /// </summary>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
+            if (_lootInfo?.IsMouseOverWidget(GetMousePosition()) == true)
+            {
+                _lootInfo.OnMouseScroll(e.Delta);
+                return; // Prevents map zooming when scrolling over loot widget
+            }
+
             if (tabControl1.SelectedIndex == 0) // Main Radar Tab should be open
             {
-                if (e.Delta > 0) // mouse wheel up (zoom in)
+                if (e.Delta > 0) // Mouse wheel up
                 {
-                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta *
-                              5; // Calculate zoom amount based on number of deltas
+                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta * 5;
                     ZoomIn(amt);
-                    return;
                 }
-
-                if (e.Delta < 0) // mouse wheel down (zoom out)
+                else if (e.Delta < 0) // Mouse wheel down
                 {
-                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta *
-                              5; // Calculate zoom amount based on number of deltas
+                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta * 5;
                     ZoomOut(amt);
-                    return;
                 }
             }
 

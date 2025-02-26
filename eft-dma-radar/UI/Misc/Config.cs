@@ -683,6 +683,11 @@ namespace eft_dma_radar.UI.Misc
         public bool AntiPage { get; set; } = false;
 
         /// <summary>
+        /// Hides Raid Code from the game.
+        /// </summary>
+        [JsonPropertyName("hideRaidCode")]
+        public bool HideRaidCode { get; set; } = false;
+        /// <summary>
         /// Enable No Recoil Feature on Startup.
         /// </summary>
         [JsonPropertyName("enableNoRecoil")]
