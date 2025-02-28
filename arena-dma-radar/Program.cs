@@ -1,6 +1,5 @@
-﻿global using SKSvg = Svg.Skia.SKSvg;
+global using SKSvg = Svg.Skia.SKSvg;
 global using SkiaSharp;
-global using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 global using SkiaSharp.Views.Desktop;
 global using System.ComponentModel;
 global using System.Data;
@@ -14,6 +13,8 @@ global using System.Collections.Concurrent;
 global using System.Net;
 global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
+global using System.Runtime.Intrinsics;
+global using System.Runtime.Intrinsics.X86;
 global using System.Net.Security;
 global using System.Security.Cryptography;
 global using System.Security.Cryptography.X509Certificates;
@@ -26,15 +27,13 @@ global using eft_dma_shared;
 global using eft_dma_shared.Misc;
 global using eft_dma_shared.Common;
 using System.Runtime.Versioning;
-using eft_dma_radar;
-using eft_dma_radar.UI.Misc;
-using eft_dma_radar.UI.Radar;
-using eft_dma_radar.Tarkov;
-using eft_dma_shared.Common.Features;
-using eft_dma_radar.UI.ESP;
+using arena_dma_radar;
+using arena_dma_radar.UI.Radar;
+using arena_dma_radar.UI.Misc;
+using arena_dma_radar.Arena;
+using arena_dma_radar.UI.ESP;
 using eft_dma_shared.Common.Maps;
-using eft_dma_radar.Tarkov.Features;
-using eft_dma_radar.Tarkov.Features.MemoryWrites.Patches;
+using arena_dma_radar.Arena.Features;
 using eft_dma_shared.Common.Misc.Data;
 
 [assembly: AssemblyTitle(Program.Name)]
@@ -42,12 +41,11 @@ using eft_dma_shared.Common.Misc.Data;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: SupportedOSPlatform("Windows")]
 
-namespace eft_dma_radar
+namespace arena_dma_radar
 {
-    internal static class Program
+    internal static class Program 
     {
-        internal const string Name = "EFT DMA Radar";
-
+        internal const string Name = "Arena DMA Radar";
 
         /// <summary>
         /// Global Program Configuration.
@@ -61,7 +59,7 @@ namespace eft_dma_radar
             new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "eft-dma-radar"));
 
         /// <summary>
-        /// The main entry point for the application.
+        ///  The main entry point for the application.
         /// </summary>
         [Obfuscation(Feature = "Virtualization", Exclude = false)]
         [STAThread]
@@ -119,6 +117,7 @@ namespace eft_dma_radar
         /// <summary>
         /// Configure Program Startup.
         /// </summary>
+        /// <param name="args">Args passed from entrypoint.</param>
         [Obfuscation(Feature = "Virtualization", Exclude = false)]
         private static void ConfigureProgram()
         {
@@ -128,7 +127,6 @@ namespace eft_dma_radar
             MemoryInterface.ModuleInit();
             FeatureManager.ModuleInit();
             ResourceJanitor.ModuleInit(new Action(CleanupWindowResources));
-            RuntimeHelpers.RunClassConstructor(typeof(MemPatchFeature<FixWildSpawnType>).TypeHandle);
         }
 
         private static void CleanupWindowResources()

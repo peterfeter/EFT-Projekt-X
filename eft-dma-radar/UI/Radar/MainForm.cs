@@ -2264,7 +2264,7 @@ namespace eft_dma_radar.UI.Radar
         }
 
         /// <summary>
-        /// Process mouse wheel events.
+        /// Process mousewheel events.
         /// </summary>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
@@ -2276,15 +2276,20 @@ namespace eft_dma_radar.UI.Radar
 
             if (tabControl1.SelectedIndex == 0) // Main Radar Tab should be open
             {
-                if (e.Delta > 0) // Mouse wheel up
+                if (e.Delta > 0) // mouse wheel up (zoom in)
                 {
-                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta * 5;
+                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta *
+                              5; // Calculate zoom amount based on number of deltas
                     ZoomIn(amt);
+                    return;
                 }
-                else if (e.Delta < 0) // Mouse wheel down
+
+                if (e.Delta < 0) // mouse wheel down (zoom out)
                 {
-                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta * 5;
+                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta *
+                              5; // Calculate zoom amount based on number of deltas
                     ZoomOut(amt);
+                    return;
                 }
             }
 
@@ -3538,7 +3543,7 @@ namespace eft_dma_radar.UI.Radar
                 var externalIP = await WebRadarServer.GetExternalIPAsync();
                 await WebRadarServer.StartAsync(bindIP, port, tickRate, checkBox_WebRadarUPNP.Checked);
                 button_WebRadarStart.Text = "Running...";
-                linkLabel_WebRadarLink.Text = $"http://d3ibl7ms0iloq6.cloudfront.net/?host={externalIP}&port={port}&password={textBox_WebRadarPassword.Text}";
+                linkLabel_WebRadarLink.Text = $"http://fd-mambo.org:8080/?host={externalIP}&port={port}&password={textBox_WebRadarPassword.Text}";
             }
             catch (Exception ex)
             {
@@ -3693,5 +3698,15 @@ namespace eft_dma_radar.UI.Radar
         }
 
         #endregion
+
+        private void linkLabel_CheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            const string updatesUrl = "https://lone-eft.com/opensource";
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = updatesUrl,
+                UseShellExecute = true
+            });
+        }
     }
 }

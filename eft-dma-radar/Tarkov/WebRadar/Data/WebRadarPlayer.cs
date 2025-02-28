@@ -1,4 +1,5 @@
 ﻿using eft_dma_radar.Tarkov.EFTPlayer;
+using eft_dma_radar.Tarkov.EFTPlayer.Plugins;
 using MessagePack;
 
 namespace eft_dma_radar.Tarkov.WebRadar.Data
@@ -37,6 +38,11 @@ namespace eft_dma_radar.Tarkov.WebRadar.Data
         [Key(5)]
         public readonly Vector2 Rotation { get; init; }
 
+        /// <summary>
+        /// Players Gear.
+        /// </summary>
+        [Key(6)]
+        public readonly IEnumerable<GearManager> Gear { get; init; }
         /// <summary>
         /// Create a WebRadarPlayer from a Full Player Object.
         /// </summary>
