@@ -2283,23 +2283,26 @@ namespace eft_dma_radar.UI.Radar
         /// </summary>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (_lootInfo != null && _lootInfo.IsMouseOver()) // Use IsMouseOver method
+            if (_lootInfo?.IsMouseOverWidget(GetMousePosition()) == true)
             {
-                return; // Ignore mouse wheel event when over the LootInfoWidget
+                _lootInfo.OnMouseScroll(e.Delta);
+                return; // Prevents map zooming when scrolling over loot widget
             }
 
             if (tabControl1.SelectedIndex == 0) // Main Radar Tab should be open
             {
                 if (e.Delta > 0) // mouse wheel up (zoom in)
                 {
-                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta * 5;
+                    var amt = e.Delta / SystemInformation.MouseWheelScrollDelta *
+                              5; // Calculate zoom amount based on number of deltas
                     ZoomIn(amt);
                     return;
                 }
 
                 if (e.Delta < 0) // mouse wheel down (zoom out)
                 {
-                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta * 5;
+                    var amt = e.Delta / -SystemInformation.MouseWheelScrollDelta *
+                              5; // Calculate zoom amount based on number of deltas
                     ZoomOut(amt);
                     return;
                 }
