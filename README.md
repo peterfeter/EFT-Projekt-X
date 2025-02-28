@@ -1,8 +1,14 @@
-# LoneEFT by Mambo
+# LoneEFT by Dreadful
 
-In this project I will be slowly adding features, updates and anything else I want to personally use. 
+Forked from Mambo - I'll update with changes I like from time to time but mainly will pull from Mambo and add the visual colors back in as well as my version of the loot widget. 
 
 ## Current Changes
 
- **- Added Loot Info Widget** 
- *Shows a loot table sorted by highest price, can click on each item to draw a line to its destination.*
+All of Mambo's current features and updates
+My version of the Mambo loot widget (Sort by Name or Price using N and P key's on radar PC)
+Added visual colors to Color Picker, Loot Filter, and Cham vischeck colors
+ESP Ammo Counter is LimeGreen - Can be changed in SKPain.cs
+
+## Future Changes
+Loot Widget sort by Distance with D key on radar PC
+Any updates Mambo makes
