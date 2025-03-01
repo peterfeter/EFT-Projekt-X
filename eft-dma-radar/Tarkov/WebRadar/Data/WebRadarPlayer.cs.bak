@@ -138,6 +138,5 @@ namespace eft_dma_radar.Tarkov.WebRadar.Data
                     };
                 }
 
-    };
-}
-
+            };
+        }
