@@ -10,7 +10,7 @@ using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Unity;
 using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using eft_dma_shared.Common.Misc.Data;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 
 namespace eft_dma_radar.Tarkov.GameWorld
 {

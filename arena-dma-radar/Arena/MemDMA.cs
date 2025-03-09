@@ -7,7 +7,7 @@ using arena_dma_radar.Arena.GameWorld;
 using System.Runtime;
 using eft_dma_shared.Common.DMA;
 using eft_dma_shared.Common.Unity;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 
 namespace arena_dma_radar.Arena
 {

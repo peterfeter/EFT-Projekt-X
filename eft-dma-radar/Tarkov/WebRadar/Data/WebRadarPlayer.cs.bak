@@ -1,7 +1,7 @@
 ﻿using eft_dma_radar.Tarkov.EFTPlayer;
 using eft_dma_radar.Tarkov.EFTPlayer.Plugins;
 using eft_dma_radar.Tarkov.Loot;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 using MessagePack;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 

@@ -3,7 +3,7 @@ using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Unity.Collections;
 using arena_dma_radar.Arena.Features;
 using arena_dma_radar.Arena.Features.MemoryWrites;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 
 namespace arena_dma_radar.Arena.GameWorld
 {

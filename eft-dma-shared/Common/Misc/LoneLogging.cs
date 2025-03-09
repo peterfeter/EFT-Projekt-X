@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace eft_dma_shared.Common.Misc.Commercial
+namespace eft_dma_shared.Common.Misc
 {
     public static class LoneLogging
     {

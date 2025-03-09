@@ -11,7 +11,7 @@ using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Ballistics;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.Collections;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 
 namespace eft_dma_radar.Tarkov.Features.MemoryWrites
 {

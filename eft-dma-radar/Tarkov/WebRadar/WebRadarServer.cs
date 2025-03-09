@@ -10,7 +10,7 @@ using System.Net.Sockets;
 using eft_dma_radar.Tarkov.WebRadar.Data;
 using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.MessagePack;
-using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_shared.Common.Misc;
 using eft_dma_radar.Tarkov.Loot;
 
 namespace eft_dma_radar.Tarkov.WebRadar

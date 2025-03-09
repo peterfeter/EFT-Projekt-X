@@ -6,7 +6,6 @@ using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.LowLevel;
 using arena_dma_radar.Arena.Features;
 using eft_dma_shared.Common.Misc.Config;
-using eft_dma_shared.Common.Misc.Commercial;
 
 namespace arena_dma_radar.Arena.Features.MemoryWrites
 {

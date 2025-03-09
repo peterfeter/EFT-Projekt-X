@@ -1,6 +1,5 @@
 ﻿using eft_dma_shared.Common.DMA;
 using eft_dma_shared.Common.Misc;
-using eft_dma_shared.Common.Misc.Commercial;
 using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics;

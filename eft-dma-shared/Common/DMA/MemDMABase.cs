@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.DMA.ScatterAPI;
-using eft_dma_shared.Common.Misc.Commercial;
 using eft_dma_shared.Common.Unity.LowLevel.Hooks;
 
 namespace eft_dma_shared.Common.DMA
