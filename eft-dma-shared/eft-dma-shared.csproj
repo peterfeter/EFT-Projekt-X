@@ -22,7 +22,6 @@
 		<EmbeddedResource Include="..\Resources\NeoSansStdMedium.otf" />
 		<EmbeddedResource Include="..\Resources\NeoSansStdBold.otf" />
 		<EmbeddedResource Include="..\Resources\NeoSansStdItalic.otf" />
-		<EmbeddedResource Include="..\Resources\DEFAULT_DATA.json" />
 	</ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

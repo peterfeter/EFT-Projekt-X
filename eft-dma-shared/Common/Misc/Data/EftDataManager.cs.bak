@@ -1,4 +1,4 @@
-﻿using eft_dma_shared.Common.Misc.Data.TarkovMarket;
+﻿using eft_dma_shared.Common.Misc;
 using System.Collections.Frozen;
 using System.Reflection;
 using System.Text;
@@ -82,24 +82,10 @@ namespace eft_dma_shared.Common.Misc.Data
                 PropertyNameCaseInsensitive = true,
                 NumberHandling = JsonNumberHandling.AllowReadingFromString
             };
-            if (json is null && File.Exists(_dataFile))
-            {
-                json = await File.ReadAllTextAsync(_dataFile);
-            }
-            json ??= await GetDefaultDataAsync();
+            json ??= await File.ReadAllTextAsync(_dataFile);
             data = JsonSerializer.Deserialize<TarkovMarketData>(json, jsonOptions);
             ArgumentNullException.ThrowIfNull(data, nameof(data));
             return data;
-        }
-
-        private static async Task<string> GetDefaultDataAsync()
-        {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("eft-dma-shared.DEFAULT_DATA.json"))
-            {
-                var data = new byte[stream!.Length];
-                await stream.ReadExactlyAsync(data);
-                return Encoding.UTF8.GetString(data);
-            }
         }
 
         /// <summary>
@@ -111,7 +97,12 @@ namespace eft_dma_shared.Common.Misc.Data
         {
             try
             {
-                return await TarkovMarketJob.GetUpdatedMarketDataAsync();
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("eft-dma-shared.DEFAULT_DATA.json"))
+                {
+                    var data = new byte[stream!.Length];
+                    await stream.ReadExactlyAsync(data);
+                    return Encoding.UTF8.GetString(data);
+                }
             }
             catch (Exception ex)
             {
