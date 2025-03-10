@@ -69,7 +69,7 @@ namespace eft_dma_shared.Common.Misc.Data
             TarkovMarketData data;
             string json = null;
             if (!File.Exists(_dataFile) ||
-            File.GetLastWriteTime(_dataFile).AddHours(4) < DateTime.Now) // only update every 4h
+            File.GetLastWriteTime(_dataFile).AddHours(.5) < DateTime.Now) // only update every .5h originally set to every 4h by Lone
             {
                 json = await GetUpdatedDataJsonAsync();
                 if (json is not null)
