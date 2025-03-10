@@ -12,6 +12,8 @@ Added visual colors to Color Picker, Loot Filter, and Cham vischeck colors
 
 ESP Ammo Counter is LimeGreen - Can be changed in SKPain.cs
 
+Flea Prices on loot update every 4HR's - Price updates are for PvE - You can change this in TarkovDevCores.cs by removing (gameMode:pve) on line 22. - This update is from LONE
+
 ## Future Changes
 
 Loot Widget sort by Distance with D key on radar PC
