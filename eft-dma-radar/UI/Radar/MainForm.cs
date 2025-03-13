@@ -57,6 +57,7 @@ namespace eft_dma_radar.UI.Radar
         private EspWidget _aimview;
         private PlayerInfoWidget _playerInfo;
         private LootInfoWidget _lootInfo;
+        private float _dragSpeed = 2.0f; // Map drag speed
 
         /// <summary>
         /// Main UI/Application Config.
@@ -1104,8 +1105,8 @@ namespace eft_dma_radar.UI.Radar
         {
             if (_mouseDown && checkBox_MapFree.Checked)
             {
-                var deltaX = -(e.X - _lastMousePosition.X);
-                var deltaY = -(e.Y - _lastMousePosition.Y);
+                var deltaX = -(e.X - _lastMousePosition.X) * _dragSpeed;
+                var deltaY = -(e.Y - _lastMousePosition.Y) * _dragSpeed;
 
                 _mapPanPosition.X += deltaX;
                 _mapPanPosition.Y += deltaY;
