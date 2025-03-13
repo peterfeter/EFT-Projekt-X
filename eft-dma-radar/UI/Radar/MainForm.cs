@@ -24,7 +24,6 @@ using eft_dma_shared.Common.Features;
 using eft_dma_shared.Common.Features.MemoryWrites;
 using eft_dma_shared.Common.Maps;
 using eft_dma_shared.Common.Misc;
-using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.LowLevel;
@@ -535,10 +534,10 @@ namespace eft_dma_radar.UI.Radar
         {
             // Update config
             Program.Config.MemWrites.HideRaidCode = checkBox_hideRaidcode.Checked;
-        
+
             // Enable or disable the feature
             MemPatchFeature<HideRaidCode>.Instance.Enabled = checkBox_hideRaidcode.Checked;
-        
+
             // Apply the changes immediately
             MemPatchFeature<HideRaidCode>.Instance.TryApply();
         }
@@ -709,8 +708,22 @@ namespace eft_dma_radar.UI.Radar
 
         private void checkBox_MoveSpeed_CheckedChanged(object sender, EventArgs e)
         {
+            if (checkBox_MoveSpeed.Checked)
+            {
+                checkBox_MoveSpeed2.Checked = false;
+            }
             bool enabled = checkBox_MoveSpeed.Checked;
             MemWriteFeature<MoveSpeed>.Instance.Enabled = enabled;
+        }
+
+        private void checkBox_MoveSpeed2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_MoveSpeed2.Checked)
+            {
+                checkBox_MoveSpeed.Checked = false;
+            }
+            bool enabled = checkBox_MoveSpeed2.Checked;
+            MemWriteFeature<MoveSpeed2>.Instance.Enabled = enabled;
         }
 
         private void TrackBar_WideLeanAmt_ValueChanged(object sender, EventArgs e)
@@ -1808,6 +1821,11 @@ namespace eft_dma_radar.UI.Radar
                 "WARNING: This is marked as a RISKY feature since other players can see you 'gliding' instead of running and is visually noticeable.");
             toolTip1.SetToolTip(checkBox_MoveSpeed,
                 "Enables/Disables 1.2x Move Speed Feature. This causes your player to move 1.2 times faster.\n" +
+                "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
+                "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
+            toolTip1.SetToolTip(checkBox_MoveSpeed2,
+                "NOT RECOMMENDED FOR PvP.\n"+
+                "Enables/Disables 1.4x Move Speed Feature. This causes your player to move 1.4 times faster.\n" +
                 "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
                 "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
             toolTip1.SetToolTip(checkBox_ESP_FireportAim, "Shows the base fireport trajectory on screen so you can see where bullets will go. Disappears when ADS.");
@@ -3738,8 +3756,8 @@ namespace eft_dma_radar.UI.Radar
                 }
             }
         }
-      
- 
+
+
         #endregion
 
         private void linkLabel_CheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
