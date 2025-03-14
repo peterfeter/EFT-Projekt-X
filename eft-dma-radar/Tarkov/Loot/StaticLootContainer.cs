@@ -83,11 +83,24 @@ namespace eft_dma_radar.Tarkov.Loot
 
         public override void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
+            // Save the current canvas state
+            canvas.Save();
+
+            // Get the container's position on the map
+            var containerPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
+            // Apply a rotation transformation to the canvas
+            canvas.RotateDegrees(180, containerPosition.X, containerPosition.Y);
+
+            // Draw the mouseover text
             var lines = new List<string>()
             {
                 this.Name
             };
             Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+
+            // Restore the canvas state
+            canvas.Restore();
         }
     }
 }
