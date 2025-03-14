@@ -284,13 +284,26 @@ namespace eft_dma_radar.UI.Radar
                         Top = skglControl_Radar.Top,
                         Bottom = skglControl_Radar.Bottom
                     };
-                    // Draw Map
+
+                    // Save the current canvas state
+                    canvas.Save();
+
+                    // Get the center of the canvas
+                    float centerX = (mapCanvasBounds.Left + mapCanvasBounds.Right) / 2;
+                    float centerY = (mapCanvasBounds.Top + mapCanvasBounds.Bottom) / 2;
+
+                    // Apply a rotation transformation to the canvas
+                    canvas.RotateDegrees(180, centerX, centerY);
+
+                    // Draw the map
                     map.Draw(canvas, localPlayer.Position.Y, mapParams.Bounds, mapCanvasBounds);
+
                     // Draw LocalPlayer
                     localPlayer.Draw(canvas, mapParams, localPlayer);
+
                     // Draw other players
-                    var allPlayers = AllPlayers?
-                        .Where(x => !x.HasExfild); // Skip exfil'd players
+                    var allPlayers = AllPlayers?.Where(x => !x.HasExfild); // Skip exfil'd players
+
                     if (Config.ShowLoot) // Draw loot (if enabled)
                     {
                         var loot = Loot?.Reverse(); // Draw important loot last (on top)
@@ -300,7 +313,21 @@ namespace eft_dma_radar.UI.Radar
                             {
                                 if (checkBox_HideCorpses.Checked && item is LootCorpse)
                                     continue;
+
+                                // Save the current canvas state
+                                canvas.Save();
+
+                                // Get the item's position on the map
+                                var itemPosition = item.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                                // Apply a rotation transformation to the canvas
+                                canvas.RotateDegrees(180, itemPosition.X, itemPosition.Y);
+
+                                // Draw the item
                                 item.Draw(canvas, mapParams, localPlayer);
+
+                                // Restore the canvas state
+                                canvas.Restore();
                             }
                         }
                         if (Config.Containers.Show) // Draw Containers
@@ -316,7 +343,21 @@ namespace eft_dma_radar.UI.Radar
                                         {
                                             continue;
                                         }
+
+                                        // Save the current canvas state
+                                        canvas.Save();
+
+                                        // Get the container's position on the map
+                                        var containerPosition = container.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                                        // Apply a rotation transformation to the canvas
+                                        canvas.RotateDegrees(180, containerPosition.X, containerPosition.Y);
+
+                                        // Draw the container
                                         container.Draw(canvas, mapParams, localPlayer);
+
+                                        // Restore the canvas state
+                                        canvas.Restore();
                                     }
                                 }
                             }
@@ -328,11 +369,41 @@ namespace eft_dma_radar.UI.Radar
                         var questItems = Loot?.Where(x => x is QuestItem);
                         if (questItems is not null)
                             foreach (var item in questItems)
+                            {
+                                // Save the current canvas state
+                                canvas.Save();
+
+                                // Get the quest location's position on the map
+                                var itemPosition = item.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                                // Apply a rotation transformation to the canvas
+                                canvas.RotateDegrees(180, itemPosition.X, itemPosition.Y);
+
+                                // Draw the quest location
                                 item.Draw(canvas, mapParams, localPlayer);
+
+                                // Restore the canvas state
+                                canvas.Restore();
+                            }
                         var questLocations = Memory.QuestManager?.LocationConditions;
                         if (questLocations is not null)
                             foreach (var loc in questLocations)
+                            {
+                                // Save the current canvas state
+                                canvas.Save();
+
+                                // Get the quest location's position on the map
+                                var locPosition = loc.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                                // Apply a rotation transformation to the canvas
+                                canvas.RotateDegrees(180, locPosition.X, locPosition.Y);
+
+                                // Draw the quest location
                                 loc.Draw(canvas, mapParams, localPlayer);
+
+                                // Restore the canvas state
+                                canvas.Restore();
+                            }
                     } // End QuestHelper
 
                     if (checkBox_ShowMines.Checked &&
@@ -363,7 +434,22 @@ namespace eft_dma_radar.UI.Radar
                             {
                                 continue; // Only draw available SCAV Exfils
                             }
-                            exit.Draw(canvas, mapParams, localPlayer);
+                            {
+                                // Save the current canvas state
+                                canvas.Save();
+
+                                // Get the exit's position on the map
+                                var exitPosition = exit.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                                // Apply a rotation transformation to the canvas
+                                canvas.RotateDegrees(180, exitPosition.X, exitPosition.Y);
+
+                                // Draw the exit
+                                exit.Draw(canvas, mapParams, localPlayer);
+
+                                // Restore the canvas state
+                                canvas.Restore();
+                            }
                         } // end exfils
                     }
 
@@ -403,14 +489,49 @@ namespace eft_dma_radar.UI.Radar
 
                     DrawSelectedLootLine(canvas, localPlayer, mapParams);
 
-                    if (allPlayers is not null &&
-                        checkBox_ShowInfoTab.Checked) // Players Overlay
+                    // Save the current canvas state
+                    canvas.Save();
+
+                    // Get the center of the canvas
+                    float centerXwidgets = (mapCanvasBounds.Left + mapCanvasBounds.Right) / 2;
+                    float centerYwidgets = (mapCanvasBounds.Top + mapCanvasBounds.Bottom) / 2;
+
+                    // Apply a rotation transformation to the canvas
+                    canvas.RotateDegrees(180, centerXwidgets, centerYwidgets);
+
+                    // Draw Player Info Widget
+                    if (allPlayers is not null && checkBox_ShowInfoTab.Checked) // Players Overlay
                         _playerInfo?.Draw(canvas, localPlayer, allPlayers);
-                    closestToMouse?.DrawMouseover(canvas, mapParams, localPlayer);// draw tooltip for object the mouse is closest to
+
+                    // Save the current canvas state
+                    canvas.Save();
+
+                    // Get the center of the canvas
+                    float centerXmouseover = (mapCanvasBounds.Left + mapCanvasBounds.Right) / 2;
+                    float centerYmouseover = (mapCanvasBounds.Top + mapCanvasBounds.Bottom) / 2;
+
+                    // Apply a rotation transformation to the canvas
+                    canvas.RotateDegrees(180, centerXmouseover, centerYmouseover);
+
+                    // Draw the mouseover item
+                    closestToMouse?.DrawMouseover(canvas, mapParams, localPlayer);
+
+                    // Restore the canvas state
+                    canvas.Restore();
+
+                    // Draw Loot Info Widget
                     if (checkBox_ShowLootTab.Checked) // Loot Overlay
                         _lootInfo?.Draw(canvas, localPlayer, mousePos, mouseClicked);
+
+                    // Draw AimView Widget
                     if (Config.ESPWidgetEnabled)
                         _aimview?.Draw(canvas);
+
+                    // Restore the canvas state
+                    canvas.Restore();
+
+                    // Restore the canvas state
+                    canvas.Restore();
                 }
                 else // LocalPlayer is *not* in a Raid -> Display Reason
                 {
@@ -429,6 +550,8 @@ namespace eft_dma_radar.UI.Radar
                 LoneLogging.WriteLine($"CRITICAL RENDER ERROR: {ex}");
             }
         }
+
+
         private void DrawSelectedLootLine(SKCanvas canvas, Player localPlayer, LoneMapParams mapParams)
         {
             var selectedLoot = _lootInfo?.GetSelectedLoot();
@@ -444,7 +567,6 @@ namespace eft_dma_radar.UI.Radar
                 Style = SKPaintStyle.Stroke,
                 IsAntialias = true
             };
-
             canvas.DrawLine(playerPos, lootPos, paint);
         }
         private SKPoint GetMousePosition()
@@ -483,6 +605,7 @@ namespace eft_dma_radar.UI.Radar
                 SKPaints.TextRadarStatus);
             IncrementStatus();
         }
+
         private void StartingUpStatus(SKCanvas canvas)
         {
             const string startingUp1 = "Starting Up.";
@@ -496,6 +619,7 @@ namespace eft_dma_radar.UI.Radar
                 SKPaints.TextRadarStatus);
             IncrementStatus();
         }
+
         private void WaitingForRaidStatus(SKCanvas canvas)
         {
             const string waitingFor1 = "Waiting for Raid Start.";
@@ -1105,8 +1229,9 @@ namespace eft_dma_radar.UI.Radar
         {
             if (_mouseDown && checkBox_MapFree.Checked)
             {
-                var deltaX = -(e.X - _lastMousePosition.X) * _dragSpeed;
-                var deltaY = -(e.Y - _lastMousePosition.Y) * _dragSpeed;
+                // Invert the delta values to rotate the drag direction by 180 degrees
+                var deltaX = (e.X - _lastMousePosition.X) * _dragSpeed;
+                var deltaY = (e.Y - _lastMousePosition.Y) * _dragSpeed;
 
                 _mapPanPosition.X += deltaX;
                 _mapPanPosition.Y += deltaY;
@@ -1127,7 +1252,15 @@ namespace eft_dma_radar.UI.Radar
                     return;
                 }
 
-                var mouse = new Vector2(e.X, e.Y); // Get current mouse position in control
+                // Get the center of the canvas
+                var centerX = skglControl_Radar.Width / 2;
+                var centerY = skglControl_Radar.Height / 2;
+
+                // Rotate the mouse position by 180 degrees around the center of the canvas
+                var mouseX = 2 * centerX - e.X;
+                var mouseY = 2 * centerY - e.Y;
+
+                var mouse = new Vector2(mouseX, mouseY); // Get rotated mouse position in control
                 var closest = items.Aggregate(
                     (x1, x2) => Vector2.Distance(x1.MouseoverPosition, mouse)
                                 < Vector2.Distance(x2.MouseoverPosition, mouse)
@@ -1186,7 +1319,6 @@ namespace eft_dma_radar.UI.Radar
                 }
             }
         }
-
         /// <summary>
         /// Handle loading streamers on dbl click.
         /// </summary>

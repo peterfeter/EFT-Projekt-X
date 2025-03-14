@@ -91,11 +91,24 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
 
         public void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
+            // Save the current canvas state
+            canvas.Save();
+
+            // Get the quest location's position on the map
+            var questPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
+            // Apply a rotation transformation to the canvas
+            canvas.RotateDegrees(180, questPosition.X, questPosition.Y);
+
+            // Draw the mouseover text
             List<string> lines = new(1)
             {
                 Name
             };
-            Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+            questPosition.DrawMouseoverText(canvas, lines);
+
+            // Restore the canvas state
+            canvas.Restore();
         }
 
         public void DrawESP(SKCanvas canvas, LocalPlayer localPlayer)
