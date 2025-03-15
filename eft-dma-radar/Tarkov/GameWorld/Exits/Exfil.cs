@@ -155,11 +155,24 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
 
         public void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
-            List<string> lines = new();
-            var exfilName = Name;
-            exfilName ??= "unknown";
-            lines.Add($"{exfilName} ({Status.GetDescription()})");
-            Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+            // Save the current canvas state
+            canvas.Save();
+
+            // Get the exfil's position on the map
+            var exfilPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
+            // Apply a rotation transformation to the canvas
+            canvas.RotateDegrees(180, exfilPosition.X, exfilPosition.Y);
+
+            // Draw the mouseover text
+                List<string> lines = new();
+                var exfilName = Name;
+                exfilName ??= "unknown";
+                lines.Add($"{exfilName} ({Status.GetDescription()})");
+                Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+
+            // Restore the canvas state
+            canvas.Restore();
         }
 
         public void DrawESP(SKCanvas canvas, LocalPlayer localPlayer)

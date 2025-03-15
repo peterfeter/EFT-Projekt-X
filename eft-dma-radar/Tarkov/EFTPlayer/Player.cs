@@ -1380,6 +1380,8 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
                 else
                 {
                     DrawPlayerMarker(canvas, localPlayer, point);
+
+
                     if (this == localPlayer)
                         return;
                     var height = Position.Y - localPlayer.Position.Y;
@@ -1417,8 +1419,18 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
                         ))
                         lines[0] = $"!!{lines[0]}"; // Notify important loot
 
+                    // Save the current canvas state
+                    canvas.Save();
+
+                    // Apply a rotation transformation to the canvas
+                    canvas.RotateDegrees(180, point.X, point.Y);
+
                     DrawPlayerHeight(canvas, point, localPlayer.Position.Y, Position.Y);
                     DrawPlayerText(canvas, point, lines);
+
+
+                    // Restore the canvas state
+                    canvas.Restore();
                 }
             }
             catch (Exception ex)
@@ -1512,9 +1524,16 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
             var numArrows = Math.Abs(playerLayer - localPlayerLayer);
 
             if (numArrows == 0)
-                return;
+            {
+                // Check for height difference if players are on the same layer
+                var heightDiff = playerHeight - localPlayerHeight;
+                if (Math.Abs(heightDiff) < 1.85f) // No significant height difference
+                    return;
 
-            var up = playerLayer - localPlayerLayer > 0;
+                numArrows = 1; // Draw a single arrow for height difference
+            }
+
+            var up = playerLayer - localPlayerLayer > 0 || (numArrows == 1 && playerHeight > localPlayerHeight);
 
             int arrowX = -20;
             int arrowY = -3;
@@ -1590,6 +1609,15 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
 
         public void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
+            // Save the current canvas state
+            canvas.Save();
+
+            // Get the player's position on the map
+            var playerPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
+            // Apply a rotation transformation to the canvas
+            canvas.RotateDegrees(180, playerPosition.X, playerPosition.Y);
+
             if (this == localPlayer)
                 return;
             var lines = new List<string>();
@@ -1655,6 +1683,9 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
             }
 
             Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+
+            // Restore the canvas state
+            canvas.Restore();
         }
 
         public void DrawESP(SKCanvas canvas, LocalPlayer localPlayer)

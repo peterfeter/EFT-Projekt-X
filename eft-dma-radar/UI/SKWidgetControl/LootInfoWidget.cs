@@ -28,6 +28,7 @@ namespace eft_dma_radar.UI.SKWidgetControl
     public sealed class LootInfoWidget : SKWidget
     {
         private const float FixedHeight = 400;
+        private const float FixedWidth = 310;
         private int scrollOffset = 0;
         private const int ScrollStep = 3;
         private float mouseWheelDelta = 0;
@@ -41,7 +42,7 @@ namespace eft_dma_radar.UI.SKWidgetControl
 
         public LootInfoWidget(SKGLControl parent, SKRect location, bool minimized, float scale)
             : base(parent, "Loot Info", new SKPoint(location.Left, location.Top),
-                new SKSize(location.Width + 10, FixedHeight), scale, false)
+                new SKSize(FixedWidth, FixedHeight), scale, true)
         {
             Minimized = minimized;
             SetScaleFactor(scale);
@@ -137,7 +138,7 @@ namespace eft_dma_radar.UI.SKWidgetControl
 
                 sb.AppendFormat("{0,-18} {1,-8} {2,-8} {3,-8:F1}", name, quantity, price, dist).AppendLine();
 
-                var itemRect = new SKRect(drawPt.X, drawPt.Y, drawPt.X + 280, drawPt.Y + textHeight);
+                var itemRect = new SKRect(drawPt.X, drawPt.Y, drawPt.X + 290, drawPt.Y + textHeight);
 
                 if (itemRect.Contains(mousePosition))
                 {

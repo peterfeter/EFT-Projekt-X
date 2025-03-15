@@ -756,8 +756,14 @@ namespace eft_dma_radar.UI.Misc
         /// <summary>
         /// 1.2x Move Speed is Enabled.
         /// </summary>
-        [JsonPropertyName("moveSpeed2")]
+        [JsonPropertyName("moveSpeed")]
         public bool MoveSpeed { get; set; } = false;
+
+        /// <summary>
+        /// 1.4x Move Speed is Enabled.
+        /// </summary>
+        [JsonPropertyName("moveSpeed2")]
+        public bool MoveSpeed2 { get; set; } = false;
 
         /// <summary>
         /// Full Bright is Enabled.

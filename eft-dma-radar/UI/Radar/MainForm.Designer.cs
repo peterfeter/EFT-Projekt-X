@@ -129,6 +129,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_Chams = new CheckBox();
             checkBox_InfStamina = new CheckBox();
             checkBox_MoveSpeed = new CheckBox();
+            checkBox_MoveSpeed2 = new CheckBox();
             checkBox_FastWeaponOps = new CheckBox();
             checkBox_FastLoadUnload = new CheckBox();
             checkBox_LTW = new CheckBox();
@@ -753,25 +754,18 @@ namespace eft_dma_radar.UI.Radar
             label24.Size = new Size(0, 0);
             label24.TabIndex = 46;
             label24.Text = "label24";
-            //// 
-            //// linkLabel_CheckForUpdates
-            //// 
-            //linkLabel_CheckForUpdates.AutoSize = true;
-            //flowLayoutPanel_RadarSettings.SetFlowBreak(linkLabel_CheckForUpdates, true);
-            //linkLabel_CheckForUpdates.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            //linkLabel_CheckForUpdates.Location = new Point(9, 27);
-            //linkLabel_CheckForUpdates.Margin = new Padding(3, 6, 3, 6);
-            //linkLabel_CheckForUpdates.Name = "linkLabel_CheckForUpdates";
-            //linkLabel_CheckForUpdates.Size = new Size(254, 15);
-            //linkLabel_CheckForUpdates.TabIndex = 61;
-            //linkLabel_CheckForUpdates.TabStop = true;
-            //linkLabel_CheckForUpdates.Text = "Check for updates at lone-eft.com/opensource";
-            //linkLabel_CheckForUpdates.LinkClicked += linkLabel_CheckForUpdates_LinkClicked;
+            // 
+            // linkLabel_CheckForUpdates
+            // 
+            linkLabel_CheckForUpdates.Location = new Point(9, 21);
+            linkLabel_CheckForUpdates.Name = "linkLabel_CheckForUpdates";
+            linkLabel_CheckForUpdates.Size = new Size(100, 23);
+            linkLabel_CheckForUpdates.TabIndex = 47;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(10, 21);
+            label1.Location = new Point(116, 21);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(169, 45);
@@ -782,7 +776,7 @@ namespace eft_dma_radar.UI.Radar
             // button_Restart
             // 
             button_Restart.Font = new Font("Segoe UI", 9.75F);
-            button_Restart.Location = new Point(186, 24);
+            button_Restart.Location = new Point(292, 24);
             button_Restart.Name = "button_Restart";
             button_Restart.Size = new Size(107, 41);
             button_Restart.TabIndex = 18;
@@ -792,7 +786,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             // button_HotkeyManager
             // 
-            button_HotkeyManager.Location = new Point(299, 24);
+            button_HotkeyManager.Location = new Point(405, 24);
             button_HotkeyManager.Name = "button_HotkeyManager";
             button_HotkeyManager.Size = new Size(107, 41);
             button_HotkeyManager.TabIndex = 34;
@@ -802,7 +796,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             // button_Radar_ColorPicker
             // 
-            button_Radar_ColorPicker.Location = new Point(412, 24);
+            button_Radar_ColorPicker.Location = new Point(518, 24);
             button_Radar_ColorPicker.Name = "button_Radar_ColorPicker";
             button_Radar_ColorPicker.Size = new Size(107, 41);
             button_Radar_ColorPicker.TabIndex = 21;
@@ -812,7 +806,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             // button_BackupConfig
             // 
-            button_BackupConfig.Location = new Point(525, 24);
+            button_BackupConfig.Location = new Point(631, 24);
             button_BackupConfig.Name = "button_BackupConfig";
             button_BackupConfig.Size = new Size(107, 41);
             button_BackupConfig.TabIndex = 20;
@@ -824,7 +818,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             label_AimlineLength.Anchor = AnchorStyles.Right;
             label_AimlineLength.AutoSize = true;
-            label_AimlineLength.Location = new Point(639, 39);
+            label_AimlineLength.Location = new Point(745, 39);
             label_AimlineLength.Margin = new Padding(4, 0, 4, 0);
             label_AimlineLength.Name = "label_AimlineLength";
             label_AimlineLength.Size = new Size(88, 15);
@@ -837,7 +831,7 @@ namespace eft_dma_radar.UI.Radar
             trackBar_AimlineLength.Anchor = AnchorStyles.Right;
             trackBar_AimlineLength.BackColor = SystemColors.Window;
             trackBar_AimlineLength.LargeChange = 50;
-            trackBar_AimlineLength.Location = new Point(735, 24);
+            trackBar_AimlineLength.Location = new Point(841, 24);
             trackBar_AimlineLength.Margin = new Padding(4, 3, 4, 3);
             trackBar_AimlineLength.Maximum = 1500;
             trackBar_AimlineLength.Minimum = 10;
@@ -852,7 +846,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             label_MaxDist.Anchor = AnchorStyles.Right;
             label_MaxDist.AutoSize = true;
-            label_MaxDist.Location = new Point(834, 39);
+            label_MaxDist.Location = new Point(940, 39);
             label_MaxDist.Name = "label_MaxDist";
             label_MaxDist.Size = new Size(73, 15);
             label_MaxDist.TabIndex = 35;
@@ -863,7 +857,7 @@ namespace eft_dma_radar.UI.Radar
             trackBar_MaxDist.Anchor = AnchorStyles.Right;
             trackBar_MaxDist.BackColor = SystemColors.Window;
             trackBar_MaxDist.LargeChange = 20;
-            trackBar_MaxDist.Location = new Point(913, 24);
+            trackBar_MaxDist.Location = new Point(1019, 24);
             trackBar_MaxDist.Maximum = 1500;
             trackBar_MaxDist.Minimum = 100;
             trackBar_MaxDist.Name = "trackBar_MaxDist";
@@ -876,7 +870,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             label_UIScale.Anchor = AnchorStyles.Right;
             label_UIScale.AutoSize = true;
-            label_UIScale.Location = new Point(1011, 39);
+            label_UIScale.Location = new Point(1117, 39);
             label_UIScale.Name = "label_UIScale";
             label_UIScale.Size = new Size(72, 15);
             label_UIScale.TabIndex = 28;
@@ -888,7 +882,7 @@ namespace eft_dma_radar.UI.Radar
             trackBar_UIScale.Anchor = AnchorStyles.Right;
             trackBar_UIScale.BackColor = SystemColors.Window;
             trackBar_UIScale.LargeChange = 10;
-            trackBar_UIScale.Location = new Point(1089, 24);
+            trackBar_UIScale.Location = new Point(3, 75);
             trackBar_UIScale.Maximum = 200;
             trackBar_UIScale.Minimum = 50;
             trackBar_UIScale.Name = "trackBar_UIScale";
@@ -901,7 +895,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             label_ContainerDist.Anchor = AnchorStyles.Right;
             label_ContainerDist.AutoSize = true;
-            label_ContainerDist.Location = new Point(3, 90);
+            label_ContainerDist.Location = new Point(101, 90);
             label_ContainerDist.Name = "label_ContainerDist";
             label_ContainerDist.Size = new Size(103, 15);
             label_ContainerDist.TabIndex = 59;
@@ -912,7 +906,7 @@ namespace eft_dma_radar.UI.Radar
             trackBar_ContainerDist.Anchor = AnchorStyles.Right;
             trackBar_ContainerDist.BackColor = SystemColors.Window;
             flowLayoutPanel_RadarSettings.SetFlowBreak(trackBar_ContainerDist, true);
-            trackBar_ContainerDist.Location = new Point(112, 75);
+            trackBar_ContainerDist.Location = new Point(210, 75);
             trackBar_ContainerDist.Maximum = 1000;
             trackBar_ContainerDist.Minimum = 5;
             trackBar_ContainerDist.Name = "trackBar_ContainerDist";
@@ -1218,7 +1212,6 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_WebRadarSettings.Controls.Add(textBox_WebRadarPassword);
             flowLayoutPanel_WebRadarSettings.Controls.Add(linkLabel_WebRadarLink);
             flowLayoutPanel_WebRadarSettings.Dock = DockStyle.Top;
-            flowLayoutPanel_WebRadarSettings.Enabled = true;
             flowLayoutPanel_Settings.SetFlowBreak(flowLayoutPanel_WebRadarSettings, true);
             flowLayoutPanel_WebRadarSettings.Location = new Point(3, 537);
             flowLayoutPanel_WebRadarSettings.Name = "flowLayoutPanel_WebRadarSettings";
@@ -1397,6 +1390,7 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_Chams);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_InfStamina);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_MoveSpeed);
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_MoveSpeed2);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_FastWeaponOps);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_FastLoadUnload);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_LTW);
@@ -1527,11 +1521,23 @@ namespace eft_dma_radar.UI.Radar
             checkBox_MoveSpeed.UseVisualStyleBackColor = true;
             checkBox_MoveSpeed.CheckedChanged += checkBox_MoveSpeed_CheckedChanged;
             // 
+            // check_MoveSpeed2
+            // 
+            checkBox_MoveSpeed2.Anchor = AnchorStyles.Right;
+            checkBox_MoveSpeed2.AutoSize = true;
+            checkBox_MoveSpeed2.Location = new Point(646, 53);
+            checkBox_MoveSpeed2.Name = "checkBox_MoveSpeed2";
+            checkBox_MoveSpeed2.Size = new Size(152, 19);
+            checkBox_MoveSpeed2.TabIndex = 79;
+            checkBox_MoveSpeed2.Text = "1.4x Move Speed (Risky)";
+            checkBox_MoveSpeed2.UseVisualStyleBackColor = true;
+            checkBox_MoveSpeed2.CheckedChanged += checkBox_MoveSpeed2_CheckedChanged;
+            // 
             // checkBox_FastWeaponOps
             // 
             checkBox_FastWeaponOps.Anchor = AnchorStyles.Right;
             checkBox_FastWeaponOps.AutoSize = true;
-            checkBox_FastWeaponOps.Location = new Point(646, 53);
+            checkBox_FastWeaponOps.Location = new Point(804, 53);
             checkBox_FastWeaponOps.Name = "checkBox_FastWeaponOps";
             checkBox_FastWeaponOps.Size = new Size(118, 19);
             checkBox_FastWeaponOps.TabIndex = 75;
@@ -1543,7 +1549,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_FastLoadUnload.Anchor = AnchorStyles.Right;
             checkBox_FastLoadUnload.AutoSize = true;
-            checkBox_FastLoadUnload.Location = new Point(770, 53);
+            checkBox_FastLoadUnload.Location = new Point(928, 53);
             checkBox_FastLoadUnload.Name = "checkBox_FastLoadUnload";
             checkBox_FastLoadUnload.Size = new Size(119, 19);
             checkBox_FastLoadUnload.TabIndex = 76;
@@ -1555,7 +1561,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_LTW.Anchor = AnchorStyles.Right;
             checkBox_LTW.AutoSize = true;
-            checkBox_LTW.Location = new Point(895, 53);
+            checkBox_LTW.Location = new Point(1053, 53);
             checkBox_LTW.Name = "checkBox_LTW";
             checkBox_LTW.Size = new Size(168, 19);
             checkBox_LTW.TabIndex = 69;
@@ -1567,7 +1573,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_WideLean.Anchor = AnchorStyles.Right;
             checkBox_WideLean.AutoSize = true;
-            checkBox_WideLean.Location = new Point(1069, 53);
+            checkBox_WideLean.Location = new Point(3, 80);
             checkBox_WideLean.Name = "checkBox_WideLean";
             checkBox_WideLean.Size = new Size(119, 19);
             checkBox_WideLean.TabIndex = 65;
@@ -1579,7 +1585,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_NoVisor.Anchor = AnchorStyles.Right;
             checkBox_NoVisor.AutoSize = true;
-            checkBox_NoVisor.Location = new Point(3, 80);
+            checkBox_NoVisor.Location = new Point(128, 80);
             checkBox_NoVisor.Name = "checkBox_NoVisor";
             checkBox_NoVisor.Size = new Size(71, 19);
             checkBox_NoVisor.TabIndex = 37;
@@ -1591,7 +1597,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_AlwaysDaySunny.Anchor = AnchorStyles.Right;
             checkBox_AlwaysDaySunny.AutoSize = true;
-            checkBox_AlwaysDaySunny.Location = new Point(80, 80);
+            checkBox_AlwaysDaySunny.Location = new Point(205, 80);
             checkBox_AlwaysDaySunny.Name = "checkBox_AlwaysDaySunny";
             checkBox_AlwaysDaySunny.Size = new Size(124, 19);
             checkBox_AlwaysDaySunny.TabIndex = 45;
@@ -1603,7 +1609,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_NoWepMalf.Anchor = AnchorStyles.Right;
             checkBox_NoWepMalf.AutoSize = true;
-            checkBox_NoWepMalf.Location = new Point(210, 80);
+            checkBox_NoWepMalf.Location = new Point(335, 80);
             checkBox_NoWepMalf.Name = "checkBox_NoWepMalf";
             checkBox_NoWepMalf.Size = new Size(142, 19);
             checkBox_NoWepMalf.TabIndex = 58;
@@ -1615,7 +1621,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_FullBright.Anchor = AnchorStyles.Right;
             checkBox_FullBright.AutoSize = true;
-            checkBox_FullBright.Location = new Point(358, 80);
+            checkBox_FullBright.Location = new Point(483, 80);
             checkBox_FullBright.Name = "checkBox_FullBright";
             checkBox_FullBright.Size = new Size(80, 19);
             checkBox_FullBright.TabIndex = 71;
@@ -1627,7 +1633,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             checkBox_RageMode.Anchor = AnchorStyles.Right;
             checkBox_RageMode.AutoSize = true;
-            checkBox_RageMode.Location = new Point(444, 80);
+            checkBox_RageMode.Location = new Point(569, 80);
             checkBox_RageMode.Name = "checkBox_RageMode";
             checkBox_RageMode.Size = new Size(124, 19);
             checkBox_RageMode.TabIndex = 55;
@@ -1638,7 +1644,7 @@ namespace eft_dma_radar.UI.Radar
             // button_AntiAfk
             // 
             button_AntiAfk.Anchor = AnchorStyles.Right;
-            button_AntiAfk.Location = new Point(574, 78);
+            button_AntiAfk.Location = new Point(699, 78);
             button_AntiAfk.Name = "button_AntiAfk";
             button_AntiAfk.Size = new Size(96, 23);
             button_AntiAfk.TabIndex = 57;
@@ -1650,7 +1656,7 @@ namespace eft_dma_radar.UI.Radar
             // 
             button_GymHack.Anchor = AnchorStyles.Right;
             flowLayoutPanel_MemWrites.SetFlowBreak(button_GymHack, true);
-            button_GymHack.Location = new Point(676, 78);
+            button_GymHack.Location = new Point(801, 78);
             button_GymHack.Name = "button_GymHack";
             button_GymHack.Size = new Size(96, 23);
             button_GymHack.TabIndex = 70;
@@ -3328,6 +3334,7 @@ namespace eft_dma_radar.UI.Radar
             dataGridView_Loot.Name = "dataGridView_Loot";
             dataGridView_Loot.Size = new Size(1316, 575);
             dataGridView_Loot.TabIndex = 0;
+            dataGridView_Loot.CellFormatting += DataGridView_Loot_CellFormatting;
             // 
             // Column_LootEnabled
             // 
@@ -3480,7 +3487,6 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel2.PerformLayout();
             ((ISupportInitialize)dataGridView_Loot).EndInit();
             ResumeLayout(false);
-            dataGridView_Loot.CellFormatting += DataGridView_Loot_CellFormatting;
 
         }
 
@@ -3493,7 +3499,6 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_AimlineLength;
         private Label label_Pos;
         private Label label1;
-		private Label linkLabel_CheckForUpdates;
         private CheckBox checkBox_Loot;
         private CheckBox checkBox_MapSetup;
         private Button button_Restart;
@@ -3696,6 +3701,7 @@ namespace eft_dma_radar.UI.Radar
         private Label label25;
         private Label label26;
         private CheckBox checkBox_MoveSpeed;
+        private CheckBox checkBox_MoveSpeed2;
         private CheckBox checkBox_ESP_FireportAim;
         private Label label27;
         private Label label_EspLineScale;
@@ -3744,6 +3750,8 @@ namespace eft_dma_radar.UI.Radar
         private Label label34;
         private CheckedListBox checkedListBox_QuestHelper;
         private CheckBox checkBox_hideRaidcode;
+        private CheckBox checkBox1;
+        private LinkLabel linkLabel_CheckForUpdates;
     }
 }
 
