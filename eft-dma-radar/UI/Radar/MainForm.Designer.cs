@@ -34,8 +34,7 @@ namespace eft_dma_radar.UI.Radar
             ComponentResourceManager resources = new ComponentResourceManager(typeof(MainForm));
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            this.components = new System.ComponentModel.Container();
-            this.button_SettingWidget = new System.Windows.Forms.Button();
+            button_SettingWidget = new Button();
             flowLayoutPanel_Loot = new FlowLayoutPanel();
             label20 = new Label();
             label6 = new Label();
@@ -374,6 +373,16 @@ namespace eft_dma_radar.UI.Radar
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Radar";
             // 
+            // button_SettingWidget
+            // 
+            button_SettingWidget.Location = new Point(135, 6);
+            button_SettingWidget.Name = "button_SettingWidget";
+            button_SettingWidget.Size = new Size(64, 25);
+            button_SettingWidget.TabIndex = 20;
+            button_SettingWidget.Text = "Settings";
+            button_SettingWidget.UseVisualStyleBackColor = true;
+            button_SettingWidget.Click += button_SettingsWidget_click;
+            // 
             // flowLayoutPanel_Loot
             // 
             flowLayoutPanel_Loot.AutoSize = true;
@@ -560,17 +569,6 @@ namespace eft_dma_radar.UI.Radar
             textBox_LootFilterByName.TabIndex = 5;
             textBox_LootFilterByName.TextAlign = HorizontalAlignment.Center;
             textBox_LootFilterByName.TextChanged += textBox_LootFilterByName_TextChanged;
-            // 
-            // button_SettingWidget
-            //
-            this.button_SettingWidget.Location = new Point(135, 6);
-            this.button_SettingWidget.Name = "button_SettingWidget";
-            this.button_SettingWidget.Size = new Size(64, 25);
-            this.button_SettingWidget.TabIndex = 20;
-            this.button_SettingWidget.Text = "Settings";
-            this.button_SettingWidget.UseVisualStyleBackColor = true;
-            this.button_SettingWidget.Visible = true;
-            this.button_SettingWidget.Click += new System.EventHandler(this.button_SettingsWidget_click);
             // 
             // button_Loot
             // 

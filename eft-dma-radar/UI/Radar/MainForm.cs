@@ -59,6 +59,7 @@ namespace eft_dma_radar.UI.Radar
         private PlayerInfoWidget _playerInfo;
         private LootInfoWidget _lootInfo;
         private float _dragSpeed = 2.0f; // Map drag speed
+        private SettingsWidgetForm _settingsWidgetForm;
 
         /// <summary>
         /// Main UI/Application Config.
@@ -1203,10 +1204,17 @@ namespace eft_dma_radar.UI.Radar
         /// </summary>
         private void button_SettingsWidget_click(object sender, EventArgs e)
         {
-            var settingsWidgetForm = new SettingsWidgetForm();
-            settingsWidgetForm.Show();
+            if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
+            {
+                _settingsWidgetForm.Close();
+                _settingsWidgetForm = null;
+            }
+            else
+            {
+                _settingsWidgetForm = new SettingsWidgetForm();
+                _settingsWidgetForm.Show();
+            }
         }
-
 
         /// <summary>
         /// Event fires when the "Map Free" or "Map Follow" checkbox (button) is clicked on the Main Window.
