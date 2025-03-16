@@ -27,6 +27,7 @@ using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.LowLevel;
+using LonesEFTRadar.UI.SKWidgetControl;
 using System.Security.Authentication.ExtendedProtection;
 using System.Timers;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager;
@@ -1198,6 +1199,16 @@ namespace eft_dma_radar.UI.Radar
         }
 
         /// <summary>
+        /// Event Opens SettingsWidgetForm
+        /// </summary>
+        private void button_SettingsWidget_click(object sender, EventArgs e)
+        {
+            var settingsWidgetForm = new SettingsWidgetForm();
+            settingsWidgetForm.Show();
+        }
+
+
+        /// <summary>
         /// Event fires when the "Map Free" or "Map Follow" checkbox (button) is clicked on the Main Window.
         /// </summary>
         private void checkBox_MapFree_CheckedChanged(object sender, EventArgs e)
@@ -1957,7 +1968,7 @@ namespace eft_dma_radar.UI.Radar
                 "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
                 "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
             toolTip1.SetToolTip(checkBox_MoveSpeed2,
-                "NOT RECOMMENDED FOR PvP.\n"+
+                "NOT RECOMMENDED FOR PvP.\n" +
                 "Enables/Disables 1.4x Move Speed Feature. This causes your player to move 1.4 times faster.\n" +
                 "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
                 "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
@@ -3902,5 +3913,7 @@ namespace eft_dma_radar.UI.Radar
                 UseShellExecute = true
             });
         }
+
+
     }
 }
