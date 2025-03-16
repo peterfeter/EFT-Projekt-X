@@ -15,12 +15,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
     {
         private bool isMinimized = false;
         private Point lastMousePosition;
-        private MainForm mainForm;
+        private MainForm _mainForm;
 
-        public SettingsWidgetForm()
+        public SettingsWidgetForm(MainForm mainForm)
         {
             InitializeComponent();
-            this.mainForm = mainForm;
+            _mainForm = mainForm;
+            UpdateCheckboxStates();
         }
 
         private void minimizeButton_Click(object sender, EventArgs e)
@@ -63,14 +64,30 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             MainForm.button_Restart_Click(sender, e);
         }
 
+        public void UpdateCheckboxStates()
+        {
+            checkBox_MoveSpeed_SettingsWidget.Checked = _mainForm.checkBox_MoveSpeed.Checked;
+            checkBox_MoveSpeed2_SettingsWidget.Checked = _mainForm.checkBox_MoveSpeed2.Checked;
+        }
+
+        public void UpdateMoveSpeedCheckbox(bool isChecked)
+        {
+            checkBox_MoveSpeed_SettingsWidget.Checked = isChecked;
+        }
+
+        public void UpdateMoveSpeed2Checkbox(bool isChecked)
+        {
+            checkBox_MoveSpeed2_SettingsWidget.Checked = isChecked;
+        }
+
         private void checkBox_MoveSpeed_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
-            MainForm.Window.checkBox_MoveSpeed.Checked = checkBox_MoveSpeed_SettingsWidget.Checked;
+            _mainForm.checkBox_MoveSpeed.Checked = checkBox_MoveSpeed_SettingsWidget.Checked;
         }
 
         private void checkBox_MoveSpeed2_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
-            MainForm.Window.checkBox_MoveSpeed2.Checked = checkBox_MoveSpeed2_SettingsWidget.Checked;
+            _mainForm.checkBox_MoveSpeed2.Checked = checkBox_MoveSpeed2_SettingsWidget.Checked;
         }
     }
 }

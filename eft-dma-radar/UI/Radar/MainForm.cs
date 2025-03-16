@@ -843,6 +843,9 @@ namespace eft_dma_radar.UI.Radar
             }
             bool enabled = checkBox_MoveSpeed.Checked;
             MemWriteFeature<MoveSpeed>.Instance.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateMoveSpeedCheckbox(enabled);
         }
 
         public void checkBox_MoveSpeed2_CheckedChanged(object sender, EventArgs e)
@@ -853,6 +856,9 @@ namespace eft_dma_radar.UI.Radar
             }
             bool enabled = checkBox_MoveSpeed2.Checked;
             MemWriteFeature<MoveSpeed2>.Instance.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateMoveSpeed2Checkbox(enabled);
         }
 
         private void TrackBar_WideLeanAmt_ValueChanged(object sender, EventArgs e)
@@ -1213,8 +1219,9 @@ namespace eft_dma_radar.UI.Radar
             }
             else
             {
-                _settingsWidgetForm = new SettingsWidgetForm();
+                _settingsWidgetForm = new SettingsWidgetForm(this);
                 _settingsWidgetForm.Show();
+                _settingsWidgetForm.UpdateCheckboxStates();
             }
         }
 
