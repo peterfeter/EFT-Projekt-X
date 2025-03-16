@@ -63,6 +63,7 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_MoveSpeed;
         public CheckBox checkBox_MoveSpeed2;
         public CheckBox checkBox_FullBright;
+        public CheckBox checkBox_InfStamina;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -1392,7 +1393,10 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Event fires when Restart Game button is clicked in Settings.
         /// </summary>
-        public static void button_Restart_Click(object sender, EventArgs e) => Memory.RestartRadar = true;
+        public static void button_Restart_Click(object sender, EventArgs e)
+        {
+            Memory.RestartRadar = true;
+        }
 
         /// <summary>
         /// Event fires when Apply button is clicked in the "Map Setup Groupbox".
@@ -1574,9 +1578,13 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_NoRecoil.Enabled = enabled;
         }
 
-        private void checkBox_InfStamina_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_InfStamina_CheckedChanged(object sender, EventArgs e)
         {
-            MemWriteFeature<InfStamina>.Instance.Enabled = checkBox_InfStamina.Checked;
+            bool isChecked = checkBox_InfStamina.Checked;
+            MemWriteFeature<InfStamina>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateInfStaminaCheckbox(isChecked);
         }
 
         private void TrackBar_NoSway_ValueChanged(object sender, EventArgs e)

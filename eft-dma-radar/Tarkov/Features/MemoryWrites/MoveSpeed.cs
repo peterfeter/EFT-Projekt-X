@@ -15,13 +15,26 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
         public override bool Enabled
         {
             get => MemWrites.Config.MoveSpeed;
-            set => MemWrites.Config.MoveSpeed = value;
+            set
+            {
+                MemWrites.Config.MoveSpeed = value;
+                if (value)
+                {
+                    // Disable MoveSpeed2 if MoveSpeed is enabled
+                    MoveSpeed2.Instance.Enabled = false;
+                }
+                ApplySpeed();
+            }
         }
 
         protected override TimeSpan Delay => TimeSpan.FromMilliseconds(100);
 
-
         public override void TryApply(ScatterWriteHandle writes)
+        {
+            ApplySpeed();
+        }
+
+        private void ApplySpeed()
         {
             const float baseSpeed = 1.0f;
             const float increasedSpeed = 1.2f; // Any higher risks a ban 
@@ -30,24 +43,20 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 if (Memory.LocalPlayer is LocalPlayer localPlayer)
                 {
                     bool enabled = Enabled;
+                    var pAnimators = Memory.ReadPtr(localPlayer + Offsets.Player._animators);
+                    using var animators = MemArray<ulong>.Get(pAnimators);
+                    var a = Memory.ReadPtrChain(animators[0], new uint[] { Offsets.BodyAnimator.UnityAnimator, ObjectClass.MonoBehaviourOffset });
+                    var current = Memory.ReadValue<float>(a + UnityOffsets.UnityAnimator.Speed, false);
+                    ValidateSpeed(current);
+
                     if (enabled && !_set)
                     {
-                        var pAnimators = Memory.ReadPtr(localPlayer + Offsets.Player._animators);
-                        using var animators = MemArray<ulong>.Get(pAnimators);
-                        var a = Memory.ReadPtrChain(animators[0], new uint[] { Offsets.BodyAnimator.UnityAnimator, ObjectClass.MonoBehaviourOffset });
-                        var current = Memory.ReadValue<float>(a + UnityOffsets.UnityAnimator.Speed, false);
-                        ValidateSpeed(current);
                         Memory.WriteValueEnsure(a + UnityOffsets.UnityAnimator.Speed, increasedSpeed);
                         _set = true;
                         LoneLogging.WriteLine("Move Speed [On]");
                     }
                     else if (!enabled && _set)
                     {
-                        var pAnimators = Memory.ReadPtr(localPlayer + Offsets.Player._animators);
-                        using var animators = MemArray<ulong>.Get(pAnimators);
-                        var a = Memory.ReadPtrChain(animators[0], new uint[] { Offsets.BodyAnimator.UnityAnimator, ObjectClass.MonoBehaviourOffset });
-                        var current = Memory.ReadValue<float>(a + UnityOffsets.UnityAnimator.Speed, false);
-                        ValidateSpeed(current);
                         Memory.WriteValueEnsure(a + UnityOffsets.UnityAnimator.Speed, baseSpeed);
                         _set = false;
                         LoneLogging.WriteLine("Move Speed [Off]");
@@ -58,11 +67,14 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             {
                 LoneLogging.WriteLine($"ERROR Setting Move Speed: {ex}");
             }
-            static void ValidateSpeed(float speed)
-            {
-                if (!float.IsNormal(speed) || speed < baseSpeed - 0.2f || speed > increasedSpeed + 0.2f)
-                    throw new ArgumentOutOfRangeException(nameof(speed));
-            }
+        }
+
+        static void ValidateSpeed(float speed)
+        {
+            const float baseSpeed = 1.0f;
+            const float increasedSpeed = 1.2f;
+            if (!float.IsNormal(speed) || speed < baseSpeed - 0.4f || speed > increasedSpeed + 0.4f)
+                throw new ArgumentOutOfRangeException(nameof(speed));
         }
 
         public override void OnRaidStart()

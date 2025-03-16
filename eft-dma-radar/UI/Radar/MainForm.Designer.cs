@@ -794,7 +794,7 @@ namespace eft_dma_radar.UI.Radar
             button_Restart.TabIndex = 18;
             button_Restart.Text = "Restart Radar";
             button_Restart.UseVisualStyleBackColor = true;
-            button_Restart.Click += this.button_Restart_Click;
+            button_Restart.Click += button_Restart_Click;
             // 
             // button_HotkeyManager
             // 
@@ -3540,11 +3540,9 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_ShowFood;
         private CheckBox checkBox_ShowMeds;
         private CheckBox checkBox_ShowInfoTab;
-        private CheckBox checkBox_ShowLootTab;
-        
+        private CheckBox checkBox_ShowLootTab;    
         private CheckBox checkBox_GrpConnect;
         private CheckBox checkBox_NoRecoilSway;
-        private CheckBox checkBox_InfStamina;
         private CheckBox checkBox_NoVisor;
         private CheckBox checkBox_AimBotEnabled;
         private Button button_HotkeyManager;
