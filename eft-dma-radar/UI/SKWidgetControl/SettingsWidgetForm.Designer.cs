@@ -38,10 +38,12 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel = new Panel();
             minimizeButton = new Button();
             contentPanel = new Panel();
+            checkBox_FullBright_SettingsWidget = new CheckBox();
             button_GymHack_SettingsWidget = new Button();
             checkBox_MoveSpeed_SettingsWidget = new CheckBox();
             checkBox_MoveSpeed2_SettingsWidget = new CheckBox();
             button_Restart_SettingsWidget = new Button();
+            button_AntiAfk_SettingsWidget = new Button();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
             SuspendLayout();
@@ -72,6 +74,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(button_AntiAfk_SettingsWidget);
+            contentPanel.Controls.Add(checkBox_FullBright_SettingsWidget);
             contentPanel.Controls.Add(button_GymHack_SettingsWidget);
             contentPanel.Controls.Add(checkBox_MoveSpeed_SettingsWidget);
             contentPanel.Controls.Add(checkBox_MoveSpeed2_SettingsWidget);
@@ -81,6 +85,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             contentPanel.Name = "contentPanel";
             contentPanel.Size = new Size(400, 280);
             contentPanel.TabIndex = 1;
+            // 
+            // checkBox_FullBright_SettingsWidget
+            // 
+            checkBox_FullBright_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_FullBright_SettingsWidget.AutoSize = true;
+            checkBox_FullBright_SettingsWidget.Location = new Point(170, 35);
+            checkBox_FullBright_SettingsWidget.Name = "checkBox_FullBright_SettingsWidget";
+            checkBox_FullBright_SettingsWidget.Size = new Size(80, 19);
+            checkBox_FullBright_SettingsWidget.TabIndex = 83;
+            checkBox_FullBright_SettingsWidget.Text = "Full Bright";
+            checkBox_FullBright_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_FullBright_SettingsWidget.CheckedChanged += checkBox_FullBright_SettingsWidget_CheckedChanged;
             // 
             // button_GymHack_SettingsWidget
             // 
@@ -127,6 +143,17 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_Restart_SettingsWidget.Text = "Restart Radar";
             button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
             button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
+            // 
+            // button_AntiAfk_SettingsWidget
+            // 
+            button_AntiAfk_SettingsWidget.Anchor = AnchorStyles.Right;
+            button_AntiAfk_SettingsWidget.Location = new Point(208, 6);
+            button_AntiAfk_SettingsWidget.Name = "button_AntiAfk_SettingsWidget";
+            button_AntiAfk_SettingsWidget.Size = new Size(96, 23);
+            button_AntiAfk_SettingsWidget.TabIndex = 84;
+            button_AntiAfk_SettingsWidget.Text = "Anti-AFK";
+            button_AntiAfk_SettingsWidget.UseVisualStyleBackColor = false;
+            button_AntiAfk_SettingsWidget.Click += button_AntiAfk_SettingsWidget_Click;
             // 
             // SettingsWidgetForm
             // 
@@ -194,5 +221,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private CheckBox checkBox_MoveSpeed_SettingsWidget;
         private CheckBox checkBox_MoveSpeed2_SettingsWidget;
         private Button button_GymHack_SettingsWidget;
+        private CheckBox checkBox_FullBright_SettingsWidget;
+        private Button button_AntiAfk_SettingsWidget;
     }
 }

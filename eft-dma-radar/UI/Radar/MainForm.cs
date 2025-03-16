@@ -62,7 +62,7 @@ namespace eft_dma_radar.UI.Radar
         private SettingsWidgetForm _settingsWidgetForm;
         public CheckBox checkBox_MoveSpeed;
         public CheckBox checkBox_MoveSpeed2;
-
+        public CheckBox checkBox_FullBright;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -776,9 +776,13 @@ namespace eft_dma_radar.UI.Radar
             radioButton_Chams_Visible.Enabled = enabled;
             checkBox_AntiPage.Enabled = enabled;
         }
-        private void checkBox_FullBright_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_FullBright_CheckedChanged(object sender, EventArgs e)
         {
-            MemWriteFeature<FullBright>.Instance.Enabled = checkBox_FullBright.Checked;
+            bool isChecked = checkBox_FullBright.Checked;
+            MemWriteFeature<FullBright>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateFullBrightCheckbox(isChecked);
         }
         public async void button_GymHack_Click(object sender, EventArgs e)
         {
@@ -880,7 +884,7 @@ namespace eft_dma_radar.UI.Radar
         {
             MemPatchFeature<NoWepMalfPatch>.Instance.Enabled = checkBox_NoWepMalf.Checked;
         }
-        private async void button_AntiAfk_Click(object sender, EventArgs e)
+        public async void button_AntiAfk_Click(object sender, EventArgs e)
         {
             button_AntiAfk.Text = "Please Wait...";
             button_AntiAfk.Enabled = false;
