@@ -780,7 +780,7 @@ namespace eft_dma_radar.UI.Radar
         {
             MemWriteFeature<FullBright>.Instance.Enabled = checkBox_FullBright.Checked;
         }
-        private async void button_GymHack_Click(object sender, EventArgs e)
+        public async void button_GymHack_Click(object sender, EventArgs e)
         {
             string original = button_GymHack.Text;
             button_GymHack.Text = "Please Wait...";

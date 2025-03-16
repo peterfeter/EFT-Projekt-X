@@ -89,5 +89,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_MoveSpeed2.Checked = checkBox_MoveSpeed2_SettingsWidget.Checked;
         }
+
+        private void button_GymHack_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            _mainForm.button_GymHack_Click(sender, e);
+        }
     }
 }
