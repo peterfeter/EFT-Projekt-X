@@ -64,6 +64,7 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_MoveSpeed2;
         public CheckBox checkBox_FullBright;
         public CheckBox checkBox_InfStamina;
+        public CheckBox checkBox_LTW;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -833,11 +834,13 @@ namespace eft_dma_radar.UI.Radar
             label_LTWAmount.Text = $"Zoom Amount {scaledAmt.ToString("0.00")}";
         }
 
-        private void checkBox_LTW_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_LTW_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = checkBox_LTW.Checked;
-            flowLayoutPanel_LTW.Enabled = enabled;
-            MemWriteFeature<LootThroughWalls>.Instance.Enabled = enabled;
+            bool isChecked = checkBox_LTW.Checked;
+            MemWriteFeature<LootThroughWalls>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLTWCheckbox(isChecked);
         }
 
         public void checkBox_MoveSpeed_CheckedChanged(object sender, EventArgs e)

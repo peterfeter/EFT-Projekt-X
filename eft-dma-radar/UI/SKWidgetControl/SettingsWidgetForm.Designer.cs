@@ -38,13 +38,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel = new Panel();
             minimizeButton = new Button();
             contentPanel = new Panel();
+            checkBox_InfStamina_SettingsWidget = new CheckBox();
             button_AntiAfk_SettingsWidget = new Button();
             checkBox_FullBright_SettingsWidget = new CheckBox();
             button_GymHack_SettingsWidget = new Button();
             checkBox_MoveSpeed_SettingsWidget = new CheckBox();
             checkBox_MoveSpeed2_SettingsWidget = new CheckBox();
             button_Restart_SettingsWidget = new Button();
-            checkBox_InfStamina_SettingsWidget = new CheckBox();
+            checkBox_LTW_SettingsWidget = new CheckBox();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
             SuspendLayout();
@@ -75,6 +76,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(checkBox_LTW_SettingsWidget);
             contentPanel.Controls.Add(checkBox_InfStamina_SettingsWidget);
             contentPanel.Controls.Add(button_AntiAfk_SettingsWidget);
             contentPanel.Controls.Add(checkBox_FullBright_SettingsWidget);
@@ -87,6 +89,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             contentPanel.Name = "contentPanel";
             contentPanel.Size = new Size(400, 280);
             contentPanel.TabIndex = 1;
+            // 
+            // checkBox_InfStamina_SettingsWidget
+            // 
+            checkBox_InfStamina_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_InfStamina_SettingsWidget.AutoSize = true;
+            checkBox_InfStamina_SettingsWidget.Location = new Point(170, 60);
+            checkBox_InfStamina_SettingsWidget.Name = "checkBox_InfStamina_SettingsWidget";
+            checkBox_InfStamina_SettingsWidget.Size = new Size(147, 19);
+            checkBox_InfStamina_SettingsWidget.TabIndex = 85;
+            checkBox_InfStamina_SettingsWidget.Text = "Infinite Stamina (Risky)";
+            checkBox_InfStamina_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_InfStamina_SettingsWidget.CheckedChanged += checkBox_InfStamina_SettingsWidget_CheckedChanged;
             // 
             // button_AntiAfk_SettingsWidget
             // 
@@ -157,17 +171,17 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
             button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
             // 
-            // checkBox_InfStamina_SettingsWidget
+            // checkBox_LTW_SettingsWidget
             // 
-            checkBox_InfStamina_SettingsWidget.Anchor = AnchorStyles.Right;
-            checkBox_InfStamina_SettingsWidget.AutoSize = true;
-            checkBox_InfStamina_SettingsWidget.Location = new Point(170, 60);
-            checkBox_InfStamina_SettingsWidget.Name = "checkBox_InfStamina_SettingsWidget";
-            checkBox_InfStamina_SettingsWidget.Size = new Size(147, 19);
-            checkBox_InfStamina_SettingsWidget.TabIndex = 85;
-            checkBox_InfStamina_SettingsWidget.Text = "Infinite Stamina (Risky)";
-            checkBox_InfStamina_SettingsWidget.UseVisualStyleBackColor = true;
-            checkBox_InfStamina_SettingsWidget.CheckedChanged += checkBox_InfStamina_SettingsWidget_CheckedChanged;
+            checkBox_LTW_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_LTW_SettingsWidget.AutoSize = true;
+            checkBox_LTW_SettingsWidget.Location = new Point(170, 85);
+            checkBox_LTW_SettingsWidget.Name = "checkBox_LTW_SettingsWidget";
+            checkBox_LTW_SettingsWidget.Size = new Size(168, 19);
+            checkBox_LTW_SettingsWidget.TabIndex = 86;
+            checkBox_LTW_SettingsWidget.Text = "Loot Through Walls (Risky)";
+            checkBox_LTW_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_LTW_SettingsWidget.CheckedChanged += checkBox_LTW_SettingsWidget_CheckedChanged;
             // 
             // SettingsWidgetForm
             // 
@@ -238,5 +252,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private CheckBox checkBox_FullBright_SettingsWidget;
         private Button button_AntiAfk_SettingsWidget;
         private CheckBox checkBox_InfStamina_SettingsWidget;
+        private CheckBox checkBox_LTW_SettingsWidget;
     }
 }

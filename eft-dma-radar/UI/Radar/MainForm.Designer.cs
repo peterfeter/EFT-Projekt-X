@@ -3716,7 +3716,6 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_EspLineScale;
         private CheckBox checkBox_ShowBackpacks;
         private CheckBox checkBox_ESP_StatusText;
-        private CheckBox checkBox_LTW;
         private FlowLayoutPanel flowLayoutPanel_LTW;
         private Label label28;
         private Label label_LTWAmount;
