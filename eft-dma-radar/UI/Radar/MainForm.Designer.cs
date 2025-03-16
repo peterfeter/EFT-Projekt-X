@@ -3712,8 +3712,8 @@ namespace eft_dma_radar.UI.Radar
         private Label label24;        
         private Label label25;
         private Label label26;
-        private CheckBox checkBox_MoveSpeed;
-        private CheckBox checkBox_MoveSpeed2;
+        //private CheckBox checkBox_MoveSpeed;
+        //private CheckBox checkBox_MoveSpeed2;
         private CheckBox checkBox_ESP_FireportAim;
         private Label label27;
         private Label label_EspLineScale;

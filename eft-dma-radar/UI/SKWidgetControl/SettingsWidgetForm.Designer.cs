@@ -38,7 +38,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel = new Panel();
             minimizeButton = new Button();
             contentPanel = new Panel();
+            button_Restart_SettingsWidget = new Button();
+            checkBox_MoveSpeed_SettingsWidget = new CheckBox();
+            checkBox_MoveSpeed2_SettingsWidget = new CheckBox();
             headerPanel.SuspendLayout();
+            contentPanel.SuspendLayout();
             SuspendLayout();
             // 
             // headerPanel
@@ -67,11 +71,51 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(checkBox_MoveSpeed_SettingsWidget);
+            contentPanel.Controls.Add(checkBox_MoveSpeed2_SettingsWidget);
+            contentPanel.Controls.Add(button_Restart_SettingsWidget);
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.Location = new Point(0, 20);
             contentPanel.Name = "contentPanel";
             contentPanel.Size = new Size(400, 280);
             contentPanel.TabIndex = 1;
+            // 
+            // button_Restart_SettingsWidget
+            // 
+            button_Restart_SettingsWidget.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button_Restart_SettingsWidget.Location = new Point(12, 6);
+            button_Restart_SettingsWidget.Name = "button_Restart_SettingsWidget";
+            button_Restart_SettingsWidget.Size = new Size(88, 29);
+            button_Restart_SettingsWidget.TabIndex = 19;
+            button_Restart_SettingsWidget.Text = "Restart Radar";
+            button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
+            button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
+            // 
+            // checkBox_MoveSpeed_SettingsWidget
+            // 
+            checkBox_MoveSpeed_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_MoveSpeed_SettingsWidget.AutoSize = true;
+            checkBox_MoveSpeed_SettingsWidget.Location = new Point(12, 41);
+            checkBox_MoveSpeed_SettingsWidget.Name = "checkBox_MoveSpeed_SettingsWidget";
+            checkBox_MoveSpeed_SettingsWidget.Size = new Size(152, 19);
+            checkBox_MoveSpeed_SettingsWidget.TabIndex = 80;
+            checkBox_MoveSpeed_SettingsWidget.Text = "1.2x Move Speed (Risky)";
+            checkBox_MoveSpeed_SettingsWidget.UseVisualStyleBackColor = false;
+            checkBox_MoveSpeed_SettingsWidget.CheckedChanged += checkBox_MoveSpeed_SettingsWidget_CheckedChanged;
+
+            // 
+            // checkBox_MoveSpeed2__SettingsWidget
+            // 
+            checkBox_MoveSpeed2_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_MoveSpeed2_SettingsWidget.AutoSize = true;
+            checkBox_MoveSpeed2_SettingsWidget.Location = new Point(12, 66);
+            checkBox_MoveSpeed2_SettingsWidget.Name = "checkBox_MoveSpeed2_SettingsWidget";
+            checkBox_MoveSpeed2_SettingsWidget.Size = new Size(152, 19);
+            checkBox_MoveSpeed2_SettingsWidget.TabIndex = 81;
+            checkBox_MoveSpeed2_SettingsWidget.Text = "1.4x Move Speed (Risky)";
+            checkBox_MoveSpeed2_SettingsWidget.UseVisualStyleBackColor = false;
+            checkBox_MoveSpeed2_SettingsWidget.CheckedChanged += checkBox_MoveSpeed2_SettingsWidget_CheckedChanged;
+
             // 
             // SettingsWidgetForm
             // 
@@ -86,6 +130,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             TopMost = true;
             Load += SettingsWidgetForm_Load;
             headerPanel.ResumeLayout(false);
+            contentPanel.ResumeLayout(false);
+            contentPanel.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -133,5 +179,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private System.Windows.Forms.Panel headerPanel;
         private System.Windows.Forms.Button minimizeButton;
         private System.Windows.Forms.Panel contentPanel;
+        private Button button_Restart_SettingsWidget;
+        private CheckBox checkBox_MoveSpeed_SettingsWidget;
+        private CheckBox checkBox_MoveSpeed2_SettingsWidget;
     }
 }

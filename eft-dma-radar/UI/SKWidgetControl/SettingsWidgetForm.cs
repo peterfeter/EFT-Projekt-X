@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using eft_dma_radar.UI.Radar;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
 {
@@ -14,10 +15,12 @@ namespace LonesEFTRadar.UI.SKWidgetControl
     {
         private bool isMinimized = false;
         private Point lastMousePosition;
+        private MainForm mainForm;
 
         public SettingsWidgetForm()
         {
             InitializeComponent();
+            this.mainForm = mainForm;
         }
 
         private void minimizeButton_Click(object sender, EventArgs e)
@@ -53,6 +56,21 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                     this.Location.X + e.X - lastMousePosition.X,
                     this.Location.Y + e.Y - lastMousePosition.Y);
             }
+        }
+
+        private void button_Restart_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            MainForm.button_Restart_Click(sender, e);
+        }
+
+        private void checkBox_MoveSpeed_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            MainForm.Window.checkBox_MoveSpeed.Checked = checkBox_MoveSpeed_SettingsWidget.Checked;
+        }
+
+        private void checkBox_MoveSpeed2_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            MainForm.Window.checkBox_MoveSpeed2.Checked = checkBox_MoveSpeed2_SettingsWidget.Checked;
         }
     }
 }
