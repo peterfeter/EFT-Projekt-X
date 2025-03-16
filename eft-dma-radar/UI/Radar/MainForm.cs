@@ -62,7 +62,9 @@ namespace eft_dma_radar.UI.Radar
         private SettingsWidgetForm _settingsWidgetForm;
         public CheckBox checkBox_MoveSpeed;
         public CheckBox checkBox_MoveSpeed2;
-
+        public CheckBox checkBox_FullBright;
+        public CheckBox checkBox_InfStamina;
+        public CheckBox checkBox_LTW;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -776,11 +778,15 @@ namespace eft_dma_radar.UI.Radar
             radioButton_Chams_Visible.Enabled = enabled;
             checkBox_AntiPage.Enabled = enabled;
         }
-        private void checkBox_FullBright_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_FullBright_CheckedChanged(object sender, EventArgs e)
         {
-            MemWriteFeature<FullBright>.Instance.Enabled = checkBox_FullBright.Checked;
+            bool isChecked = checkBox_FullBright.Checked;
+            MemWriteFeature<FullBright>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateFullBrightCheckbox(isChecked);
         }
-        private async void button_GymHack_Click(object sender, EventArgs e)
+        public async void button_GymHack_Click(object sender, EventArgs e)
         {
             string original = button_GymHack.Text;
             button_GymHack.Text = "Please Wait...";
@@ -828,11 +834,13 @@ namespace eft_dma_radar.UI.Radar
             label_LTWAmount.Text = $"Zoom Amount {scaledAmt.ToString("0.00")}";
         }
 
-        private void checkBox_LTW_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_LTW_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = checkBox_LTW.Checked;
-            flowLayoutPanel_LTW.Enabled = enabled;
-            MemWriteFeature<LootThroughWalls>.Instance.Enabled = enabled;
+            bool isChecked = checkBox_LTW.Checked;
+            MemWriteFeature<LootThroughWalls>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLTWCheckbox(isChecked);
         }
 
         public void checkBox_MoveSpeed_CheckedChanged(object sender, EventArgs e)
@@ -880,7 +888,7 @@ namespace eft_dma_radar.UI.Radar
         {
             MemPatchFeature<NoWepMalfPatch>.Instance.Enabled = checkBox_NoWepMalf.Checked;
         }
-        private async void button_AntiAfk_Click(object sender, EventArgs e)
+        public async void button_AntiAfk_Click(object sender, EventArgs e)
         {
             button_AntiAfk.Text = "Please Wait...";
             button_AntiAfk.Enabled = false;
@@ -1388,7 +1396,10 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Event fires when Restart Game button is clicked in Settings.
         /// </summary>
-        public static void button_Restart_Click(object sender, EventArgs e) => Memory.RestartRadar = true;
+        public static void button_Restart_Click(object sender, EventArgs e)
+        {
+            Memory.RestartRadar = true;
+        }
 
         /// <summary>
         /// Event fires when Apply button is clicked in the "Map Setup Groupbox".
@@ -1570,9 +1581,13 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_NoRecoil.Enabled = enabled;
         }
 
-        private void checkBox_InfStamina_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_InfStamina_CheckedChanged(object sender, EventArgs e)
         {
-            MemWriteFeature<InfStamina>.Instance.Enabled = checkBox_InfStamina.Checked;
+            bool isChecked = checkBox_InfStamina.Checked;
+            MemWriteFeature<InfStamina>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateInfStaminaCheckbox(isChecked);
         }
 
         private void TrackBar_NoSway_ValueChanged(object sender, EventArgs e)

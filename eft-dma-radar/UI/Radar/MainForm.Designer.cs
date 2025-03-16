@@ -3540,11 +3540,9 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_ShowFood;
         private CheckBox checkBox_ShowMeds;
         private CheckBox checkBox_ShowInfoTab;
-        private CheckBox checkBox_ShowLootTab;
-        
+        private CheckBox checkBox_ShowLootTab;    
         private CheckBox checkBox_GrpConnect;
         private CheckBox checkBox_NoRecoilSway;
-        private CheckBox checkBox_InfStamina;
         private CheckBox checkBox_NoVisor;
         private CheckBox checkBox_AimBotEnabled;
         private Button button_HotkeyManager;
@@ -3718,7 +3716,6 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_EspLineScale;
         private CheckBox checkBox_ShowBackpacks;
         private CheckBox checkBox_ESP_StatusText;
-        private CheckBox checkBox_LTW;
         private FlowLayoutPanel flowLayoutPanel_LTW;
         private Label label28;
         private Label label_LTWAmount;
@@ -3737,7 +3734,6 @@ namespace eft_dma_radar.UI.Radar
         private CheckedListBox checkedListBox_Containers;
         private CheckBox checkBox_Containers_HideSearched;
         private Button button_GymHack;
-        private CheckBox checkBox_FullBright;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
         private CheckBox checkBox_FastLoadUnload;

@@ -38,9 +38,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel = new Panel();
             minimizeButton = new Button();
             contentPanel = new Panel();
-            button_Restart_SettingsWidget = new Button();
+            checkBox_InfStamina_SettingsWidget = new CheckBox();
+            button_AntiAfk_SettingsWidget = new Button();
+            checkBox_FullBright_SettingsWidget = new CheckBox();
+            button_GymHack_SettingsWidget = new Button();
             checkBox_MoveSpeed_SettingsWidget = new CheckBox();
             checkBox_MoveSpeed2_SettingsWidget = new CheckBox();
+            button_Restart_SettingsWidget = new Button();
+            checkBox_LTW_SettingsWidget = new CheckBox();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
             SuspendLayout();
@@ -71,6 +76,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(checkBox_LTW_SettingsWidget);
+            contentPanel.Controls.Add(checkBox_InfStamina_SettingsWidget);
+            contentPanel.Controls.Add(button_AntiAfk_SettingsWidget);
+            contentPanel.Controls.Add(checkBox_FullBright_SettingsWidget);
+            contentPanel.Controls.Add(button_GymHack_SettingsWidget);
             contentPanel.Controls.Add(checkBox_MoveSpeed_SettingsWidget);
             contentPanel.Controls.Add(checkBox_MoveSpeed2_SettingsWidget);
             contentPanel.Controls.Add(button_Restart_SettingsWidget);
@@ -80,42 +90,98 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             contentPanel.Size = new Size(400, 280);
             contentPanel.TabIndex = 1;
             // 
-            // button_Restart_SettingsWidget
+            // checkBox_InfStamina_SettingsWidget
             // 
-            button_Restart_SettingsWidget.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button_Restart_SettingsWidget.Location = new Point(12, 6);
-            button_Restart_SettingsWidget.Name = "button_Restart_SettingsWidget";
-            button_Restart_SettingsWidget.Size = new Size(88, 29);
-            button_Restart_SettingsWidget.TabIndex = 19;
-            button_Restart_SettingsWidget.Text = "Restart Radar";
-            button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
-            button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
+            checkBox_InfStamina_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_InfStamina_SettingsWidget.AutoSize = true;
+            checkBox_InfStamina_SettingsWidget.Location = new Point(170, 60);
+            checkBox_InfStamina_SettingsWidget.Name = "checkBox_InfStamina_SettingsWidget";
+            checkBox_InfStamina_SettingsWidget.Size = new Size(147, 19);
+            checkBox_InfStamina_SettingsWidget.TabIndex = 85;
+            checkBox_InfStamina_SettingsWidget.Text = "Infinite Stamina (Risky)";
+            checkBox_InfStamina_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_InfStamina_SettingsWidget.CheckedChanged += checkBox_InfStamina_SettingsWidget_CheckedChanged;
+            // 
+            // button_AntiAfk_SettingsWidget
+            // 
+            button_AntiAfk_SettingsWidget.Anchor = AnchorStyles.Right;
+            button_AntiAfk_SettingsWidget.Location = new Point(208, 6);
+            button_AntiAfk_SettingsWidget.Name = "button_AntiAfk_SettingsWidget";
+            button_AntiAfk_SettingsWidget.Size = new Size(96, 23);
+            button_AntiAfk_SettingsWidget.TabIndex = 84;
+            button_AntiAfk_SettingsWidget.Text = "Anti-AFK";
+            button_AntiAfk_SettingsWidget.UseVisualStyleBackColor = false;
+            button_AntiAfk_SettingsWidget.Click += button_AntiAfk_SettingsWidget_Click;
+            // 
+            // checkBox_FullBright_SettingsWidget
+            // 
+            checkBox_FullBright_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_FullBright_SettingsWidget.AutoSize = true;
+            checkBox_FullBright_SettingsWidget.Location = new Point(170, 35);
+            checkBox_FullBright_SettingsWidget.Name = "checkBox_FullBright_SettingsWidget";
+            checkBox_FullBright_SettingsWidget.Size = new Size(80, 19);
+            checkBox_FullBright_SettingsWidget.TabIndex = 83;
+            checkBox_FullBright_SettingsWidget.Text = "Full Bright";
+            checkBox_FullBright_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_FullBright_SettingsWidget.CheckedChanged += checkBox_FullBright_SettingsWidget_CheckedChanged;
+            // 
+            // button_GymHack_SettingsWidget
+            // 
+            button_GymHack_SettingsWidget.Anchor = AnchorStyles.Right;
+            button_GymHack_SettingsWidget.Location = new Point(106, 6);
+            button_GymHack_SettingsWidget.Name = "button_GymHack_SettingsWidget";
+            button_GymHack_SettingsWidget.Size = new Size(96, 23);
+            button_GymHack_SettingsWidget.TabIndex = 82;
+            button_GymHack_SettingsWidget.Text = "Gym Hack";
+            button_GymHack_SettingsWidget.UseVisualStyleBackColor = false;
+            button_GymHack_SettingsWidget.Click += button_GymHack_SettingsWidget_Click;
             // 
             // checkBox_MoveSpeed_SettingsWidget
             // 
             checkBox_MoveSpeed_SettingsWidget.Anchor = AnchorStyles.Right;
             checkBox_MoveSpeed_SettingsWidget.AutoSize = true;
-            checkBox_MoveSpeed_SettingsWidget.Location = new Point(12, 41);
+            checkBox_MoveSpeed_SettingsWidget.Location = new Point(12, 35);
             checkBox_MoveSpeed_SettingsWidget.Name = "checkBox_MoveSpeed_SettingsWidget";
             checkBox_MoveSpeed_SettingsWidget.Size = new Size(152, 19);
             checkBox_MoveSpeed_SettingsWidget.TabIndex = 80;
             checkBox_MoveSpeed_SettingsWidget.Text = "1.2x Move Speed (Risky)";
             checkBox_MoveSpeed_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_MoveSpeed_SettingsWidget.CheckedChanged += checkBox_MoveSpeed_SettingsWidget_CheckedChanged;
-
             // 
-            // checkBox_MoveSpeed2__SettingsWidget
+            // checkBox_MoveSpeed2_SettingsWidget
             // 
             checkBox_MoveSpeed2_SettingsWidget.Anchor = AnchorStyles.Right;
             checkBox_MoveSpeed2_SettingsWidget.AutoSize = true;
-            checkBox_MoveSpeed2_SettingsWidget.Location = new Point(12, 66);
+            checkBox_MoveSpeed2_SettingsWidget.Location = new Point(12, 60);
             checkBox_MoveSpeed2_SettingsWidget.Name = "checkBox_MoveSpeed2_SettingsWidget";
             checkBox_MoveSpeed2_SettingsWidget.Size = new Size(152, 19);
             checkBox_MoveSpeed2_SettingsWidget.TabIndex = 81;
             checkBox_MoveSpeed2_SettingsWidget.Text = "1.4x Move Speed (Risky)";
             checkBox_MoveSpeed2_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_MoveSpeed2_SettingsWidget.CheckedChanged += checkBox_MoveSpeed2_SettingsWidget_CheckedChanged;
-
+            // 
+            // button_Restart_SettingsWidget
+            // 
+            button_Restart_SettingsWidget.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button_Restart_SettingsWidget.Location = new Point(12, 6);
+            button_Restart_SettingsWidget.Name = "button_Restart_SettingsWidget";
+            button_Restart_SettingsWidget.Size = new Size(88, 23);
+            button_Restart_SettingsWidget.TabIndex = 19;
+            button_Restart_SettingsWidget.Text = "Restart Radar";
+            button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
+            button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
+            // 
+            // checkBox_LTW_SettingsWidget
+            // 
+            checkBox_LTW_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_LTW_SettingsWidget.AutoSize = true;
+            checkBox_LTW_SettingsWidget.Location = new Point(170, 85);
+            checkBox_LTW_SettingsWidget.Name = "checkBox_LTW_SettingsWidget";
+            checkBox_LTW_SettingsWidget.Size = new Size(168, 19);
+            checkBox_LTW_SettingsWidget.TabIndex = 86;
+            checkBox_LTW_SettingsWidget.Text = "Loot Through Walls (Risky)";
+            checkBox_LTW_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_LTW_SettingsWidget.CheckedChanged += checkBox_LTW_SettingsWidget_CheckedChanged;
             // 
             // SettingsWidgetForm
             // 
@@ -182,5 +248,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private Button button_Restart_SettingsWidget;
         private CheckBox checkBox_MoveSpeed_SettingsWidget;
         private CheckBox checkBox_MoveSpeed2_SettingsWidget;
+        private Button button_GymHack_SettingsWidget;
+        private CheckBox checkBox_FullBright_SettingsWidget;
+        private Button button_AntiAfk_SettingsWidget;
+        private CheckBox checkBox_InfStamina_SettingsWidget;
+        private CheckBox checkBox_LTW_SettingsWidget;
     }
 }

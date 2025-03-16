@@ -68,6 +68,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             checkBox_MoveSpeed_SettingsWidget.Checked = _mainForm.checkBox_MoveSpeed.Checked;
             checkBox_MoveSpeed2_SettingsWidget.Checked = _mainForm.checkBox_MoveSpeed2.Checked;
+            checkBox_FullBright_SettingsWidget.Checked = _mainForm.checkBox_FullBright.Checked;
+            checkBox_InfStamina_SettingsWidget.Checked = _mainForm.checkBox_InfStamina.Checked;
+            checkBox_LTW_SettingsWidget.Checked = _mainForm.checkBox_LTW.Checked;
         }
 
         public void UpdateMoveSpeedCheckbox(bool isChecked)
@@ -80,6 +83,21 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_MoveSpeed2_SettingsWidget.Checked = isChecked;
         }
 
+        public void UpdateFullBrightCheckbox(bool isChecked)
+        {
+            checkBox_FullBright_SettingsWidget.Checked = isChecked;
+        }
+
+        public void UpdateInfStaminaCheckbox(bool isChecked)
+        {
+            checkBox_InfStamina_SettingsWidget.Checked = isChecked;
+        }
+
+        public void UpdateLTWCheckbox(bool isChecked)
+        {
+            checkBox_LTW_SettingsWidget.Checked = isChecked;
+        }
+
         private void checkBox_MoveSpeed_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
             _mainForm.checkBox_MoveSpeed.Checked = checkBox_MoveSpeed_SettingsWidget.Checked;
@@ -88,6 +106,31 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private void checkBox_MoveSpeed2_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
             _mainForm.checkBox_MoveSpeed2.Checked = checkBox_MoveSpeed2_SettingsWidget.Checked;
+        }
+
+        private void button_GymHack_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            _mainForm.button_GymHack_Click(sender, e);
+        }
+
+        private void checkBox_FullBright_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_FullBright.Checked = checkBox_FullBright_SettingsWidget.Checked;
+        }
+
+        private void button_AntiAfk_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            _mainForm.button_AntiAfk_Click(sender, e);
+        }
+
+        private void checkBox_InfStamina_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_InfStamina.Checked = checkBox_InfStamina_SettingsWidget.Checked;
+        }
+
+        private void checkBox_LTW_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_LTW.Checked = checkBox_LTW_SettingsWidget.Checked;
         }
     }
 }
