@@ -27,6 +27,7 @@ using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.LowLevel;
+using LonesEFTRadar.UI.SKWidgetControl;
 using System.Security.Authentication.ExtendedProtection;
 using System.Timers;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager;
@@ -58,6 +59,9 @@ namespace eft_dma_radar.UI.Radar
         private PlayerInfoWidget _playerInfo;
         private LootInfoWidget _lootInfo;
         private float _dragSpeed = 2.0f; // Map drag speed
+        private SettingsWidgetForm _settingsWidgetForm;
+        public CheckBox checkBox_MoveSpeed;
+        public CheckBox checkBox_MoveSpeed2;
 
         /// <summary>
         /// Main UI/Application Config.
@@ -831,7 +835,7 @@ namespace eft_dma_radar.UI.Radar
             MemWriteFeature<LootThroughWalls>.Instance.Enabled = enabled;
         }
 
-        private void checkBox_MoveSpeed_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_MoveSpeed_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_MoveSpeed.Checked)
             {
@@ -839,9 +843,12 @@ namespace eft_dma_radar.UI.Radar
             }
             bool enabled = checkBox_MoveSpeed.Checked;
             MemWriteFeature<MoveSpeed>.Instance.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateMoveSpeedCheckbox(enabled);
         }
 
-        private void checkBox_MoveSpeed2_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_MoveSpeed2_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_MoveSpeed2.Checked)
             {
@@ -849,6 +856,9 @@ namespace eft_dma_radar.UI.Radar
             }
             bool enabled = checkBox_MoveSpeed2.Checked;
             MemWriteFeature<MoveSpeed2>.Instance.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateMoveSpeed2Checkbox(enabled);
         }
 
         private void TrackBar_WideLeanAmt_ValueChanged(object sender, EventArgs e)
@@ -1198,6 +1208,24 @@ namespace eft_dma_radar.UI.Radar
         }
 
         /// <summary>
+        /// Event Opens SettingsWidgetForm
+        /// </summary>
+        private void button_SettingsWidget_click(object sender, EventArgs e)
+        {
+            if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
+            {
+                _settingsWidgetForm.Close();
+                _settingsWidgetForm = null;
+            }
+            else
+            {
+                _settingsWidgetForm = new SettingsWidgetForm(this);
+                _settingsWidgetForm.Show();
+                _settingsWidgetForm.UpdateCheckboxStates();
+            }
+        }
+
+        /// <summary>
         /// Event fires when the "Map Free" or "Map Follow" checkbox (button) is clicked on the Main Window.
         /// </summary>
         private void checkBox_MapFree_CheckedChanged(object sender, EventArgs e)
@@ -1360,7 +1388,7 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Event fires when Restart Game button is clicked in Settings.
         /// </summary>
-        private void button_Restart_Click(object sender, EventArgs e) => Memory.RestartRadar = true;
+        public static void button_Restart_Click(object sender, EventArgs e) => Memory.RestartRadar = true;
 
         /// <summary>
         /// Event fires when Apply button is clicked in the "Map Setup Groupbox".
@@ -1957,7 +1985,7 @@ namespace eft_dma_radar.UI.Radar
                 "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
                 "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
             toolTip1.SetToolTip(checkBox_MoveSpeed2,
-                "NOT RECOMMENDED FOR PvP.\n"+
+                "NOT RECOMMENDED FOR PvP.\n" +
                 "Enables/Disables 1.4x Move Speed Feature. This causes your player to move 1.4 times faster.\n" +
                 "NOTE: When used in conjunction with Infinite Stamina this can contribute to Server Desync at higher carry weights. Turn this off to reduce desync.\n" +
                 "WARNING: This is marked as a RISKY feature since other players can see you moving faster than normal.");
@@ -3902,5 +3930,7 @@ namespace eft_dma_radar.UI.Radar
                 UseShellExecute = true
             });
         }
+
+
     }
 }
