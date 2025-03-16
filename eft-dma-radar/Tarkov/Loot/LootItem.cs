@@ -335,7 +335,21 @@ namespace eft_dma_radar.Tarkov.Loot
                     return; // Don't draw single items
                 }
 
-                Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
+                // Save the current canvas state
+                canvas.Save();
+
+                // Get the position of the container on the map
+                var containerPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
+                // Apply a rotation transformation to the canvas
+                canvas.RotateDegrees(180, containerPosition.X, containerPosition.Y);
+
+                // Draw the mouseover text
+                containerPosition.DrawMouseoverText(canvas, lines);
+
+                // Restore the canvas state
+                canvas.Restore();
+
             }
         }
 

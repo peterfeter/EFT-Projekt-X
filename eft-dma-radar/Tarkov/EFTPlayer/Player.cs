@@ -1524,9 +1524,16 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
             var numArrows = Math.Abs(playerLayer - localPlayerLayer);
 
             if (numArrows == 0)
-                return;
+            {
+                // Check for height difference if players are on the same layer
+                var heightDiff = playerHeight - localPlayerHeight;
+                if (Math.Abs(heightDiff) < 1.85f) // No significant height difference
+                    return;
 
-            var up = playerLayer - localPlayerLayer > 0;
+                numArrows = 1; // Draw a single arrow for height difference
+            }
+
+            var up = playerLayer - localPlayerLayer > 0 || (numArrows == 1 && playerHeight > localPlayerHeight);
 
             int arrowX = -20;
             int arrowY = -3;
