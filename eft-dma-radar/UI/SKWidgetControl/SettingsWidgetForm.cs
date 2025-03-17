@@ -25,6 +25,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             InitializeComponent();
             _mainForm = mainForm;
+            _mainForm.RefreshQuestHelper();
             UpdateCheckboxStates();
             InitializeHeaderText();
             PopulateQuestHelperList();

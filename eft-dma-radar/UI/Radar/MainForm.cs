@@ -1237,7 +1237,7 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Event Opens SettingsWidgetForm
         /// </summary>
-        private void button_SettingsWidget_click(object sender, EventArgs e)
+        public void button_SettingsWidget_click(object sender, EventArgs e)
         {
             if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
             {
@@ -1788,7 +1788,7 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Refresh quest helper (if enabled).
         /// </summary>
-        private void RefreshQuestHelper()
+        public void RefreshQuestHelper()
         {
             if (Config.QuestHelper.Enabled && Memory.InRaid && Memory.QuestManager is QuestManager quests)
             {
