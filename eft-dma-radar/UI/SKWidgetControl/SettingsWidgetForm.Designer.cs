@@ -38,6 +38,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel = new Panel();
             minimizeButton = new Button();
             contentPanel = new Panel();
+            checkBox_FastLoadUnload_SettingsWidget = new CheckBox();
+            checkBox_LTW_SettingsWidget = new CheckBox();
             checkBox_InfStamina_SettingsWidget = new CheckBox();
             button_AntiAfk_SettingsWidget = new Button();
             checkBox_FullBright_SettingsWidget = new CheckBox();
@@ -45,7 +47,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_MoveSpeed_SettingsWidget = new CheckBox();
             checkBox_MoveSpeed2_SettingsWidget = new CheckBox();
             button_Restart_SettingsWidget = new Button();
-            checkBox_LTW_SettingsWidget = new CheckBox();
+            checkBox_Chams_SettingsWidget = new CheckBox();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
             SuspendLayout();
@@ -76,6 +78,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(checkBox_Chams_SettingsWidget);
+            contentPanel.Controls.Add(checkBox_FastLoadUnload_SettingsWidget);
             contentPanel.Controls.Add(checkBox_LTW_SettingsWidget);
             contentPanel.Controls.Add(checkBox_InfStamina_SettingsWidget);
             contentPanel.Controls.Add(button_AntiAfk_SettingsWidget);
@@ -89,6 +93,30 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             contentPanel.Name = "contentPanel";
             contentPanel.Size = new Size(400, 280);
             contentPanel.TabIndex = 1;
+            // 
+            // checkBox_FastLoadUnload_SettingsWidget
+            // 
+            checkBox_FastLoadUnload_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_FastLoadUnload_SettingsWidget.AutoSize = true;
+            checkBox_FastLoadUnload_SettingsWidget.Location = new Point(12, 85);
+            checkBox_FastLoadUnload_SettingsWidget.Name = "checkBox_FastLoadUnload_SettingsWidget";
+            checkBox_FastLoadUnload_SettingsWidget.Size = new Size(119, 19);
+            checkBox_FastLoadUnload_SettingsWidget.TabIndex = 87;
+            checkBox_FastLoadUnload_SettingsWidget.Text = "Fast Load/Unload";
+            checkBox_FastLoadUnload_SettingsWidget.UseVisualStyleBackColor = false;
+            checkBox_FastLoadUnload_SettingsWidget.CheckedChanged += checkBox_FastLoadUnload_SettingsWidget_CheckedChanged;
+            // 
+            // checkBox_LTW_SettingsWidget
+            // 
+            checkBox_LTW_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_LTW_SettingsWidget.AutoSize = true;
+            checkBox_LTW_SettingsWidget.Location = new Point(170, 85);
+            checkBox_LTW_SettingsWidget.Name = "checkBox_LTW_SettingsWidget";
+            checkBox_LTW_SettingsWidget.Size = new Size(168, 19);
+            checkBox_LTW_SettingsWidget.TabIndex = 86;
+            checkBox_LTW_SettingsWidget.Text = "Loot Through Walls (Risky)";
+            checkBox_LTW_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_LTW_SettingsWidget.CheckedChanged += checkBox_LTW_SettingsWidget_CheckedChanged;
             // 
             // checkBox_InfStamina_SettingsWidget
             // 
@@ -171,17 +199,17 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
             button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
             // 
-            // checkBox_LTW_SettingsWidget
+            // checkBox_Chams_SettingsWidget
             // 
-            checkBox_LTW_SettingsWidget.Anchor = AnchorStyles.Right;
-            checkBox_LTW_SettingsWidget.AutoSize = true;
-            checkBox_LTW_SettingsWidget.Location = new Point(170, 85);
-            checkBox_LTW_SettingsWidget.Name = "checkBox_LTW_SettingsWidget";
-            checkBox_LTW_SettingsWidget.Size = new Size(168, 19);
-            checkBox_LTW_SettingsWidget.TabIndex = 86;
-            checkBox_LTW_SettingsWidget.Text = "Loot Through Walls (Risky)";
-            checkBox_LTW_SettingsWidget.UseVisualStyleBackColor = true;
-            checkBox_LTW_SettingsWidget.CheckedChanged += checkBox_LTW_SettingsWidget_CheckedChanged;
+            checkBox_Chams_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_Chams_SettingsWidget.AutoSize = true;
+            checkBox_Chams_SettingsWidget.Location = new Point(12, 110);
+            checkBox_Chams_SettingsWidget.Name = "checkBox_Chams_SettingsWidget";
+            checkBox_Chams_SettingsWidget.Size = new Size(63, 19);
+            checkBox_Chams_SettingsWidget.TabIndex = 88;
+            checkBox_Chams_SettingsWidget.Text = "Chams";
+            checkBox_Chams_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_Chams_SettingsWidget.CheckedChanged += checkBox_Chams_SettingsWidget_CheckedChanged;
             // 
             // SettingsWidgetForm
             // 
@@ -253,5 +281,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private Button button_AntiAfk_SettingsWidget;
         private CheckBox checkBox_InfStamina_SettingsWidget;
         private CheckBox checkBox_LTW_SettingsWidget;
+        private CheckBox checkBox_FastLoadUnload_SettingsWidget;
+        private CheckBox checkBox_Chams_SettingsWidget;
     }
 }

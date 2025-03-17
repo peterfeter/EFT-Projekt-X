@@ -65,6 +65,8 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_FullBright;
         public CheckBox checkBox_InfStamina;
         public CheckBox checkBox_LTW;
+        public CheckBox checkBox_FastLoadUnload;
+        public CheckBox checkBox_Chams;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -742,7 +744,11 @@ namespace eft_dma_radar.UI.Radar
 
         private void checkBox_FastLoadUnload_CheckedChanged(object sender, EventArgs e)
         {
-            MemPatchFeature<FastLoadUnload>.Instance.Enabled = checkBox_FastLoadUnload.Checked;
+            bool isChecked = checkBox_FastLoadUnload.Checked;
+            MemPatchFeature<FastLoadUnload>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateFastLoadUnloadCheckbox(isChecked);
         }
         private void checkBox_FastWeaponOps_CheckedChanged(object sender, EventArgs e)
         {
@@ -1678,8 +1684,13 @@ namespace eft_dma_radar.UI.Radar
 
         private void checkBox_Chams_CheckedChanged(object sender, EventArgs e)
         {
+            bool isChecked = checkBox_Chams.Checked;
+            MemWriteFeature<Chams>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateChamsCheckbox(isChecked);
+
             var enabled = checkBox_Chams.Checked;
-            MemWriteFeature<Chams>.Instance.Enabled = enabled;
             flowLayoutPanel_Chams.Enabled = enabled;
         }
 

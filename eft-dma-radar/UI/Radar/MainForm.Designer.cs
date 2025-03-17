@@ -3563,7 +3563,6 @@ namespace eft_dma_radar.UI.Radar
         private DataGridViewTextBoxColumn Column_PWReason;
         private DataGridViewTextBoxColumn Column_PWTimestamp;
         private CheckBox checkBox_QuestHelper_Enabled;
-        private CheckBox checkBox_Chams;
         private RadioButton radioButton_AimTarget_CQB;
         private RadioButton radioButton_AimTarget_FOV;
         private Button button_StartESP;
@@ -3736,7 +3735,6 @@ namespace eft_dma_radar.UI.Radar
         private Button button_GymHack;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
-        private CheckBox checkBox_FastLoadUnload;
         private FlowLayoutPanel flowLayoutPanel_AdvancedChams;
         private Label label14;
         private Label label15;
