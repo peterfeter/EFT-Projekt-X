@@ -48,9 +48,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_FastLoadUnload_SettingsWidget = new CheckBox();
             checkBox_Chams_SettingsWidget = new CheckBox();
             contentPanel = new Panel();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
             checkedListBox_QuestHelper_SettingsWidget = new CheckedListBox();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
+            tabControl1.SuspendLayout();
             SuspendLayout();
             // 
             // headerPanel
@@ -131,6 +135,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // button_AntiAfk_SettingsWidget
             // 
+            button_AntiAfk_SettingsWidget.FlatStyle = FlatStyle.Popup;
             button_AntiAfk_SettingsWidget.Location = new Point(208, 6);
             button_AntiAfk_SettingsWidget.Name = "button_AntiAfk_SettingsWidget";
             button_AntiAfk_SettingsWidget.Size = new Size(96, 23);
@@ -180,12 +185,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Chams_SettingsWidget.Size = new Size(63, 19);
             checkBox_Chams_SettingsWidget.TabIndex = 88;
             checkBox_Chams_SettingsWidget.Text = "Chams";
-            checkBox_Chams_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_Chams_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_Chams_SettingsWidget.CheckedChanged += checkBox_Chams_SettingsWidget_CheckedChanged;
             // 
             // contentPanel
             // 
             contentPanel.BackColor = SystemColors.Control;
+            contentPanel.Controls.Add(tabControl1);
             contentPanel.Controls.Add(checkedListBox_QuestHelper_SettingsWidget);
             contentPanel.Controls.Add(checkBox_Chams_SettingsWidget);
             contentPanel.Controls.Add(checkBox_FastLoadUnload_SettingsWidget);
@@ -202,15 +208,50 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             contentPanel.Size = new Size(600, 440);
             contentPanel.TabIndex = 1;
             // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Location = new Point(3, 289);
+            tabControl1.Margin = new Padding(0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.Padding = new Point(0, 0);
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(597, 143);
+            tabControl1.TabIndex = 89;
+            // 
+            // tabPage1
+            // 
+            tabPage1.BackColor = Color.Transparent;
+            tabPage1.BackgroundImageLayout = ImageLayout.None;
+            tabPage1.BorderStyle = BorderStyle.FixedSingle;
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Margin = new Padding(0);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Size = new Size(589, 115);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Quick Settings";
+            // 
+            // tabPage2
+            // 
+            tabPage2.BackColor = Color.Transparent;
+            tabPage2.BorderStyle = BorderStyle.FixedSingle;
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(589, 115);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            // 
             // checkedListBox_QuestHelper_SettingsWidget
             // 
             checkedListBox_QuestHelper_SettingsWidget.Anchor = AnchorStyles.None;
+            checkedListBox_QuestHelper_SettingsWidget.BorderStyle = BorderStyle.FixedSingle;
             checkedListBox_QuestHelper_SettingsWidget.FormattingEnabled = true;
             checkedListBox_QuestHelper_SettingsWidget.Location = new Point(12, 135);
             checkedListBox_QuestHelper_SettingsWidget.Name = "checkedListBox_QuestHelper_SettingsWidget";
-            checkedListBox_QuestHelper_SettingsWidget.Size = new Size(343, 148);
+            checkedListBox_QuestHelper_SettingsWidget.Size = new Size(343, 128);
             checkedListBox_QuestHelper_SettingsWidget.TabIndex = 48;
-            checkBox_Chams_SettingsWidget.UseVisualStyleBackColor = false;
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck += checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
             // 
             // SettingsWidgetForm
@@ -228,6 +269,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel.ResumeLayout(false);
             contentPanel.ResumeLayout(false);
             contentPanel.PerformLayout();
+            tabControl1.ResumeLayout(false);
             ResumeLayout(false);
 
         }
@@ -242,6 +284,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             bool isDarkMode = IsDarkModeEnabled();
 
             Color contentBackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
+            Color tabControlBackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
+            Color tabpage1BackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
+            Color tabpage2BackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
             Color headerBackgroundColor = isDarkMode ? Color.FromArgb(35, 35, 38) : SystemColors.Control;
             Color foregroundColor = isDarkMode ? Color.White : SystemColors.ControlText;
 
@@ -252,6 +297,12 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel.ForeColor = foregroundColor;
             contentPanel.BackColor = contentBackgroundColor;
             contentPanel.ForeColor = foregroundColor;
+            tabControl1.BackColor = tabControlBackgroundColor;
+            tabControl1.ForeColor = foregroundColor;
+            tabPage1.BackColor = tabControlBackgroundColor;
+            tabPage1.ForeColor = foregroundColor;
+            tabPage2.BackColor = tabControlBackgroundColor;
+            tabPage2.ForeColor = foregroundColor;
             minimizeButton.BackColor = headerBackgroundColor;
             minimizeButton.ForeColor = foregroundColor;
 
@@ -290,5 +341,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private Panel contentPanel;
         private FlowLayoutPanel flowLayoutPanel1;
         private CheckedListBox checkedListBox_QuestHelper_SettingsWidget;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
     }
 }
