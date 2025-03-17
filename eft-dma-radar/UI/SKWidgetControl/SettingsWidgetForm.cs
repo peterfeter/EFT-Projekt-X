@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DarkModeForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,12 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using eft_dma_radar.UI.Radar;
+using eft_dma_shared.Common.Misc;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
 {
     public partial class SettingsWidgetForm : Form
     {
         #region Fields
+        private readonly DarkModeCS _darkmode;
         private bool isMinimized = false;
         private Point lastMousePosition;
         private MainForm _mainForm;
@@ -26,6 +29,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             InitializeComponent();
             _mainForm = mainForm;
             _mainForm.RefreshQuestHelper();
+            SetDarkMode(ref _darkmode);
             UpdateCheckboxStates();
             InitializeHeaderText();
             PopulateQuestHelperList();
@@ -61,13 +65,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             if (isMinimized)
             {
                 this.Size = new System.Drawing.Size(600, 600);
-                this.contentPanel.Visible = true;
+               // this.contentPanel.Visible = true;
                 this.minimizeButton.Text = "-";
             }
             else
             {
                 this.Size = new System.Drawing.Size(600, 20);
-                this.contentPanel.Visible = false;
+                //this.contentPanel.Visible = false;
                 this.minimizeButton.Text = "+";
             }
             isMinimized = !isMinimized;
@@ -202,5 +206,19 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck += checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
         }
         #endregion
+
+        /// <summary>
+        /// Set Dark Mode on startup.
+        /// </summary>
+        /// <param name="darkmode"></param>
+        private void SetDarkMode(ref DarkModeCS darkmode)
+        {
+            darkmode = new DarkModeCS(this);
+            if (darkmode.IsDarkMode)
+            {
+                SharedPaints.PaintBitmap.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
+                SharedPaints.PaintBitmapAlpha.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
+            }
+        }
     }
 }
