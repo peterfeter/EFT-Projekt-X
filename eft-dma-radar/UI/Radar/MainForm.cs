@@ -67,6 +67,7 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_LTW;
         public CheckBox checkBox_FastLoadUnload;
         public CheckBox checkBox_Chams;
+        public CheckedListBox checkedListBox_QuestHelper;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -185,6 +186,11 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
+        public CheckedListBox QuestHelperListBox
+        {
+            get { return checkedListBox_QuestHelper; }
+        }
+
         #endregion
 
         #region Constructor
@@ -209,6 +215,7 @@ namespace eft_dma_radar.UI.Radar
             SetupDataGrids();
             SetMemWriteFeatures();
             SetUiValues();
+            SetUiEventHandlers();
             var interval = TimeSpan.FromMilliseconds(1000d / Config.RadarTargetFPS);
             _renderTimer = new(interval);
             Shown += MainForm_Shown;
@@ -220,7 +227,6 @@ namespace eft_dma_radar.UI.Radar
             label_ContainerDist.Text = $"Container Dist: {amt}";
             Config.ContainerDrawDistance = amt;
         }
-
         #endregion
 
         #region Render
@@ -646,8 +652,15 @@ namespace eft_dma_radar.UI.Radar
 
         #region Event
 
-        private void CheckedListBox_QuestHelper_ItemCheck(object sender, ItemCheckEventArgs e)
+        public void CheckedListBox_QuestHelper_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            // Update the corresponding item in the SettingsWidgetForm's checkedListBox_QuestHelper_SettingsWidget
+            if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
+            {
+                _settingsWidgetForm.UpdateQuestHelperList(e.Index, e.NewValue == CheckState.Checked);
+            }
+
+            // Update the configuration based on the checked state
             if (e.NewValue == CheckState.Checked)
             {
                 if (checkedListBox_QuestHelper.Items[e.Index] is QuestListItem item)

@@ -3752,7 +3752,6 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_LootWishlist;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label label34;
-        private CheckedListBox checkedListBox_QuestHelper;
         private CheckBox checkBox_hideRaidcode;
         private CheckBox checkBox1;
         private LinkLabel linkLabel_CheckForUpdates;

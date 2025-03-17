@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using eft_dma_radar.UI.Radar;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
@@ -26,6 +27,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             _mainForm = mainForm;
             UpdateCheckboxStates();
             InitializeHeaderText();
+            PopulateQuestHelperList();
         }
         #endregion
 
@@ -40,6 +42,16 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerLabel.Location = new Point(10, 3); // Adjust the location as needed
             headerPanel.Controls.Add(headerLabel);
         }
+
+        private void PopulateQuestHelperList()
+        {
+            checkedListBox_QuestHelper_SettingsWidget.Items.Clear();
+            foreach (var item in _mainForm.checkedListBox_QuestHelper.Items)
+            {
+                checkedListBox_QuestHelper_SettingsWidget.Items.Add(item, _mainForm.checkedListBox_QuestHelper.GetItemChecked(_mainForm.checkedListBox_QuestHelper.Items.IndexOf(item)));
+            }
+        }
+
         #endregion
 
         #region Event Handlers
@@ -127,6 +139,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_Chams.Checked = checkBox_Chams_SettingsWidget.Checked;
         }
+
+        private void checkedListBox_QuestHelper_SettingsWidget_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Update the corresponding item in the main form's checkedListBox_QuestHelper
+            _mainForm.QuestHelperListBox.ItemCheck -= _mainForm.CheckedListBox_QuestHelper_ItemCheck;
+            _mainForm.QuestHelperListBox.SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
+            _mainForm.QuestHelperListBox.ItemCheck += _mainForm.CheckedListBox_QuestHelper_ItemCheck;
+        }
         #endregion
 
         #region Methods
@@ -168,11 +188,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             checkBox_FastLoadUnload_SettingsWidget.Checked = isChecked;
         }
+
         public void UpdateChamsCheckbox(bool isChecked)
         {
             checkBox_Chams_SettingsWidget.Checked = isChecked;
         }
-        #endregion
 
+        public void UpdateQuestHelperList(int index, bool isChecked)
+        {
+            checkedListBox_QuestHelper_SettingsWidget.ItemCheck -= checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
+            checkedListBox_QuestHelper_SettingsWidget.SetItemChecked(index, isChecked);
+            checkedListBox_QuestHelper_SettingsWidget.ItemCheck += checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
+        }
+        #endregion
     }
 }
