@@ -44,7 +44,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerLabel.Font = new Font("Arial", 9, FontStyle.Bold);
             headerLabel.ForeColor = Color.Purple;
             headerLabel.AutoSize = true;
-            headerLabel.Location = new Point(10, 3); // Adjust the location as needed
+            headerLabel.Location = new Point(10, 3);
             headerPanel.Controls.Add(headerLabel);
         }
 
@@ -64,7 +64,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             if (isMinimized)
             {
-                this.Size = new System.Drawing.Size(600, 600);
+                this.Size = new System.Drawing.Size(600, 273);
                // this.contentPanel.Visible = true;
                 this.minimizeButton.Text = "-";
             }
@@ -161,6 +161,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_MoveSpeed2_SettingsWidget.Checked = _mainForm.checkBox_MoveSpeed2.Checked;
             checkBox_FullBright_SettingsWidget.Checked = _mainForm.checkBox_FullBright.Checked;
             checkBox_InfStamina_SettingsWidget.Checked = _mainForm.checkBox_InfStamina.Checked;
+            checkBox_FastLoadUnload_SettingsWidget.Checked = _mainForm.checkBox_FastLoadUnload.Checked;
             checkBox_LTW_SettingsWidget.Checked = _mainForm.checkBox_LTW.Checked;
         }
 

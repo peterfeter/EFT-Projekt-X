@@ -58,7 +58,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = SystemColors.Control;
             headerPanel.Controls.Add(minimizeButton);
             headerPanel.Location = new Point(0, 0);
             headerPanel.Name = "headerPanel";
@@ -75,7 +74,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             minimizeButton.Size = new Size(22, 20);
             minimizeButton.TabIndex = 0;
             minimizeButton.Text = "-";
-            minimizeButton.UseVisualStyleBackColor = true;
             minimizeButton.Click += minimizeButton_Click;
             // 
             // button_Restart_SettingsWidget
@@ -87,7 +85,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_Restart_SettingsWidget.Size = new Size(88, 23);
             button_Restart_SettingsWidget.TabIndex = 19;
             button_Restart_SettingsWidget.Text = "Restart Radar";
-            button_Restart_SettingsWidget.UseVisualStyleBackColor = false;
             button_Restart_SettingsWidget.Click += button_Restart_SettingsWidget_Click;
             // 
             // checkBox_MoveSpeed2_SettingsWidget
@@ -98,7 +95,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_MoveSpeed2_SettingsWidget.Size = new Size(152, 19);
             checkBox_MoveSpeed2_SettingsWidget.TabIndex = 81;
             checkBox_MoveSpeed2_SettingsWidget.Text = "1.4x Move Speed (Risky)";
-            checkBox_MoveSpeed2_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_MoveSpeed2_SettingsWidget.CheckedChanged += checkBox_MoveSpeed2_SettingsWidget_CheckedChanged;
             // 
             // checkBox_MoveSpeed_SettingsWidget
@@ -109,7 +105,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_MoveSpeed_SettingsWidget.Size = new Size(152, 19);
             checkBox_MoveSpeed_SettingsWidget.TabIndex = 80;
             checkBox_MoveSpeed_SettingsWidget.Text = "1.2x Move Speed (Risky)";
-            checkBox_MoveSpeed_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_MoveSpeed_SettingsWidget.CheckedChanged += checkBox_MoveSpeed_SettingsWidget_CheckedChanged;
             // 
             // button_GymHack_SettingsWidget
@@ -120,7 +115,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_GymHack_SettingsWidget.Size = new Size(96, 23);
             button_GymHack_SettingsWidget.TabIndex = 82;
             button_GymHack_SettingsWidget.Text = "Gym Hack";
-            button_GymHack_SettingsWidget.UseVisualStyleBackColor = false;
             button_GymHack_SettingsWidget.Click += button_GymHack_SettingsWidget_Click;
             // 
             // checkBox_FullBright_SettingsWidget
@@ -131,7 +125,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_FullBright_SettingsWidget.Size = new Size(80, 19);
             checkBox_FullBright_SettingsWidget.TabIndex = 83;
             checkBox_FullBright_SettingsWidget.Text = "Full Bright";
-            checkBox_FullBright_SettingsWidget.UseVisualStyleBackColor = true;
             checkBox_FullBright_SettingsWidget.CheckedChanged += checkBox_FullBright_SettingsWidget_CheckedChanged;
             // 
             // button_AntiAfk_SettingsWidget
@@ -142,7 +135,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_AntiAfk_SettingsWidget.Size = new Size(96, 23);
             button_AntiAfk_SettingsWidget.TabIndex = 84;
             button_AntiAfk_SettingsWidget.Text = "Anti-AFK";
-            button_AntiAfk_SettingsWidget.UseVisualStyleBackColor = false;
             button_AntiAfk_SettingsWidget.Click += button_AntiAfk_SettingsWidget_Click;
             // 
             // checkBox_InfStamina_SettingsWidget
@@ -153,7 +145,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_InfStamina_SettingsWidget.Size = new Size(147, 19);
             checkBox_InfStamina_SettingsWidget.TabIndex = 85;
             checkBox_InfStamina_SettingsWidget.Text = "Infinite Stamina (Risky)";
-            checkBox_InfStamina_SettingsWidget.UseVisualStyleBackColor = true;
             checkBox_InfStamina_SettingsWidget.CheckedChanged += checkBox_InfStamina_SettingsWidget_CheckedChanged;
             // 
             // checkBox_LTW_SettingsWidget
@@ -164,7 +155,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_LTW_SettingsWidget.Size = new Size(168, 19);
             checkBox_LTW_SettingsWidget.TabIndex = 86;
             checkBox_LTW_SettingsWidget.Text = "Loot Through Walls (Risky)";
-            checkBox_LTW_SettingsWidget.UseVisualStyleBackColor = true;
             checkBox_LTW_SettingsWidget.CheckedChanged += checkBox_LTW_SettingsWidget_CheckedChanged;
             // 
             // checkBox_FastLoadUnload_SettingsWidget
@@ -175,7 +165,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_FastLoadUnload_SettingsWidget.Size = new Size(119, 19);
             checkBox_FastLoadUnload_SettingsWidget.TabIndex = 87;
             checkBox_FastLoadUnload_SettingsWidget.Text = "Fast Load/Unload";
-            checkBox_FastLoadUnload_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_FastLoadUnload_SettingsWidget.CheckedChanged += checkBox_FastLoadUnload_SettingsWidget_CheckedChanged;
             // 
             // checkBox_Chams_SettingsWidget
@@ -186,7 +175,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Chams_SettingsWidget.Size = new Size(63, 19);
             checkBox_Chams_SettingsWidget.TabIndex = 88;
             checkBox_Chams_SettingsWidget.Text = "Chams";
-            checkBox_Chams_SettingsWidget.UseVisualStyleBackColor = false;
             checkBox_Chams_SettingsWidget.CheckedChanged += checkBox_Chams_SettingsWidget_CheckedChanged;
             // 
             // tabControl1
@@ -200,12 +188,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new Point(0, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(586, 262);
+            tabControl1.Size = new Size(600, 247);
             tabControl1.TabIndex = 89;
             // 
             // tabPage1
             // 
-            tabPage1.BackColor = Color.Transparent;
             tabPage1.BackgroundImageLayout = ImageLayout.None;
             tabPage1.Controls.Add(button_Restart_SettingsWidget);
             tabPage1.Controls.Add(checkedListBox_QuestHelper_SettingsWidget);
@@ -221,7 +208,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1.Location = new Point(4, 24);
             tabPage1.Margin = new Padding(0);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(578, 234);
+            tabPage1.Size = new Size(592, 219);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Quick Settings";
             // 
@@ -229,7 +216,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             checkedListBox_QuestHelper_SettingsWidget.BorderStyle = BorderStyle.FixedSingle;
             checkedListBox_QuestHelper_SettingsWidget.FormattingEnabled = true;
-            checkedListBox_QuestHelper_SettingsWidget.Location = new Point(0, 82);
+            checkedListBox_QuestHelper_SettingsWidget.Location = new Point(4, 82);
             checkedListBox_QuestHelper_SettingsWidget.Name = "checkedListBox_QuestHelper_SettingsWidget";
             checkedListBox_QuestHelper_SettingsWidget.Size = new Size(343, 128);
             checkedListBox_QuestHelper_SettingsWidget.TabIndex = 48;
@@ -242,7 +229,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(578, 234);
+            tabPage2.Size = new Size(592, 219);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             // 
@@ -250,15 +237,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Desktop;
-            ClientSize = new Size(601, 306);
+            BackColor = Color.Black;
+            ClientSize = new Size(600, 273);
             Controls.Add(tabControl1);
             Controls.Add(headerPanel);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SettingsWidgetForm";
             Text = "SettingsWidgetForm";
             TopMost = true;
-            Load += SettingsWidgetForm_Load;
             headerPanel.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -267,72 +253,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
 
         }
 
-        private void SettingsWidgetForm_Load(object sender, EventArgs e)
-        {
-            ApplyTheme();
-        }
-
-        private void ApplyTheme()
-        {
-            bool isDarkMode = IsDarkModeEnabled();
-
-            Color contentBackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
-            Color tabControlBackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
-            Color tabpage1BackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
-            Color tabpage2BackgroundColor = isDarkMode ? Color.FromArgb(45, 45, 48) : SystemColors.ControlLightLight;
-            Color headerBackgroundColor = isDarkMode ? Color.FromArgb(35, 35, 38) : SystemColors.Control;
-            Color foregroundColor = isDarkMode ? Color.White : SystemColors.ControlText;
-            Color tabBorderColor = isDarkMode ? Color.FromArgb(28, 28, 28) : SystemColors.ControlDark;
-
-            BackColor = contentBackgroundColor;
-            ForeColor = foregroundColor;
-
-            headerPanel.BackColor = headerBackgroundColor;
-            headerPanel.ForeColor = foregroundColor;
-            //contentPanel.BackColor = contentBackgroundColor;
-            //contentPanel.ForeColor = foregroundColor;
-            tabControl1.BackColor = tabControlBackgroundColor;
-            tabControl1.ForeColor = foregroundColor;
-            tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
-            tabControl1.DrawItem += (sender, e) =>
-            {
-                TabPage tabPage = tabControl1.TabPages[e.Index];
-                Rectangle tabRect = tabControl1.GetTabRect(e.Index);
-                using (Brush brush = new SolidBrush(tabControlBackgroundColor))
-                {
-                    e.Graphics.FillRectangle(brush, tabRect);
-                }
-                using (Pen pen = new Pen(tabBorderColor))
-                {
-                    e.Graphics.DrawRectangle(pen, tabRect);
-                }
-                TextRenderer.DrawText(e.Graphics, tabPage.Text, tabPage.Font, tabRect, foregroundColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-            };
-
-            tabPage1.BackColor = tabControlBackgroundColor;
-            tabPage1.ForeColor = foregroundColor;
-            tabPage2.BackColor = tabControlBackgroundColor;
-            tabPage2.ForeColor = foregroundColor;
-            minimizeButton.BackColor = headerBackgroundColor;
-            minimizeButton.ForeColor = foregroundColor;
-
-            checkedListBox_QuestHelper_SettingsWidget.BackColor = contentBackgroundColor;
-            checkedListBox_QuestHelper_SettingsWidget.ForeColor = foregroundColor;
-        }
-        private bool IsDarkModeEnabled()
-        {
-            const string registryKey = @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
-            const string registryValue = "AppsUseLightTheme";
-
-            object registryValueObject = Registry.GetValue(registryKey, registryValue, null);
-            if (registryValueObject == null)
-            {
-                return false;
-            }
-
-            int registryValueInt = (int)registryValueObject;
-            return registryValueInt == 0;
-        }
 
         #endregion
 
