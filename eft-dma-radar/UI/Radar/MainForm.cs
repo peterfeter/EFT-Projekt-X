@@ -69,6 +69,9 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_Chams;
         public CheckBox checkBox_AimBotEnabled;
         public CheckedListBox checkedListBox_QuestHelper;
+        public CheckBox checkBox_SA_SafeLock;
+        public CheckBox checkBox_SA_AutoBone;
+        public RadioButton radioButton_AimTarget_FOV;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -220,6 +223,8 @@ namespace eft_dma_radar.UI.Radar
             var interval = TimeSpan.FromMilliseconds(1000d / Config.RadarTargetFPS);
             _renderTimer = new(interval);
             Shown += MainForm_Shown;
+            trackBar_AimFOV.ValueChanged += TrackBar_AimFOV_ValueChanged;
+            comboBox_AimbotTarget.SelectedIndexChanged += comboBox_AimbotTarget_SelectedIndexChanged;
         }
 
         private void TrackBar_ContainerDist_ValueChanged(object sender, EventArgs e)
@@ -942,12 +947,15 @@ namespace eft_dma_radar.UI.Radar
         {
             MemWriteFeature<RageMode>.Instance.Enabled = checkBox_RageMode.Checked;
         }
-        private void checkBox_AimRandomBone_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimRandomBone_CheckedChanged(object sender, EventArgs e)
         {
             bool enabled = checkBox_AimRandomBone.Checked;
             Aimbot.Config.RandomBone.Enabled = enabled;
             button_RandomBoneCfg.Enabled = enabled;
             comboBox_AimbotTarget.Enabled = !enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimRandomBoneCheckbox(enabled);
         }
 
         private void button_RandomBoneCfg_Click(object sender, EventArgs e)
@@ -957,19 +965,31 @@ namespace eft_dma_radar.UI.Radar
             if (!Aimbot.Config.RandomBone.Is100Percent)
                 Aimbot.Config.RandomBone.ResetDefaults();
         }
-        private void checkBox_SA_AutoBone_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_SA_AutoBone_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.SilentAim.AutoBone = checkBox_SA_AutoBone.Checked;
+            bool enabled = checkBox_SA_AutoBone.Checked;
+            Aimbot.Config.SilentAim.AutoBone = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateSA_AutoBoneCheckbox(enabled);
         }
 
         private void checkBox_HeadAI_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.HeadshotAI = checkBox_AimHeadAI.Checked;
+            bool enabled = checkBox_AimHeadAI.Checked;
+            Aimbot.Config.HeadshotAI = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimHeadAICheckbox(enabled);
         }
 
-        private void checkBox_SA_SafeLock_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_SA_SafeLock_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.SilentAim.SafeLock = checkBox_SA_SafeLock.Checked;
+            bool enabled = checkBox_SA_SafeLock.Checked;
+            Aimbot.Config.SilentAim.SafeLock = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateSA_SafeLockCheckbox(enabled);
         }
 
         private void checkBox_TeammateAimlines_CheckedChanged(object sender, EventArgs e)
@@ -1051,9 +1071,13 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
-        private void checkBox_AimbotDisableReLock_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimbotDisableReLock_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.DisableReLock = checkBox_AimbotDisableReLock.Checked;
+            bool enabled = checkBox_AimbotDisableReLock.Checked;
+            Aimbot.Config.DisableReLock = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimbotDisableReLockCheckbox(enabled);
         }
 
         /// <summary>
@@ -1250,6 +1274,9 @@ namespace eft_dma_radar.UI.Radar
                 _settingsWidgetForm = new SettingsWidgetForm(this);
                 _settingsWidgetForm.Show();
                 _settingsWidgetForm.UpdateCheckboxStates();
+                _settingsWidgetForm.UpdateTrackBarAimFOV(trackBar_AimFOV.Value);
+                _settingsWidgetForm.UpdateLabelAimFOV(trackBar_AimFOV.Value);
+                _settingsWidgetForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget.SelectedIndex);
             }
         }
 
@@ -1684,9 +1711,23 @@ namespace eft_dma_radar.UI.Radar
 
         private void comboBox_AimbotTarget_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox_AimbotTarget.SelectedItem is BonesListItem entry) Aimbot.Config.Bone = entry.Bone;
-        }
+            if (comboBox_AimbotTarget.SelectedItem is BonesListItem entry)
+            {
+                Aimbot.Config.Bone = entry.Bone;
+            }
 
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget.SelectedIndex);
+            }
+        }
+        public void UpdateComboBoxAimbotTarget(int selectedIndex)
+        {
+            if (comboBox_AimbotTarget.SelectedIndex != selectedIndex)
+            {
+                comboBox_AimbotTarget.SelectedIndex = selectedIndex;
+            }
+        }
         private void TrackBar_MaxDist_ValueChanged(object sender, EventArgs e)
         {
             Config.MaxDistance = trackBar_MaxDist.Value;
@@ -1718,23 +1759,44 @@ namespace eft_dma_radar.UI.Radar
             MemWriteFeature<AlwaysDaySunny>.Instance.Enabled = checkBox_AlwaysDaySunny.Checked;
         }
 
-        private void radioButton_AimbotDefaultMode_CheckedChanged(object sender, EventArgs e)
+        public void radioButton_AimbotDefaultMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_AimTarget_FOV.Checked)
+            bool isChecked = radioButton_AimTarget_FOV.Checked;
+            if (radioButton_AimTarget_FOV.Enabled = isChecked)
                 Aimbot.Config.TargetingMode = Aimbot.AimbotTargetingMode.FOV;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimTarget_FOVCheckbox(isChecked);
         }
 
-        private void radioButton_AimbotCQBMode_CheckedChanged(object sender, EventArgs e)
+        public void radioButton_AimbotCQBMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_AimTarget_CQB.Checked)
+            bool isChecked = radioButton_AimTarget_CQB.Checked;
+            if (radioButton_AimTarget_CQB.Enabled = isChecked)
                 Aimbot.Config.TargetingMode = Aimbot.AimbotTargetingMode.CQB;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimTarget_CQBCheckbox(isChecked);
         }
 
         private void TrackBar_AimFOV_ValueChanged(object sender, EventArgs e)
         {
-            float fov = trackBar_AimFOV.Value; // Cache value
-            Aimbot.Config.FOV = fov; // Set Global
-            label_AimFOV.Text = $"FOV {(int)fov}";
+            int value = trackBar_AimFOV.Value;
+            label_AimFOV.Text = $"FOV {value}";
+            _settingsWidgetForm?.UpdateTrackBarAimFOV(value);
+            _settingsWidgetForm?.UpdateLabelAimFOV(value);
+        }
+
+        public void UpdateTrackBarAimFOV(int value)
+        {
+            if (trackBar_AimFOV.Value != value)
+            {
+                trackBar_AimFOV.Value = value;
+            }
+        }
+        public void UpdateLabelAimFOV(int value)
+        {
+            label_AimFOV.Text = $"FOV {value}";
         }
 
         private void checkBox_LootPPS_CheckedChanged(object sender, EventArgs e)
@@ -2328,7 +2390,7 @@ namespace eft_dma_radar.UI.Radar
             textBox_LootImpValue.Text = Config.MinValuableLootValue.ToString();
         }
 
-        private void PopulateComboBoxes()
+        public void PopulateComboBoxes()
         {
             /// Aimbot Bones
             var bones = new List<BonesListItem>();

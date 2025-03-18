@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using eft_dma_radar.UI.Radar;
 using eft_dma_shared.Common.Misc;
+using eft_dma_radar.UI.Misc;
+using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
@@ -34,6 +36,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             UpdateCheckboxStates();
             InitializeHeaderText();
             PopulateQuestHelperList();
+            PopulateComboBoxAimbotTarget();
+            trackBar_AimFOV_SettingsWidget.ValueChanged += TrackBar_AimFOV_SettingsWidget_ValueChanged;
+            comboBox_AimbotTarget_SettingsWidget.SelectedIndexChanged += ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged;
+            checkBox_AimRandomBone_SettingsWidget.CheckedChanged += checkBox_AimRandomBone_SettingsWidget_CheckedChanged;
+            UpdateComboBoxAimbotTarget(_mainForm.comboBox_AimbotTarget.SelectedIndex);
         }
         #endregion
 
@@ -95,7 +102,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                     this.Location.Y + e.Y - lastMousePosition.Y);
             }
         }
-
+        #region Clicks and CheckChanged
         private void button_Restart_SettingsWidget_Click(object sender, EventArgs e)
         {
             MainForm.button_Restart_Click(sender, e);
@@ -145,11 +152,59 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_Chams.Checked = checkBox_Chams_SettingsWidget.Checked;
         }
-        private void checkBox_AimBotEnabled_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_AimBotEnabled_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
             _mainForm.checkBox_AimBotEnabled.Checked = checkBox_AimBotEnabled_SettingsWidget.Checked;
         }
+        private void checkBox_SA_SafeLock_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_SA_SafeLock.Checked = checkBox_SA_SafeLock_SettingsWidget.Checked;
+        }
+        private void checkBox_SA_AutoBone_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_SA_AutoBone.Checked = checkBox_SA_AutoBone_SettingsWidget.Checked;
+        }
+        private void radioButton_AimTarget_FOV_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.radioButton_AimTarget_FOV.Checked = radioButton_AimTarget_FOV_SettingsWidget.Checked;
+        }
+        private void radioButton_AimTarget_CQB_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.radioButton_AimTarget_CQB.Checked = radioButton_AimTarget_CQB_SettingsWidget.Checked;
+        }
+        private void checkBox_AimbotDisableReLock_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_AimbotDisableReLock.Checked = checkBox_AimbotDisableReLock_SettingsWidget.Checked;
+        }
+        private void TrackBar_AimFOV_SettingsWidget_ValueChanged(object sender, EventArgs e)
+        {
+            int value = trackBar_AimFOV_SettingsWidget.Value;
+            label_AimFOV_SettingsWidget.Text = $"FOV {value}";
+            _mainForm.UpdateTrackBarAimFOV(value);
+            _mainForm.UpdateLabelAimFOV(value);
+        }
+        private void checkBox_AimHeadAI_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_AimHeadAI.Checked = checkBox_AimHeadAI_SettingsWidget.Checked;
+        }
+        private void checkBox_AimRandomBone_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_AimRandomBone.Checked = checkBox_AimRandomBone_SettingsWidget.Checked;
+            comboBox_AimbotTarget_SettingsWidget.Enabled = !checkBox_AimRandomBone_SettingsWidget.Checked;
+        }
+        private void ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_AimbotTarget_SettingsWidget.SelectedItem is BonesListItem entry)
+            {
+                Aimbot.Config.Bone = entry.Bone;
+            }
 
+            if (_mainForm != null)
+            {
+                _mainForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget_SettingsWidget.SelectedIndex);
+            }
+
+        }
         private void checkedListBox_QuestHelper_SettingsWidget_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             // Update the corresponding item in the main form's checkedListBox_QuestHelper
@@ -157,6 +212,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             _mainForm.QuestHelperListBox.SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
             _mainForm.QuestHelperListBox.ItemCheck += _mainForm.CheckedListBox_QuestHelper_ItemCheck;
         }
+        #endregion
         #endregion
 
         #region Methods
@@ -169,6 +225,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_FastLoadUnload_SettingsWidget.Checked = _mainForm.checkBox_FastLoadUnload.Checked;
             checkBox_LTW_SettingsWidget.Checked = _mainForm.checkBox_LTW.Checked;
             checkBox_AimBotEnabled_SettingsWidget.Checked = _mainForm.checkBox_AimBotEnabled.Checked;
+            checkBox_SA_SafeLock_SettingsWidget.Checked = _mainForm.checkBox_SA_SafeLock.Checked;
+            checkBox_SA_AutoBone_SettingsWidget.Checked = _mainForm.checkBox_SA_AutoBone.Checked;
+            radioButton_AimTarget_FOV_SettingsWidget.Checked = _mainForm.radioButton_AimTarget_FOV.Checked;
+            radioButton_AimTarget_CQB_SettingsWidget.Checked = _mainForm.radioButton_AimTarget_CQB.Checked;
+            checkBox_AimbotDisableReLock_SettingsWidget.Checked = _mainForm.checkBox_AimbotDisableReLock.Checked;
+            checkBox_AimHeadAI_SettingsWidget.Checked = _mainForm.checkBox_AimHeadAI.Checked;
+            checkBox_AimRandomBone_SettingsWidget.Checked = _mainForm.checkBox_AimRandomBone.Checked;
         }
 
         public void UpdateMoveSpeedCheckbox(bool isChecked)
@@ -210,12 +273,65 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             checkBox_AimBotEnabled_SettingsWidget.Checked = isChecked;
         }
-
+        public void UpdateSA_SafeLockCheckbox(bool isChecked)
+        {
+            checkBox_SA_SafeLock_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateSA_AutoBoneCheckbox(bool isChecked)
+        {
+            checkBox_SA_AutoBone_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateAimTarget_FOVCheckbox(bool isChecked)
+        {
+            radioButton_AimTarget_FOV_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateAimTarget_CQBCheckbox(bool isChecked)
+        {
+            radioButton_AimTarget_CQB_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateAimbotDisableReLockCheckbox(bool isChecked)
+        {
+            checkBox_AimbotDisableReLock_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateAimHeadAICheckbox(bool isChecked)
+        {
+            checkBox_AimHeadAI_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateAimRandomBoneCheckbox(bool isChecked)
+        {
+            checkBox_AimRandomBone_SettingsWidget.Checked = isChecked;
+        }
         public void UpdateQuestHelperList(int index, bool isChecked)
         {
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck -= checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
             checkedListBox_QuestHelper_SettingsWidget.SetItemChecked(index, isChecked);
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck += checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
+        }
+        public void UpdateTrackBarAimFOV(int value)
+        {
+            if (trackBar_AimFOV_SettingsWidget.Value != value)
+            {
+                trackBar_AimFOV_SettingsWidget.Value = value;
+            }
+        }
+        public void UpdateLabelAimFOV(int value)
+        {
+            label_AimFOV_SettingsWidget.Text = $"FOV {value}";
+        }
+        public void UpdateComboBoxAimbotTarget(int selectedIndex)
+        {
+            if (comboBox_AimbotTarget_SettingsWidget.SelectedIndex != selectedIndex)
+            {
+                comboBox_AimbotTarget_SettingsWidget.SelectedIndex = selectedIndex;
+            }
+        }
+        private void PopulateComboBoxAimbotTarget()
+        {
+            comboBox_AimbotTarget_SettingsWidget.Items.Clear();
+            foreach (var item in _mainForm.comboBox_AimbotTarget.Items)
+            {
+                comboBox_AimbotTarget_SettingsWidget.Items.Add(item);
+            }
         }
         #endregion
 
