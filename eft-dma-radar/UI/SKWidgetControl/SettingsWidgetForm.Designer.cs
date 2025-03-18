@@ -51,9 +51,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1 = new TabPage();
             checkedListBox_QuestHelper_SettingsWidget = new CheckedListBox();
             tabPage2 = new TabPage();
+            checkBox_AimBotEnabled_SettingsWidget = new CheckBox();
+            tabPage3 = new TabPage();
+            tabPage4 = new TabPage();
             headerPanel.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // headerPanel
@@ -181,6 +185,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.ImeMode = ImeMode.NoControl;
             tabControl1.Location = new Point(0, 23);
             tabControl1.Margin = new Padding(0);
@@ -226,12 +232,45 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             tabPage2.BackColor = Color.Transparent;
             tabPage2.BorderStyle = BorderStyle.FixedSingle;
+            tabPage2.Controls.Add(checkBox_AimBotEnabled_SettingsWidget);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(592, 219);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Aim Bot";
+            // 
+            // checkBox_AimBotEnabled_SettingsWidget
+            // 
+            checkBox_AimBotEnabled_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_AimBotEnabled_SettingsWidget.AutoSize = true;
+            checkBox_AimBotEnabled_SettingsWidget.Location = new Point(6, 6);
+            checkBox_AimBotEnabled_SettingsWidget.Name = "checkBox_AimBotEnabled_SettingsWidget";
+            checkBox_AimBotEnabled_SettingsWidget.Size = new Size(104, 19);
+            checkBox_AimBotEnabled_SettingsWidget.TabIndex = 61;
+            checkBox_AimBotEnabled_SettingsWidget.Text = "Aimbot (Risky)";
+            checkBox_AimBotEnabled_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_AimBotEnabled_SettingsWidget.CheckedChanged += checkBox_AimBotEnabled_CheckedChanged;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(592, 219);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "tabPage3";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(592, 219);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "tabPage4";
+            tabPage4.UseVisualStyleBackColor = true;
             // 
             // SettingsWidgetForm
             // 
@@ -249,6 +288,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -273,5 +314,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
+        private TabPage tabPage3;
+        private TabPage tabPage4;
+        private CheckBox checkBox_AimBotEnabled_SettingsWidget;
     }
 }

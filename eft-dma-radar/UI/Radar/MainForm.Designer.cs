@@ -3544,7 +3544,6 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_GrpConnect;
         private CheckBox checkBox_NoRecoilSway;
         private CheckBox checkBox_NoVisor;
-        private CheckBox checkBox_AimBotEnabled;
         private Button button_HotkeyManager;
         private Label label10;
         private ComboBox comboBox_AimbotTarget;

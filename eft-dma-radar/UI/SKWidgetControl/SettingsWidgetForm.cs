@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using eft_dma_radar.UI.Radar;
 using eft_dma_shared.Common.Misc;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
 {
@@ -65,7 +66,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             if (isMinimized)
             {
                 this.Size = new System.Drawing.Size(600, 273);
-               // this.contentPanel.Visible = true;
+                // this.contentPanel.Visible = true;
                 this.minimizeButton.Text = "-";
             }
             else
@@ -144,6 +145,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_Chams.Checked = checkBox_Chams_SettingsWidget.Checked;
         }
+        private void checkBox_AimBotEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_AimBotEnabled.Checked = checkBox_AimBotEnabled_SettingsWidget.Checked;
+        }
 
         private void checkedListBox_QuestHelper_SettingsWidget_ItemCheck(object sender, ItemCheckEventArgs e)
         {
@@ -163,6 +168,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_InfStamina_SettingsWidget.Checked = _mainForm.checkBox_InfStamina.Checked;
             checkBox_FastLoadUnload_SettingsWidget.Checked = _mainForm.checkBox_FastLoadUnload.Checked;
             checkBox_LTW_SettingsWidget.Checked = _mainForm.checkBox_LTW.Checked;
+            checkBox_AimBotEnabled_SettingsWidget.Checked = _mainForm.checkBox_AimBotEnabled.Checked;
         }
 
         public void UpdateMoveSpeedCheckbox(bool isChecked)
@@ -200,6 +206,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Chams_SettingsWidget.Checked = isChecked;
         }
 
+        public void UpdateAimBotEnabledCheckbox(bool isChecked)
+        {
+            checkBox_AimBotEnabled_SettingsWidget.Checked = isChecked;
+        }
+
         public void UpdateQuestHelperList(int index, bool isChecked)
         {
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck -= checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
@@ -221,5 +232,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                 SharedPaints.PaintBitmapAlpha.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
             }
         }
+
+
     }
 }

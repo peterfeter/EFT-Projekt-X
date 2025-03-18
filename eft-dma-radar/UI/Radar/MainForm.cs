@@ -67,6 +67,7 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_LTW;
         public CheckBox checkBox_FastLoadUnload;
         public CheckBox checkBox_Chams;
+        public CheckBox checkBox_AimBotEnabled;
         public CheckedListBox checkedListBox_QuestHelper;
         /// <summary>
         /// Main UI/Application Config.
@@ -1628,10 +1629,15 @@ namespace eft_dma_radar.UI.Radar
             MemWriteFeature<NoVisor>.Instance.Enabled = checkBox_NoVisor.Checked;
         }
 
-        private void checkBox_AimBot_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimBot_CheckedChanged(object sender, EventArgs e)
         {
+            bool isChecked = checkBox_AimBotEnabled.Checked;
+            MemWriteFeature<Aimbot>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimBotEnabledCheckbox(isChecked);
+
             var enabled = checkBox_AimBotEnabled.Checked;
-            MemWriteFeature<Aimbot>.Instance.Enabled = enabled;
             flowLayoutPanel_Aimbot.Enabled = enabled;
         }
         private void checkBox_EnableMemWrite_CheckedChanged(object sender, EventArgs e)
