@@ -3544,7 +3544,6 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_GrpConnect;
         private CheckBox checkBox_NoRecoilSway;
         private CheckBox checkBox_NoVisor;
-        private CheckBox checkBox_AimBotEnabled;
         private Button button_HotkeyManager;
         private Label label10;
         private ComboBox comboBox_AimbotTarget;
@@ -3563,7 +3562,6 @@ namespace eft_dma_radar.UI.Radar
         private DataGridViewTextBoxColumn Column_PWReason;
         private DataGridViewTextBoxColumn Column_PWTimestamp;
         private CheckBox checkBox_QuestHelper_Enabled;
-        private CheckBox checkBox_Chams;
         private RadioButton radioButton_AimTarget_CQB;
         private RadioButton radioButton_AimTarget_FOV;
         private Button button_StartESP;
@@ -3736,7 +3734,6 @@ namespace eft_dma_radar.UI.Radar
         private Button button_GymHack;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
-        private CheckBox checkBox_FastLoadUnload;
         private FlowLayoutPanel flowLayoutPanel_AdvancedChams;
         private Label label14;
         private Label label15;
@@ -3754,7 +3751,6 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_LootWishlist;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label label34;
-        private CheckedListBox checkedListBox_QuestHelper;
         private CheckBox checkBox_hideRaidcode;
         private CheckBox checkBox1;
         private LinkLabel linkLabel_CheckForUpdates;

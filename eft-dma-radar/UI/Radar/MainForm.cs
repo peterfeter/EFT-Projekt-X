@@ -65,6 +65,10 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_FullBright;
         public CheckBox checkBox_InfStamina;
         public CheckBox checkBox_LTW;
+        public CheckBox checkBox_FastLoadUnload;
+        public CheckBox checkBox_Chams;
+        public CheckBox checkBox_AimBotEnabled;
+        public CheckedListBox checkedListBox_QuestHelper;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -183,6 +187,11 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
+        public CheckedListBox QuestHelperListBox
+        {
+            get { return checkedListBox_QuestHelper; }
+        }
+
         #endregion
 
         #region Constructor
@@ -207,6 +216,7 @@ namespace eft_dma_radar.UI.Radar
             SetupDataGrids();
             SetMemWriteFeatures();
             SetUiValues();
+            SetUiEventHandlers();
             var interval = TimeSpan.FromMilliseconds(1000d / Config.RadarTargetFPS);
             _renderTimer = new(interval);
             Shown += MainForm_Shown;
@@ -218,7 +228,6 @@ namespace eft_dma_radar.UI.Radar
             label_ContainerDist.Text = $"Container Dist: {amt}";
             Config.ContainerDrawDistance = amt;
         }
-
         #endregion
 
         #region Render
@@ -644,8 +653,15 @@ namespace eft_dma_radar.UI.Radar
 
         #region Event
 
-        private void CheckedListBox_QuestHelper_ItemCheck(object sender, ItemCheckEventArgs e)
+        public void CheckedListBox_QuestHelper_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            // Update the corresponding item in the SettingsWidgetForm's checkedListBox_QuestHelper_SettingsWidget
+            if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
+            {
+                _settingsWidgetForm.UpdateQuestHelperList(e.Index, e.NewValue == CheckState.Checked);
+            }
+
+            // Update the configuration based on the checked state
             if (e.NewValue == CheckState.Checked)
             {
                 if (checkedListBox_QuestHelper.Items[e.Index] is QuestListItem item)
@@ -742,7 +758,11 @@ namespace eft_dma_radar.UI.Radar
 
         private void checkBox_FastLoadUnload_CheckedChanged(object sender, EventArgs e)
         {
-            MemPatchFeature<FastLoadUnload>.Instance.Enabled = checkBox_FastLoadUnload.Checked;
+            bool isChecked = checkBox_FastLoadUnload.Checked;
+            MemPatchFeature<FastLoadUnload>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateFastLoadUnloadCheckbox(isChecked);
         }
         private void checkBox_FastWeaponOps_CheckedChanged(object sender, EventArgs e)
         {
@@ -1218,7 +1238,7 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Event Opens SettingsWidgetForm
         /// </summary>
-        private void button_SettingsWidget_click(object sender, EventArgs e)
+        public void button_SettingsWidget_click(object sender, EventArgs e)
         {
             if (_settingsWidgetForm != null && !_settingsWidgetForm.IsDisposed)
             {
@@ -1609,10 +1629,15 @@ namespace eft_dma_radar.UI.Radar
             MemWriteFeature<NoVisor>.Instance.Enabled = checkBox_NoVisor.Checked;
         }
 
-        private void checkBox_AimBot_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimBot_CheckedChanged(object sender, EventArgs e)
         {
+            bool isChecked = checkBox_AimBotEnabled.Checked;
+            MemWriteFeature<Aimbot>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimBotEnabledCheckbox(isChecked);
+
             var enabled = checkBox_AimBotEnabled.Checked;
-            MemWriteFeature<Aimbot>.Instance.Enabled = enabled;
             flowLayoutPanel_Aimbot.Enabled = enabled;
         }
         private void checkBox_EnableMemWrite_CheckedChanged(object sender, EventArgs e)
@@ -1678,8 +1703,13 @@ namespace eft_dma_radar.UI.Radar
 
         private void checkBox_Chams_CheckedChanged(object sender, EventArgs e)
         {
+            bool isChecked = checkBox_Chams.Checked;
+            MemWriteFeature<Chams>.Instance.Enabled = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateChamsCheckbox(isChecked);
+
             var enabled = checkBox_Chams.Checked;
-            MemWriteFeature<Chams>.Instance.Enabled = enabled;
             flowLayoutPanel_Chams.Enabled = enabled;
         }
 
@@ -1764,7 +1794,7 @@ namespace eft_dma_radar.UI.Radar
         /// <summary>
         /// Refresh quest helper (if enabled).
         /// </summary>
-        private void RefreshQuestHelper()
+        public void RefreshQuestHelper()
         {
             if (Config.QuestHelper.Enabled && Memory.InRaid && Memory.QuestManager is QuestManager quests)
             {
