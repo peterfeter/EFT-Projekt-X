@@ -42,6 +42,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             comboBox_AimbotTarget_SettingsWidget.SelectedIndexChanged += ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged;
             checkBox_AimRandomBone_SettingsWidget.CheckedChanged += checkBox_AimRandomBone_SettingsWidget_CheckedChanged;
             UpdateComboBoxAimbotTarget(_mainForm.comboBox_AimbotTarget.SelectedIndex);
+            button_StartESP_SettingsWidget.Text = _mainForm.button_StartESP.Text;
+            button_StartESP_SettingsWidget.Enabled = button_StartESP_SettingsWidget.Text != "Running...";
         }
         #endregion
 
@@ -122,10 +124,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.button_StartESP_Click(sender, e);
         }
-        public void UpdateStartESPButtonText(string text)
-        {
-            button_StartESP_SettingsWidget.Text = text;
-        }
+
         private void button_RandomBoneCfg_SettingsWidget_Click(object sender, EventArgs e)
         {
             using var form = new AimbotRandomBoneForm();
@@ -348,6 +347,11 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             {
                 comboBox_AimbotTarget_SettingsWidget.Items.Add(item);
             }
+        } 
+        public void UpdateStartESPButtonText(string text)
+        {
+            button_StartESP_SettingsWidget.Text = text;
+            button_StartESP_SettingsWidget.Enabled = button_StartESP_SettingsWidget.Text != "Running...";
         }
         #endregion
 

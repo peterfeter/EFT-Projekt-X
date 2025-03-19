@@ -3086,6 +3086,7 @@ namespace eft_dma_radar.UI.Radar
         private void StartESP()
         {
             button_StartESP.Text = "Running...";
+            _settingsWidgetForm?.UpdateStartESPButtonText("Running...");
             flowLayoutPanel_ESPSettings.Enabled = false;
             flowLayoutPanel_MonitorSettings.Enabled = false;
             var t = new Thread(() =>
@@ -3105,6 +3106,7 @@ namespace eft_dma_radar.UI.Radar
                     Invoke(() =>
                     {
                         button_StartESP.Text = "Start ESP";
+                        _settingsWidgetForm?.UpdateStartESPButtonText("Start ESP");
                         flowLayoutPanel_ESPSettings.Enabled = true;
                         flowLayoutPanel_MonitorSettings.Enabled = true;
                     });
