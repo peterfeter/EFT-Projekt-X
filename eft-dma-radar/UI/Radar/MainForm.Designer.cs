@@ -3725,7 +3725,7 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_ESPContainerDist;
         private FlowLayoutPanel flowLayoutPanel_Loot_Containers;
         private Label label30;
-        private CheckBox checkBox_Containers_SelectAll;
+        public CheckBox checkBox_Containers_SelectAll;
         private Label label31;
         private CheckedListBox checkedListBox_Containers;
         private CheckBox checkBox_Containers_HideSearched;

@@ -329,7 +329,6 @@ namespace eft_dma_radar.UI.ESP
                 LoneLogging.WriteLine($"ERROR Setting ESP Status Text: {ex}");
             }
         }
-
         /// <summary>
         /// Draw fireport aim in front of player.
         /// </summary>

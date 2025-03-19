@@ -1783,6 +1783,8 @@ namespace eft_dma_radar.UI.Radar
         private void TrackBar_AimFOV_ValueChanged(object sender, EventArgs e)
         {
             int value = trackBar_AimFOV.Value;
+            float fov = trackBar_AimFOV.Value; // Cache value
+            Aimbot.Config.FOV = fov; // Set Global
             label_AimFOV.Text = $"FOV {value}";
             _settingsWidgetForm?.UpdateTrackBarAimFOV(value);
             _settingsWidgetForm?.UpdateLabelAimFOV(value);
@@ -3962,14 +3964,18 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
-        private void checkBox_Containers_SelectAll_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_Containers_SelectAll_CheckedChanged(object sender, EventArgs e)
         {
-            bool selectAll = checkBox_Containers_SelectAll.Checked;
+            bool enabled = checkBox_AimbotDisableReLock.Checked;
+            bool selectAll = checkBox_Containers_SelectAll.Enabled;
             Config.Containers.SelectAll = selectAll;
             if (selectAll)
             {
                 ContainersSelectAll();
+                _settingsWidgetForm?.UpdateContainers_SelectAllCheckbox(enabled);
             }
+
+ 
         }
 
         public sealed class ContainerListItem

@@ -190,6 +190,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_AimbotDisableReLock.Checked = checkBox_AimbotDisableReLock_SettingsWidget.Checked;
         }
+        private void checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_Containers_SelectAll.Checked = checkBox_Containers_SelectAll_SettingsWidget.Checked;
+        }
         private void TrackBar_AimFOV_SettingsWidget_ValueChanged(object sender, EventArgs e)
         {
             int value = trackBar_AimFOV_SettingsWidget.Value;
@@ -247,6 +251,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_AimbotDisableReLock_SettingsWidget.Checked = _mainForm.checkBox_AimbotDisableReLock.Checked;
             checkBox_AimHeadAI_SettingsWidget.Checked = _mainForm.checkBox_AimHeadAI.Checked;
             checkBox_AimRandomBone_SettingsWidget.Checked = _mainForm.checkBox_AimRandomBone.Checked;
+            checkBox_Containers_SelectAll_SettingsWidget.Checked = _mainForm.checkBox_Containers_SelectAll.Checked;
         }
 
         public void UpdateMoveSpeedCheckbox(bool isChecked)
@@ -316,6 +321,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             checkBox_AimRandomBone_SettingsWidget.Checked = isChecked;
         }
+        public void UpdateContainers_SelectAllCheckbox(bool isChecked)
+        {
+            checkBox_Containers_SelectAll_SettingsWidget.Checked = isChecked;
+        }
         public void UpdateQuestHelperList(int index, bool isChecked)
         {
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck -= checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
@@ -347,7 +356,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             {
                 comboBox_AimbotTarget_SettingsWidget.Items.Add(item);
             }
-        } 
+        }
         public void UpdateStartESPButtonText(string text)
         {
             button_StartESP_SettingsWidget.Text = text;

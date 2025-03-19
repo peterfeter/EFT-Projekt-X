@@ -49,17 +49,17 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Chams_SettingsWidget = new CheckBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            checkBox_Loot = new CheckBox();
-            checkBox_LootWishlist = new CheckBox();
-            checkBox_ShowContainers = new CheckBox();
+            checkBox_Loot_SettingsWidget = new CheckBox();
+            checkBox_LootWishlist_SettingsWidget = new CheckBox();
+            checkBox_ShowContainers_SettingsWidget = new CheckBox();
             flowLayoutPanel_Loot_Containers = new FlowLayoutPanel();
             label30 = new Label();
-            checkBox_Containers_SelectAll = new CheckBox();
+            checkBox_Containers_SelectAll_SettingsWidget = new CheckBox();
             label31 = new Label();
-            checkBox_Containers_HideSearched = new CheckBox();
-            checkedListBox_Containers = new CheckedListBox();
-            checkBox_EnableMemWrite = new CheckBox();
-            checkBox_AdvancedMemWrites = new CheckBox();
+            checkBox_Containers_HideSearched_SettingsWidget = new CheckBox();
+            checkedListBox_Containers_SettingsWidget = new CheckedListBox();
+            checkBox_EnableMemWrite_SettingsWidget = new CheckBox();
+            checkBox_AdvancedMemWrites_SettingsWidget = new CheckBox();
             button_StartESP_SettingsWidget = new Button();
             checkedListBox_QuestHelper_SettingsWidget = new CheckedListBox();
             tabPage2 = new TabPage();
@@ -233,6 +233,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             button_Restart_SettingsWidget.FlatStyle = FlatStyle.Popup;
             button_Restart_SettingsWidget.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button_Restart_SettingsWidget.ForeColor = Color.Red;
             button_Restart_SettingsWidget.Location = new Point(4, 3);
             button_Restart_SettingsWidget.Name = "button_Restart_SettingsWidget";
             button_Restart_SettingsWidget.Size = new Size(88, 23);
@@ -351,12 +352,12 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // tabPage1
             // 
             tabPage1.BackgroundImageLayout = ImageLayout.None;
-            tabPage1.Controls.Add(checkBox_Loot);
-            tabPage1.Controls.Add(checkBox_LootWishlist);
-            tabPage1.Controls.Add(checkBox_ShowContainers);
+            tabPage1.Controls.Add(checkBox_Loot_SettingsWidget);
+            tabPage1.Controls.Add(checkBox_LootWishlist_SettingsWidget);
+            tabPage1.Controls.Add(checkBox_ShowContainers_SettingsWidget);
             tabPage1.Controls.Add(flowLayoutPanel_Loot_Containers);
-            tabPage1.Controls.Add(checkBox_EnableMemWrite);
-            tabPage1.Controls.Add(checkBox_AdvancedMemWrites);
+            tabPage1.Controls.Add(checkBox_EnableMemWrite_SettingsWidget);
+            tabPage1.Controls.Add(checkBox_AdvancedMemWrites_SettingsWidget);
             tabPage1.Controls.Add(button_StartESP_SettingsWidget);
             tabPage1.Controls.Add(button_Restart_SettingsWidget);
             tabPage1.Controls.Add(checkedListBox_QuestHelper_SettingsWidget);
@@ -376,50 +377,50 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Quick Settings";
             // 
-            // checkBox_Loot
+            // checkBox_Loot_SettingsWidget
             // 
-            checkBox_Loot.Anchor = AnchorStyles.Right;
-            checkBox_Loot.AutoSize = true;
-            checkBox_Loot.Location = new Point(4, 257);
-            checkBox_Loot.Name = "checkBox_Loot";
-            checkBox_Loot.Size = new Size(105, 19);
-            checkBox_Loot.TabIndex = 93;
-            checkBox_Loot.Text = "Show Loot (F3)";
-            checkBox_Loot.UseVisualStyleBackColor = true;
+            checkBox_Loot_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_Loot_SettingsWidget.AutoSize = true;
+            checkBox_Loot_SettingsWidget.Location = new Point(4, 257);
+            checkBox_Loot_SettingsWidget.Name = "checkBox_Loot_SettingsWidget";
+            checkBox_Loot_SettingsWidget.Size = new Size(105, 19);
+            checkBox_Loot_SettingsWidget.TabIndex = 93;
+            checkBox_Loot_SettingsWidget.Text = "Show Loot (F3)";
+            checkBox_Loot_SettingsWidget.UseVisualStyleBackColor = true;
             // 
-            // checkBox_LootWishlist
+            // checkBox_LootWishlist_SettingsWidget
             // 
-            checkBox_LootWishlist.Anchor = AnchorStyles.Right;
-            checkBox_LootWishlist.AutoSize = true;
-            checkBox_LootWishlist.Location = new Point(115, 257);
-            checkBox_LootWishlist.Name = "checkBox_LootWishlist";
-            checkBox_LootWishlist.Size = new Size(126, 19);
-            checkBox_LootWishlist.TabIndex = 95;
-            checkBox_LootWishlist.Text = "Show Loot Wishlist";
-            checkBox_LootWishlist.UseVisualStyleBackColor = true;
+            checkBox_LootWishlist_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_LootWishlist_SettingsWidget.AutoSize = true;
+            checkBox_LootWishlist_SettingsWidget.Location = new Point(115, 257);
+            checkBox_LootWishlist_SettingsWidget.Name = "checkBox_LootWishlist_SettingsWidget";
+            checkBox_LootWishlist_SettingsWidget.Size = new Size(126, 19);
+            checkBox_LootWishlist_SettingsWidget.TabIndex = 95;
+            checkBox_LootWishlist_SettingsWidget.Text = "Show Loot Wishlist";
+            checkBox_LootWishlist_SettingsWidget.UseVisualStyleBackColor = true;
             // 
-            // checkBox_ShowContainers
+            // checkBox_ShowContainers_SettingsWidget
             // 
-            checkBox_ShowContainers.Anchor = AnchorStyles.Right;
-            checkBox_ShowContainers.AutoSize = true;
-            checkBox_ShowContainers.Location = new Point(247, 257);
-            checkBox_ShowContainers.Name = "checkBox_ShowContainers";
-            checkBox_ShowContainers.Size = new Size(147, 19);
-            checkBox_ShowContainers.TabIndex = 94;
-            checkBox_ShowContainers.Text = "Show Static Containers";
-            checkBox_ShowContainers.UseVisualStyleBackColor = true;
+            checkBox_ShowContainers_SettingsWidget.Anchor = AnchorStyles.Right;
+            checkBox_ShowContainers_SettingsWidget.AutoSize = true;
+            checkBox_ShowContainers_SettingsWidget.Location = new Point(247, 257);
+            checkBox_ShowContainers_SettingsWidget.Name = "checkBox_ShowContainers_SettingsWidget";
+            checkBox_ShowContainers_SettingsWidget.Size = new Size(147, 19);
+            checkBox_ShowContainers_SettingsWidget.TabIndex = 94;
+            checkBox_ShowContainers_SettingsWidget.Text = "Show Static Containers";
+            checkBox_ShowContainers_SettingsWidget.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel_Loot_Containers
             // 
             flowLayoutPanel_Loot_Containers.AutoSize = true;
             flowLayoutPanel_Loot_Containers.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel_Loot_Containers.BackColor = Color.Red;
+            flowLayoutPanel_Loot_Containers.BackColor = SystemColors.Control;
             flowLayoutPanel_Loot_Containers.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel_Loot_Containers.Controls.Add(label30);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_SelectAll);
+            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_SelectAll_SettingsWidget);
             flowLayoutPanel_Loot_Containers.Controls.Add(label31);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_HideSearched);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkedListBox_Containers);
+            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_HideSearched_SettingsWidget);
+            flowLayoutPanel_Loot_Containers.Controls.Add(checkedListBox_Containers_SettingsWidget);
             flowLayoutPanel_Loot_Containers.Enabled = false;
             flowLayoutPanel_Loot_Containers.Location = new Point(353, 82);
             flowLayoutPanel_Loot_Containers.Name = "flowLayoutPanel_Loot_Containers";
@@ -437,17 +438,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             label30.TabIndex = 52;
             label30.Text = "Static Containers";
             // 
-            // checkBox_Containers_SelectAll
+            // checkBox_Containers_SelectAll_SettingsWidget
             // 
-            checkBox_Containers_SelectAll.AutoSize = true;
-            checkBox_Containers_SelectAll.Checked = true;
-            checkBox_Containers_SelectAll.CheckState = CheckState.Checked;
-            checkBox_Containers_SelectAll.Location = new Point(3, 28);
-            checkBox_Containers_SelectAll.Name = "checkBox_Containers_SelectAll";
-            checkBox_Containers_SelectAll.Size = new Size(74, 19);
-            checkBox_Containers_SelectAll.TabIndex = 61;
-            checkBox_Containers_SelectAll.Text = "Select All";
-            checkBox_Containers_SelectAll.UseVisualStyleBackColor = true;
+            checkBox_Containers_SelectAll_SettingsWidget.AutoSize = true;
+            checkBox_Containers_SelectAll_SettingsWidget.Checked = true;
+            checkBox_Containers_SelectAll_SettingsWidget.CheckState = CheckState.Checked;
+            checkBox_Containers_SelectAll_SettingsWidget.Location = new Point(3, 28);
+            checkBox_Containers_SelectAll_SettingsWidget.Name = "checkBox_Containers_SelectAll_SettingsWidget";
+            checkBox_Containers_SelectAll_SettingsWidget.Size = new Size(74, 19);
+            checkBox_Containers_SelectAll_SettingsWidget.TabIndex = 61;
+            checkBox_Containers_SelectAll_SettingsWidget.Text = "Select All";
+            checkBox_Containers_SelectAll_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged += checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
             // 
             // label31
             // 
@@ -457,53 +459,53 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             label31.Size = new Size(0, 15);
             label31.TabIndex = 62;
             // 
-            // checkBox_Containers_HideSearched
+            // checkBox_Containers_HideSearched_SettingsWidget
             // 
-            checkBox_Containers_HideSearched.AutoSize = true;
-            flowLayoutPanel_Loot_Containers.SetFlowBreak(checkBox_Containers_HideSearched, true);
-            checkBox_Containers_HideSearched.Location = new Point(89, 28);
-            checkBox_Containers_HideSearched.Name = "checkBox_Containers_HideSearched";
-            checkBox_Containers_HideSearched.Size = new Size(102, 19);
-            checkBox_Containers_HideSearched.TabIndex = 63;
-            checkBox_Containers_HideSearched.Text = "Hide Searched";
-            checkBox_Containers_HideSearched.UseVisualStyleBackColor = true;
+            checkBox_Containers_HideSearched_SettingsWidget.AutoSize = true;
+            flowLayoutPanel_Loot_Containers.SetFlowBreak(checkBox_Containers_HideSearched_SettingsWidget, true);
+            checkBox_Containers_HideSearched_SettingsWidget.Location = new Point(89, 28);
+            checkBox_Containers_HideSearched_SettingsWidget.Name = "checkBox_Containers_HideSearched_SettingsWidget";
+            checkBox_Containers_HideSearched_SettingsWidget.Size = new Size(102, 19);
+            checkBox_Containers_HideSearched_SettingsWidget.TabIndex = 63;
+            checkBox_Containers_HideSearched_SettingsWidget.Text = "Hide Searched";
+            checkBox_Containers_HideSearched_SettingsWidget.UseVisualStyleBackColor = true;
             // 
-            // checkedListBox_Containers
+            // checkedListBox_Containers_SettingsWidget
             // 
-            checkedListBox_Containers.FormattingEnabled = true;
-            checkedListBox_Containers.Location = new Point(3, 53);
-            checkedListBox_Containers.Name = "checkedListBox_Containers";
-            checkedListBox_Containers.Size = new Size(228, 94);
-            checkedListBox_Containers.TabIndex = 60;
+            checkedListBox_Containers_SettingsWidget.FormattingEnabled = true;
+            checkedListBox_Containers_SettingsWidget.Location = new Point(3, 53);
+            checkedListBox_Containers_SettingsWidget.Name = "checkedListBox_Containers_SettingsWidget";
+            checkedListBox_Containers_SettingsWidget.Size = new Size(228, 94);
+            checkedListBox_Containers_SettingsWidget.TabIndex = 60;
             // 
-            // checkBox_EnableMemWrite
+            // checkBox_EnableMemWrite_SettingsWidget
             // 
-            checkBox_EnableMemWrite.AutoSize = true;
-            checkBox_EnableMemWrite.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkBox_EnableMemWrite.Location = new Point(4, 282);
-            checkBox_EnableMemWrite.Name = "checkBox_EnableMemWrite";
-            checkBox_EnableMemWrite.Size = new Size(184, 19);
-            checkBox_EnableMemWrite.TabIndex = 90;
-            checkBox_EnableMemWrite.Text = "Enable Memory Writes (Risky)";
-            checkBox_EnableMemWrite.UseVisualStyleBackColor = true;
+            checkBox_EnableMemWrite_SettingsWidget.AutoSize = true;
+            checkBox_EnableMemWrite_SettingsWidget.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBox_EnableMemWrite_SettingsWidget.Location = new Point(4, 282);
+            checkBox_EnableMemWrite_SettingsWidget.Name = "checkBox_EnableMemWrite_SettingsWidget";
+            checkBox_EnableMemWrite_SettingsWidget.Size = new Size(184, 19);
+            checkBox_EnableMemWrite_SettingsWidget.TabIndex = 90;
+            checkBox_EnableMemWrite_SettingsWidget.Text = "Enable Memory Writes (Risky)";
+            checkBox_EnableMemWrite_SettingsWidget.UseVisualStyleBackColor = true;
             // 
-            // checkBox_AdvancedMemWrites
+            // checkBox_AdvancedMemWrites_SettingsWidget
             // 
-            checkBox_AdvancedMemWrites.AutoSize = true;
-            checkBox_AdvancedMemWrites.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            checkBox_AdvancedMemWrites.Location = new Point(4, 307);
-            checkBox_AdvancedMemWrites.Name = "checkBox_AdvancedMemWrites";
-            checkBox_AdvancedMemWrites.Size = new Size(246, 19);
-            checkBox_AdvancedMemWrites.TabIndex = 91;
-            checkBox_AdvancedMemWrites.Text = "Enable Advanced MemWrites (Very Risky)";
-            checkBox_AdvancedMemWrites.UseVisualStyleBackColor = true;
+            checkBox_AdvancedMemWrites_SettingsWidget.AutoSize = true;
+            checkBox_AdvancedMemWrites_SettingsWidget.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            checkBox_AdvancedMemWrites_SettingsWidget.Location = new Point(4, 307);
+            checkBox_AdvancedMemWrites_SettingsWidget.Name = "checkBox_AdvancedMemWrites_SettingsWidget";
+            checkBox_AdvancedMemWrites_SettingsWidget.Size = new Size(246, 19);
+            checkBox_AdvancedMemWrites_SettingsWidget.TabIndex = 91;
+            checkBox_AdvancedMemWrites_SettingsWidget.Text = "Enable Advanced MemWrites (Very Risky)";
+            checkBox_AdvancedMemWrites_SettingsWidget.UseVisualStyleBackColor = true;
             // 
             // button_StartESP_SettingsWidget
             // 
             button_StartESP_SettingsWidget.Anchor = AnchorStyles.Right;
             button_StartESP_SettingsWidget.FlatStyle = FlatStyle.Popup;
-            button_StartESP_SettingsWidget.ForeColor = Color.Red;
-            button_StartESP_SettingsWidget.Location = new Point(189, 278);
+            button_StartESP_SettingsWidget.ForeColor = SystemColors.ControlText;
+            button_StartESP_SettingsWidget.Location = new Point(302, 3);
             button_StartESP_SettingsWidget.Name = "button_StartESP_SettingsWidget";
             button_StartESP_SettingsWidget.Size = new Size(107, 23);
             button_StartESP_SettingsWidget.TabIndex = 89;
@@ -2055,18 +2057,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private Label label_WebRadarPassword;
         private TextBox textBox_WebRadarPassword;
         private LinkLabel linkLabel_WebRadarLink;
-        private CheckBox checkBox_EnableMemWrite;
-        private CheckBox checkBox_AdvancedMemWrites;
+        private CheckBox checkBox_EnableMemWrite_SettingsWidget;
+        private CheckBox checkBox_AdvancedMemWrites_SettingsWidget;
         private FlowLayoutPanel flowLayoutPanel_Loot_Containers;
         private Label label30;
-        private CheckBox checkBox_Containers_SelectAll;
+        private CheckBox checkBox_Containers_SelectAll_SettingsWidget;
         private Label label31;
-        private CheckBox checkBox_Containers_HideSearched;
-        private CheckedListBox checkedListBox_Containers;
+        private CheckBox checkBox_Containers_HideSearched_SettingsWidget;
+        private CheckedListBox checkedListBox_Containers_SettingsWidget;
         private TabPage tabPage6;
-        private CheckBox checkBox_Loot;
-        private CheckBox checkBox_LootWishlist;
-        private CheckBox checkBox_ShowContainers;
+        private CheckBox checkBox_Loot_SettingsWidget;
+        private CheckBox checkBox_LootWishlist_SettingsWidget;
+        private CheckBox checkBox_ShowContainers_SettingsWidget;
         private CheckBox checkBox_hideRaidcode;
         private CheckBox checkBox_AntiPage;
         private CheckBox checkBox_NoRecoilSway;
