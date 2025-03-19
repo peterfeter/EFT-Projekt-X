@@ -421,7 +421,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             flowLayoutPanel_Loot_Containers.Controls.Add(label31);
             flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_HideSearched_SettingsWidget);
             flowLayoutPanel_Loot_Containers.Controls.Add(checkedListBox_Containers_SettingsWidget);
-            flowLayoutPanel_Loot_Containers.Enabled = false;
             flowLayoutPanel_Loot_Containers.Location = new Point(353, 82);
             flowLayoutPanel_Loot_Containers.Name = "flowLayoutPanel_Loot_Containers";
             flowLayoutPanel_Loot_Containers.Size = new Size(236, 152);
