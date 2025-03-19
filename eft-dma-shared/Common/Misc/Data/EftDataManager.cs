@@ -132,7 +132,9 @@ namespace eft_dma_shared.Common.Misc.Data
                 MessageBox.Show($"WARNING: Failed to retrieve updated Tarkov Market Data. Will use backup source(s).\n\n{ex}",
                     nameof(EftDataManager),
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
                 return null;
             }
         }

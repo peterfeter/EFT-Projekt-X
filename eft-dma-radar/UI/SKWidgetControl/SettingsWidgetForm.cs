@@ -38,12 +38,15 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             InitializeHeaderText();
             PopulateQuestHelperList();
             PopulateComboBoxAimbotTarget();
+            PopulateContainersList();
             trackBar_AimFOV_SettingsWidget.ValueChanged += TrackBar_AimFOV_SettingsWidget_ValueChanged;
             comboBox_AimbotTarget_SettingsWidget.SelectedIndexChanged += ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged;
             checkBox_AimRandomBone_SettingsWidget.CheckedChanged += checkBox_AimRandomBone_SettingsWidget_CheckedChanged;
             UpdateComboBoxAimbotTarget(_mainForm.comboBox_AimbotTarget.SelectedIndex);
             button_StartESP_SettingsWidget.Text = _mainForm.button_StartESP.Text;
             button_StartESP_SettingsWidget.Enabled = button_StartESP_SettingsWidget.Text != "Running...";
+            checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
+            checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged += checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
         }
         #endregion
 
@@ -65,6 +68,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             foreach (var item in _mainForm.checkedListBox_QuestHelper.Items)
             {
                 checkedListBox_QuestHelper_SettingsWidget.Items.Add(item, _mainForm.checkedListBox_QuestHelper.GetItemChecked(_mainForm.checkedListBox_QuestHelper.Items.IndexOf(item)));
+            }
+        }
+        public void PopulateContainersList()
+        {
+            checkedListBox_Containers_SettingsWidget.Items.Clear();
+            foreach (var item in _mainForm.checkedListBox_Containers.Items)
+            {
+                checkedListBox_Containers_SettingsWidget.Items.Add(item, _mainForm.checkedListBox_Containers.GetItemChecked(_mainForm.checkedListBox_Containers.Items.IndexOf(item)));
             }
         }
 
@@ -190,9 +201,45 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_AimbotDisableReLock.Checked = checkBox_AimbotDisableReLock_SettingsWidget.Checked;
         }
-        private void checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
-            _mainForm.checkBox_Containers_SelectAll.Checked = checkBox_Containers_SelectAll_SettingsWidget.Checked;
+            bool isChecked = checkBox_Containers_SelectAll_SettingsWidget.Checked;
+
+            // Update all items in checkedListBox_Containers_SettingsWidget
+            for (int i = 0; i < checkedListBox_Containers_SettingsWidget.Items.Count; i++)
+            {
+                checkedListBox_Containers_SettingsWidget.ItemCheck -= checkedListBox_Containers_SettingsWidget_ItemCheck;
+                checkedListBox_Containers_SettingsWidget.SetItemChecked(i, isChecked);
+                checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
+            }
+
+            // Propagate the state to MainForm
+            if (_mainForm != null)
+            {
+                _mainForm.checkBox_Containers_SelectAll.CheckedChanged -= _mainForm.checkBox_Containers_SelectAll_CheckedChanged;
+                _mainForm.checkBox_Containers_SelectAll.Checked = isChecked;
+                _mainForm.checkBox_Containers_SelectAll.CheckedChanged += _mainForm.checkBox_Containers_SelectAll_CheckedChanged;
+
+                // Update all items in checkedListBox_Containers on MainForm
+                for (int i = 0; i < _mainForm.checkedListBox_Containers.Items.Count; i++)
+                {
+                    _mainForm.checkedListBox_Containers.ItemCheck -= _mainForm.CheckedListBox_Containers_ItemCheck;
+                    _mainForm.checkedListBox_Containers.SetItemChecked(i, isChecked);
+                    _mainForm.checkedListBox_Containers.ItemCheck += _mainForm.CheckedListBox_Containers_ItemCheck;
+                }
+            }
+        }
+        private void checkBox_Loot_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_Loot.Checked = checkBox_Loot_SettingsWidget.Checked;
+        }
+        private void checkBox_LootWishlist_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_LootWishlist.Checked = checkBox_LootWishlist_SettingsWidget.Checked;
+        }
+        private void checkBox_ShowContainers_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_ShowContainers.Checked = checkBox_ShowContainers_SettingsWidget.Checked;
         }
         private void TrackBar_AimFOV_SettingsWidget_ValueChanged(object sender, EventArgs e)
         {
@@ -210,6 +257,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             _mainForm.checkBox_AimRandomBone.Checked = checkBox_AimRandomBone_SettingsWidget.Checked;
             comboBox_AimbotTarget_SettingsWidget.Enabled = !checkBox_AimRandomBone_SettingsWidget.Checked;
             button_RandomBoneCfg_SettingsWidget.Enabled = checkBox_AimRandomBone_SettingsWidget.Checked;
+        }
+        private void checkBox_Containers_HideSearched_SettingsWidget_CheckedChanged(object sender, EventArgs e)
+        {
+            _mainForm.checkBox_Containers_HideSearched.Checked = checkBox_Containers_HideSearched_SettingsWidget.Checked;
         }
         private void ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -230,6 +281,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             _mainForm.QuestHelperListBox.ItemCheck -= _mainForm.CheckedListBox_QuestHelper_ItemCheck;
             _mainForm.QuestHelperListBox.SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
             _mainForm.QuestHelperListBox.ItemCheck += _mainForm.CheckedListBox_QuestHelper_ItemCheck;
+        }
+        private void checkedListBox_Containers_SettingsWidget_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Update the corresponding item in the main form's checkedListBox_Containers
+            _mainForm.checkedListBox_Containers.ItemCheck -= _mainForm.CheckedListBox_Containers_ItemCheck;
+            _mainForm.checkedListBox_Containers.SetItemChecked(e.Index, e.NewValue == CheckState.Checked);
+            _mainForm.checkedListBox_Containers.ItemCheck += _mainForm.CheckedListBox_Containers_ItemCheck;
         }
         #endregion
         #endregion
@@ -252,6 +310,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_AimHeadAI_SettingsWidget.Checked = _mainForm.checkBox_AimHeadAI.Checked;
             checkBox_AimRandomBone_SettingsWidget.Checked = _mainForm.checkBox_AimRandomBone.Checked;
             checkBox_Containers_SelectAll_SettingsWidget.Checked = _mainForm.checkBox_Containers_SelectAll.Checked;
+            checkBox_Containers_HideSearched_SettingsWidget.Checked = _mainForm.checkBox_Containers_HideSearched.Checked;
+            checkBox_Loot_SettingsWidget.Checked = _mainForm.checkBox_Loot.Checked;
+            checkBox_LootWishlist_SettingsWidget.Checked = _mainForm.checkBox_LootWishlist.Checked;
+            checkBox_ShowContainers_SettingsWidget.Checked = _mainForm.checkBox_ShowContainers.Checked;
         }
 
         public void UpdateMoveSpeedCheckbox(bool isChecked)
@@ -325,11 +387,33 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             checkBox_Containers_SelectAll_SettingsWidget.Checked = isChecked;
         }
+        public void UpdateContainersContainersHideSearchedCheckbox(bool isChecked)
+        {
+            checkBox_Containers_HideSearched_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateLootWishlistCheckbox(bool isChecked)
+        {
+            checkBox_LootWishlist_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateLootCheckbox(bool isChecked)
+        {
+            checkBox_Loot_SettingsWidget.Checked = isChecked;
+        }
+        public void UpdateShowContainersCheckbox(bool isChecked)
+        {
+            checkBox_ShowContainers_SettingsWidget.Checked = isChecked;
+        }
         public void UpdateQuestHelperList(int index, bool isChecked)
         {
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck -= checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
             checkedListBox_QuestHelper_SettingsWidget.SetItemChecked(index, isChecked);
             checkedListBox_QuestHelper_SettingsWidget.ItemCheck += checkedListBox_QuestHelper_SettingsWidget_ItemCheck;
+        }
+        public void UpdateContainersList(int index, bool isChecked)
+        {
+            checkedListBox_Containers_SettingsWidget.ItemCheck -= checkedListBox_Containers_SettingsWidget_ItemCheck;
+            checkedListBox_Containers_SettingsWidget.SetItemChecked(index, isChecked);
+            checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
         }
         public void UpdateTrackBarAimFOV(int value)
         {
@@ -377,7 +461,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                 SharedPaints.PaintBitmapAlpha.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
             }
         }
-
 
     }
 }

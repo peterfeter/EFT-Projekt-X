@@ -696,7 +696,11 @@ namespace eft_dma_radar.UI.Radar
         }
         private void checkBox_LootWishlist_CheckedChanged(object sender, EventArgs e)
         {
-            Config.LootWishlist = checkBox_LootWishlist.Checked;
+            bool isChecked = checkBox_LootWishlist.Checked;
+            Config.LootWishlist = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLootWishlistCheckbox(isChecked);
         }
 
         private void checkBox_AIAimlines_CheckedChanged(object sender, EventArgs e)
@@ -841,16 +845,23 @@ namespace eft_dma_radar.UI.Radar
                 button_GymHack.Enabled = true;
             }
         }
-        private void checkBox_Containers_HideSearched_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_Containers_HideSearched_CheckedChanged(object sender, EventArgs e)
         {
-            Config.Containers.HideSearched = checkBox_Containers_HideSearched.Checked;
+            bool enabled = checkBox_Containers_HideSearched.Checked;
+            Config.Containers.HideSearched = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateContainersContainersHideSearchedCheckbox(enabled);
         }
 
-        private void checkBox_ShowContainers_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_ShowContainers_CheckedChanged(object sender, EventArgs e)
         {
             bool enabled = checkBox_ShowContainers.Checked;
             Config.Containers.Show = enabled;
             flowLayoutPanel_Loot_Containers.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateShowContainersCheckbox (enabled);
         }
         private void TrackBar_LTWAmount_ValueChanged(object sender, EventArgs e)
         {
@@ -1172,11 +1183,14 @@ namespace eft_dma_radar.UI.Radar
         /// </summary>
         private void checkBox_Loot_CheckedChanged(object sender, EventArgs e)
         {
-            var enabled = checkBox_Loot.Checked;
+            bool enabled = checkBox_Loot.Checked;
             Config.ShowLoot = enabled;
             button_Loot.Visible = enabled;
             flowLayoutPanel_Loot.Visible = false;
             button_Loot.Enabled = true;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLootCheckbox(enabled);
         }
 
         /// <summary>
@@ -3942,7 +3956,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_Containers_SelectAll.CheckedChanged += checkBox_Containers_SelectAll_CheckedChanged;
         }
 
-        private void CheckedListBox_Containers_ItemCheck(object sender, ItemCheckEventArgs e)
+        public void CheckedListBox_Containers_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var item = checkedListBox_Containers.Items[e.Index] as ContainerListItem;
             if (item is not null)
@@ -3954,8 +3968,20 @@ namespace eft_dma_radar.UI.Radar
                     checkBox_Containers_SelectAll.Checked = false;
                 }
             }
-        }
 
+            // Update the corresponding item in the settings form's checkedListBox_Containers_SettingsWidget
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateContainersList(e.Index, e.NewValue == CheckState.Checked);
+            }
+        }
+        public void UpdateSettingsWidgetContainersList()
+        {
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.PopulateContainersList();
+            }
+        }
         private void ContainersSelectAll()
         {
             for (int i = 0; i < checkedListBox_Containers.Items.Count; i++)
@@ -3966,16 +3992,28 @@ namespace eft_dma_radar.UI.Radar
 
         public void checkBox_Containers_SelectAll_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = checkBox_AimbotDisableReLock.Checked;
-            bool selectAll = checkBox_Containers_SelectAll.Enabled;
+            bool selectAll = checkBox_Containers_SelectAll.Checked;
             Config.Containers.SelectAll = selectAll;
             if (selectAll)
             {
                 ContainersSelectAll();
-                _settingsWidgetForm?.UpdateContainers_SelectAllCheckbox(enabled);
+            }
+            else
+            {
+                // Uncheck all items if Select All is unchecked
+                for (int i = 0; i < checkedListBox_Containers.Items.Count; i++)
+                {
+                    checkedListBox_Containers.SetItemChecked(i, false);
+                }
             }
 
- 
+            // Update the corresponding checkbox in the settings form
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged -= _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.Checked = selectAll;
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged += _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
+            }
         }
 
         public sealed class ContainerListItem

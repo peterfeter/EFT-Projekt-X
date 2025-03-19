@@ -52,7 +52,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Loot_SettingsWidget = new CheckBox();
             checkBox_LootWishlist_SettingsWidget = new CheckBox();
             checkBox_ShowContainers_SettingsWidget = new CheckBox();
-            flowLayoutPanel_Loot_Containers = new FlowLayoutPanel();
+            flowLayoutPanel_Loot_Containers_SettingsWidget = new FlowLayoutPanel();
             label30 = new Label();
             checkBox_Containers_SelectAll_SettingsWidget = new CheckBox();
             label31 = new Label();
@@ -184,7 +184,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             headerPanel.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            flowLayoutPanel_Loot_Containers.SuspendLayout();
+            flowLayoutPanel_Loot_Containers_SettingsWidget.SuspendLayout();
             tabPage2.SuspendLayout();
             ((ISupportInitialize)trackBar_AimFOV_SettingsWidget).BeginInit();
             tabPage3.SuspendLayout();
@@ -355,7 +355,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1.Controls.Add(checkBox_Loot_SettingsWidget);
             tabPage1.Controls.Add(checkBox_LootWishlist_SettingsWidget);
             tabPage1.Controls.Add(checkBox_ShowContainers_SettingsWidget);
-            tabPage1.Controls.Add(flowLayoutPanel_Loot_Containers);
+            tabPage1.Controls.Add(flowLayoutPanel_Loot_Containers_SettingsWidget);
             tabPage1.Controls.Add(checkBox_EnableMemWrite_SettingsWidget);
             tabPage1.Controls.Add(checkBox_AdvancedMemWrites_SettingsWidget);
             tabPage1.Controls.Add(button_StartESP_SettingsWidget);
@@ -387,6 +387,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Loot_SettingsWidget.TabIndex = 93;
             checkBox_Loot_SettingsWidget.Text = "Show Loot (F3)";
             checkBox_Loot_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_Loot_SettingsWidget.CheckedChanged += checkBox_Loot_SettingsWidget_CheckedChanged;
             // 
             // checkBox_LootWishlist_SettingsWidget
             // 
@@ -398,6 +399,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_LootWishlist_SettingsWidget.TabIndex = 95;
             checkBox_LootWishlist_SettingsWidget.Text = "Show Loot Wishlist";
             checkBox_LootWishlist_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_LootWishlist_SettingsWidget.CheckedChanged += checkBox_LootWishlist_SettingsWidget_CheckedChanged;
             // 
             // checkBox_ShowContainers_SettingsWidget
             // 
@@ -409,27 +411,28 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_ShowContainers_SettingsWidget.TabIndex = 94;
             checkBox_ShowContainers_SettingsWidget.Text = "Show Static Containers";
             checkBox_ShowContainers_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_ShowContainers_SettingsWidget.CheckedChanged += checkBox_ShowContainers_SettingsWidget_CheckedChanged;
             // 
-            // flowLayoutPanel_Loot_Containers
+            // flowLayoutPanel_Loot_Containers_SettingsWidget
             // 
-            flowLayoutPanel_Loot_Containers.AutoSize = true;
-            flowLayoutPanel_Loot_Containers.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel_Loot_Containers.BackColor = SystemColors.Control;
-            flowLayoutPanel_Loot_Containers.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel_Loot_Containers.Controls.Add(label30);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_SelectAll_SettingsWidget);
-            flowLayoutPanel_Loot_Containers.Controls.Add(label31);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkBox_Containers_HideSearched_SettingsWidget);
-            flowLayoutPanel_Loot_Containers.Controls.Add(checkedListBox_Containers_SettingsWidget);
-            flowLayoutPanel_Loot_Containers.Location = new Point(353, 82);
-            flowLayoutPanel_Loot_Containers.Name = "flowLayoutPanel_Loot_Containers";
-            flowLayoutPanel_Loot_Containers.Size = new Size(236, 152);
-            flowLayoutPanel_Loot_Containers.TabIndex = 92;
+            flowLayoutPanel_Loot_Containers_SettingsWidget.AutoSize = true;
+            flowLayoutPanel_Loot_Containers_SettingsWidget.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel_Loot_Containers_SettingsWidget.BackColor = SystemColors.Control;
+            flowLayoutPanel_Loot_Containers_SettingsWidget.BorderStyle = BorderStyle.FixedSingle;
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Controls.Add(label30);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Controls.Add(checkBox_Containers_SelectAll_SettingsWidget);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Controls.Add(label31);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Controls.Add(checkBox_Containers_HideSearched_SettingsWidget);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Controls.Add(checkedListBox_Containers_SettingsWidget);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Location = new Point(353, 82);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Name = "flowLayoutPanel_Loot_Containers_SettingsWidget";
+            flowLayoutPanel_Loot_Containers_SettingsWidget.Size = new Size(236, 152);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.TabIndex = 92;
             // 
             // label30
             // 
             label30.AutoSize = true;
-            flowLayoutPanel_Loot_Containers.SetFlowBreak(label30, true);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.SetFlowBreak(label30, true);
             label30.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label30.Location = new Point(3, 0);
             label30.Name = "label30";
@@ -461,13 +464,14 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // checkBox_Containers_HideSearched_SettingsWidget
             // 
             checkBox_Containers_HideSearched_SettingsWidget.AutoSize = true;
-            flowLayoutPanel_Loot_Containers.SetFlowBreak(checkBox_Containers_HideSearched_SettingsWidget, true);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.SetFlowBreak(checkBox_Containers_HideSearched_SettingsWidget, true);
             checkBox_Containers_HideSearched_SettingsWidget.Location = new Point(89, 28);
             checkBox_Containers_HideSearched_SettingsWidget.Name = "checkBox_Containers_HideSearched_SettingsWidget";
             checkBox_Containers_HideSearched_SettingsWidget.Size = new Size(102, 19);
             checkBox_Containers_HideSearched_SettingsWidget.TabIndex = 63;
             checkBox_Containers_HideSearched_SettingsWidget.Text = "Hide Searched";
             checkBox_Containers_HideSearched_SettingsWidget.UseVisualStyleBackColor = true;
+            checkBox_Containers_HideSearched_SettingsWidget.CheckedChanged += checkBox_Containers_HideSearched_SettingsWidget_CheckedChanged;
             // 
             // checkedListBox_Containers_SettingsWidget
             // 
@@ -1912,8 +1916,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            flowLayoutPanel_Loot_Containers.ResumeLayout(false);
-            flowLayoutPanel_Loot_Containers.PerformLayout();
+            flowLayoutPanel_Loot_Containers_SettingsWidget.ResumeLayout(false);
+            flowLayoutPanel_Loot_Containers_SettingsWidget.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             ((ISupportInitialize)trackBar_AimFOV_SettingsWidget).EndInit();
@@ -2058,9 +2062,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private LinkLabel linkLabel_WebRadarLink;
         private CheckBox checkBox_EnableMemWrite_SettingsWidget;
         private CheckBox checkBox_AdvancedMemWrites_SettingsWidget;
-        private FlowLayoutPanel flowLayoutPanel_Loot_Containers;
+        private FlowLayoutPanel flowLayoutPanel_Loot_Containers_SettingsWidget;
         private Label label30;
-        private CheckBox checkBox_Containers_SelectAll_SettingsWidget;
+        public CheckBox checkBox_Containers_SelectAll_SettingsWidget;
         private Label label31;
         private CheckBox checkBox_Containers_HideSearched_SettingsWidget;
         private CheckedListBox checkedListBox_Containers_SettingsWidget;

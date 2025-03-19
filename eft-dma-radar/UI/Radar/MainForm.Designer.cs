@@ -3512,7 +3512,7 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_AimlineLength;
         private Label label_Pos;
         private Label label1;
-        private CheckBox checkBox_Loot;
+        public CheckBox checkBox_Loot;
         private CheckBox checkBox_MapSetup;
         private Button button_Restart;
         private GroupBox groupBox_MapSetup;
@@ -3718,7 +3718,7 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_LTWAmount;
         private FlowLayoutPanel flowLayoutPanel5;
         private Label label29;
-        private CheckBox checkBox_ShowContainers;
+        public CheckBox checkBox_ShowContainers;
         private Label label_ContainerDist;
         private TrackBar trackBar_ContainerDist;
         private Label label_ESPContainerDist;
@@ -3727,8 +3727,8 @@ namespace eft_dma_radar.UI.Radar
         private Label label30;
         public CheckBox checkBox_Containers_SelectAll;
         private Label label31;
-        private CheckedListBox checkedListBox_Containers;
-        private CheckBox checkBox_Containers_HideSearched;
+        public CheckedListBox checkedListBox_Containers;
+        public CheckBox checkBox_Containers_HideSearched;
         private Button button_GymHack;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
@@ -3746,7 +3746,7 @@ namespace eft_dma_radar.UI.Radar
         private RadioButton radioButton_Loot_VendorPrice;
         private CheckBox checkBox_AntiPage;
         private CheckBox checkBox_AIAimlines;
-        private CheckBox checkBox_LootWishlist;
+        public CheckBox checkBox_LootWishlist;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label label34;
         private CheckBox checkBox_hideRaidcode;
