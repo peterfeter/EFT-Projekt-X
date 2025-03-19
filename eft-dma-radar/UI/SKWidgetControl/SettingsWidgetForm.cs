@@ -13,6 +13,7 @@ using eft_dma_radar.UI.Radar;
 using eft_dma_shared.Common.Misc;
 using eft_dma_radar.UI.Misc;
 using eft_dma_radar.Tarkov.Features.MemoryWrites;
+using eft_dma_radar.Features.MemoryWrites.UI;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
@@ -117,7 +118,21 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.button_AntiAfk_Click(sender, e);
         }
-
+        private void button_StartESP_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            _mainForm.button_StartESP_Click(sender, e);
+        }
+        public void UpdateStartESPButtonText(string text)
+        {
+            button_StartESP_SettingsWidget.Text = text;
+        }
+        private void button_RandomBoneCfg_SettingsWidget_Click(object sender, EventArgs e)
+        {
+            using var form = new AimbotRandomBoneForm();
+            var dlg = form.ShowDialog();
+            if (!Aimbot.Config.RandomBone.Is100Percent)
+                Aimbot.Config.RandomBone.ResetDefaults();
+        }
         private void checkBox_MoveSpeed_SettingsWidget_CheckedChanged(object sender, EventArgs e)
         {
             _mainForm.checkBox_MoveSpeed.Checked = checkBox_MoveSpeed_SettingsWidget.Checked;
@@ -191,6 +206,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             _mainForm.checkBox_AimRandomBone.Checked = checkBox_AimRandomBone_SettingsWidget.Checked;
             comboBox_AimbotTarget_SettingsWidget.Enabled = !checkBox_AimRandomBone_SettingsWidget.Checked;
+            button_RandomBoneCfg_SettingsWidget.Enabled = checkBox_AimRandomBone_SettingsWidget.Checked;
         }
         private void ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -349,14 +365,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             }
         }
 
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label_EspLineScale_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

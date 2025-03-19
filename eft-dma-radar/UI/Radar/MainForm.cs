@@ -225,6 +225,7 @@ namespace eft_dma_radar.UI.Radar
             Shown += MainForm_Shown;
             trackBar_AimFOV.ValueChanged += TrackBar_AimFOV_ValueChanged;
             comboBox_AimbotTarget.SelectedIndexChanged += comboBox_AimbotTarget_SelectedIndexChanged;
+            button_StartESP.TextChanged += Button_StartESP_TextChanged;
         }
 
         private void TrackBar_ContainerDist_ValueChanged(object sender, EventArgs e)
@@ -3079,7 +3080,7 @@ namespace eft_dma_radar.UI.Radar
                 Config.ESP.SelectedScreen = entry.ScreenNumber;
         }
 
-        private void button_StartESP_Click(object sender, EventArgs e) =>
+        public void button_StartESP_Click(object sender, EventArgs e) =>
             StartESP();
 
         private void StartESP()
@@ -3117,7 +3118,13 @@ namespace eft_dma_radar.UI.Radar
             t.Start();
             tabControl1.SelectedIndex = 0; // Switch back to Radar
         }
-
+        private void Button_StartESP_TextChanged(object sender, EventArgs e)
+        {
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateStartESPButtonText(button_StartESP.Text);
+            }
+        }
         private void textBox_EspFpsCap_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(textBox_EspFpsCap.Text, out var value))

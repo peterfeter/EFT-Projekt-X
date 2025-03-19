@@ -3564,7 +3564,7 @@ namespace eft_dma_radar.UI.Radar
         private DataGridViewTextBoxColumn Column_PWTimestamp;
         private CheckBox checkBox_QuestHelper_Enabled;
         public RadioButton radioButton_AimTarget_CQB;
-        private Button button_StartESP;
+        public Button button_StartESP;
         private CheckBox checkBox_ESP_Explosives;
         private CheckBox checkBox_ESP_Exfils;
         private CheckBox checkBox_ESP_FPS;

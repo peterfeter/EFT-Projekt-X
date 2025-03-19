@@ -49,6 +49,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Chams_SettingsWidget = new CheckBox();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            checkBox_Loot = new CheckBox();
+            checkBox_LootWishlist = new CheckBox();
+            checkBox_ShowContainers = new CheckBox();
             flowLayoutPanel_Loot_Containers = new FlowLayoutPanel();
             label30 = new Label();
             checkBox_Containers_SelectAll = new CheckBox();
@@ -57,10 +60,10 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkedListBox_Containers = new CheckedListBox();
             checkBox_EnableMemWrite = new CheckBox();
             checkBox_AdvancedMemWrites = new CheckBox();
-            button_StartESP = new Button();
+            button_StartESP_SettingsWidget = new Button();
             checkedListBox_QuestHelper_SettingsWidget = new CheckedListBox();
             tabPage2 = new TabPage();
-            button_RandomBoneCfg = new Button();
+            button_RandomBoneCfg_SettingsWidget = new Button();
             label10 = new Label();
             comboBox_AimbotTarget_SettingsWidget = new ComboBox();
             checkBox_AimRandomBone_SettingsWidget = new CheckBox();
@@ -74,6 +77,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_SA_SafeLock_SettingsWidget = new CheckBox();
             checkBox_AimBotEnabled_SettingsWidget = new CheckBox();
             tabPage3 = new TabPage();
+            label5 = new Label();
+            label1 = new Label();
             label_EspLineScale = new Label();
             trackBar_EspLineScale = new TrackBar();
             label_EspLootDist = new Label();
@@ -125,6 +130,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             textBox_ResHeight = new TextBox();
             button_DetectRes = new Button();
             tabPage4 = new TabPage();
+            label6 = new Label();
+            label2 = new Label();
             radioButton_Chams_Basic = new RadioButton();
             radioButton_Chams_Visible = new RadioButton();
             radioButton_Chams_Vischeck = new RadioButton();
@@ -135,6 +142,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             label33 = new Label();
             button_VischeckInvisColorPick = new Button();
             tabPage5 = new TabPage();
+            label7 = new Label();
+            label3 = new Label();
             label_WebRadarPassword = new Label();
             textBox_WebRadarPassword = new TextBox();
             linkLabel_WebRadarLink = new LinkLabel();
@@ -147,16 +156,8 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             label_WebRadarPort = new Label();
             textBox_WebRadarPort = new TextBox();
             tabPage6 = new TabPage();
-            checkBox_Loot = new CheckBox();
-            checkBox_LootWishlist = new CheckBox();
-            checkBox_ShowContainers = new CheckBox();
-            checkBox_hideRaidcode = new CheckBox();
-            checkBox_AntiPage = new CheckBox();
-            checkBox_NoRecoilSway = new CheckBox();
-            checkBox_WideLean = new CheckBox();
-            checkBox_NoVisor = new CheckBox();
-            checkBox_AlwaysDaySunny = new CheckBox();
-            checkBox_NoWepMalf = new CheckBox();
+            label8 = new Label();
+            label4 = new Label();
             flowLayoutPanel_NoRecoil = new FlowLayoutPanel();
             label16 = new Label();
             label_Recoil = new Label();
@@ -173,6 +174,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             comboBox_WideLeanMode = new ComboBox();
             label_WideLeanAmt = new Label();
             trackBar_WideLeanAmt = new TrackBar();
+            checkBox_hideRaidcode = new CheckBox();
+            checkBox_AntiPage = new CheckBox();
+            checkBox_NoRecoilSway = new CheckBox();
+            checkBox_WideLean = new CheckBox();
+            checkBox_NoVisor = new CheckBox();
+            checkBox_AlwaysDaySunny = new CheckBox();
+            checkBox_NoWepMalf = new CheckBox();
             headerPanel.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -349,7 +357,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1.Controls.Add(flowLayoutPanel_Loot_Containers);
             tabPage1.Controls.Add(checkBox_EnableMemWrite);
             tabPage1.Controls.Add(checkBox_AdvancedMemWrites);
-            tabPage1.Controls.Add(button_StartESP);
+            tabPage1.Controls.Add(button_StartESP_SettingsWidget);
             tabPage1.Controls.Add(button_Restart_SettingsWidget);
             tabPage1.Controls.Add(checkedListBox_QuestHelper_SettingsWidget);
             tabPage1.Controls.Add(button_GymHack_SettingsWidget);
@@ -367,6 +375,39 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage1.Size = new Size(592, 330);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Quick Settings";
+            // 
+            // checkBox_Loot
+            // 
+            checkBox_Loot.Anchor = AnchorStyles.Right;
+            checkBox_Loot.AutoSize = true;
+            checkBox_Loot.Location = new Point(4, 257);
+            checkBox_Loot.Name = "checkBox_Loot";
+            checkBox_Loot.Size = new Size(105, 19);
+            checkBox_Loot.TabIndex = 93;
+            checkBox_Loot.Text = "Show Loot (F3)";
+            checkBox_Loot.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_LootWishlist
+            // 
+            checkBox_LootWishlist.Anchor = AnchorStyles.Right;
+            checkBox_LootWishlist.AutoSize = true;
+            checkBox_LootWishlist.Location = new Point(115, 257);
+            checkBox_LootWishlist.Name = "checkBox_LootWishlist";
+            checkBox_LootWishlist.Size = new Size(126, 19);
+            checkBox_LootWishlist.TabIndex = 95;
+            checkBox_LootWishlist.Text = "Show Loot Wishlist";
+            checkBox_LootWishlist.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_ShowContainers
+            // 
+            checkBox_ShowContainers.Anchor = AnchorStyles.Right;
+            checkBox_ShowContainers.AutoSize = true;
+            checkBox_ShowContainers.Location = new Point(247, 257);
+            checkBox_ShowContainers.Name = "checkBox_ShowContainers";
+            checkBox_ShowContainers.Size = new Size(147, 19);
+            checkBox_ShowContainers.TabIndex = 94;
+            checkBox_ShowContainers.Text = "Show Static Containers";
+            checkBox_ShowContainers.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel_Loot_Containers
             // 
@@ -457,17 +498,18 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_AdvancedMemWrites.Text = "Enable Advanced MemWrites (Very Risky)";
             checkBox_AdvancedMemWrites.UseVisualStyleBackColor = true;
             // 
-            // button_StartESP
+            // button_StartESP_SettingsWidget
             // 
-            button_StartESP.Anchor = AnchorStyles.Right;
-            button_StartESP.FlatStyle = FlatStyle.Popup;
-            button_StartESP.ForeColor = Color.Red;
-            button_StartESP.Location = new Point(189, 278);
-            button_StartESP.Name = "button_StartESP";
-            button_StartESP.Size = new Size(107, 23);
-            button_StartESP.TabIndex = 89;
-            button_StartESP.Text = "Start ESP";
-            button_StartESP.UseVisualStyleBackColor = true;
+            button_StartESP_SettingsWidget.Anchor = AnchorStyles.Right;
+            button_StartESP_SettingsWidget.FlatStyle = FlatStyle.Popup;
+            button_StartESP_SettingsWidget.ForeColor = Color.Red;
+            button_StartESP_SettingsWidget.Location = new Point(189, 278);
+            button_StartESP_SettingsWidget.Name = "button_StartESP_SettingsWidget";
+            button_StartESP_SettingsWidget.Size = new Size(107, 23);
+            button_StartESP_SettingsWidget.TabIndex = 89;
+            button_StartESP_SettingsWidget.Text = "Start ESP";
+            button_StartESP_SettingsWidget.UseVisualStyleBackColor = true;
+            button_StartESP_SettingsWidget.Click += button_StartESP_SettingsWidget_Click;
             // 
             // checkedListBox_QuestHelper_SettingsWidget
             // 
@@ -483,7 +525,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             tabPage2.BackColor = Color.Transparent;
             tabPage2.BorderStyle = BorderStyle.FixedSingle;
-            tabPage2.Controls.Add(button_RandomBoneCfg);
+            tabPage2.Controls.Add(button_RandomBoneCfg_SettingsWidget);
             tabPage2.Controls.Add(label10);
             tabPage2.Controls.Add(comboBox_AimbotTarget_SettingsWidget);
             tabPage2.Controls.Add(checkBox_AimRandomBone_SettingsWidget);
@@ -503,16 +545,17 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Aim Bot";
             // 
-            // button_RandomBoneCfg
+            // button_RandomBoneCfg_SettingsWidget
             // 
-            button_RandomBoneCfg.BackColor = Color.Red;
-            button_RandomBoneCfg.Enabled = false;
-            button_RandomBoneCfg.Location = new Point(276, 46);
-            button_RandomBoneCfg.Name = "button_RandomBoneCfg";
-            button_RandomBoneCfg.Size = new Size(57, 28);
-            button_RandomBoneCfg.TabIndex = 73;
-            button_RandomBoneCfg.Text = "Cfg";
-            button_RandomBoneCfg.UseVisualStyleBackColor = false;
+            button_RandomBoneCfg_SettingsWidget.BackColor = SystemColors.Control;
+            button_RandomBoneCfg_SettingsWidget.Enabled = false;
+            button_RandomBoneCfg_SettingsWidget.Location = new Point(276, 46);
+            button_RandomBoneCfg_SettingsWidget.Name = "button_RandomBoneCfg_SettingsWidget";
+            button_RandomBoneCfg_SettingsWidget.Size = new Size(57, 28);
+            button_RandomBoneCfg_SettingsWidget.TabIndex = 73;
+            button_RandomBoneCfg_SettingsWidget.Text = "Cfg";
+            button_RandomBoneCfg_SettingsWidget.UseVisualStyleBackColor = false;
+            button_RandomBoneCfg_SettingsWidget.Click += button_RandomBoneCfg_SettingsWidget_Click;
             // 
             // label10
             // 
@@ -649,7 +692,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // tabPage3
             // 
-            tabPage3.BackColor = Color.Red;
+            tabPage3.BackColor = SystemColors.Control;
+            tabPage3.Controls.Add(label5);
+            tabPage3.Controls.Add(label1);
             tabPage3.Controls.Add(label_EspLineScale);
             tabPage3.Controls.Add(trackBar_EspLineScale);
             tabPage3.Controls.Add(label_EspLootDist);
@@ -690,7 +735,28 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage3.Size = new Size(592, 330);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "ESP";
-            tabPage3.Click += tabPage3_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 34F, FontStyle.Bold);
+            label5.ForeColor = Color.Red;
+            label5.Location = new Point(7, 149);
+            label5.Name = "label5";
+            label5.Size = new Size(576, 62);
+            label5.TabIndex = 98;
+            label5.Text = "USE MAIN SETTINGS TAB";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(31, 38);
+            label1.Name = "label1";
+            label1.Size = new Size(359, 65);
+            label1.TabIndex = 97;
+            label1.Text = "NOT FINISHED";
             // 
             // label_EspLineScale
             // 
@@ -1237,7 +1303,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // tabPage4
             // 
-            tabPage4.BackColor = Color.Red;
+            tabPage4.BackColor = SystemColors.Control;
+            tabPage4.Controls.Add(label6);
+            tabPage4.Controls.Add(label2);
             tabPage4.Controls.Add(radioButton_Chams_Basic);
             tabPage4.Controls.Add(radioButton_Chams_Visible);
             tabPage4.Controls.Add(radioButton_Chams_Vischeck);
@@ -1253,6 +1321,28 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage4.Size = new Size(592, 330);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Chams";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 34F, FontStyle.Bold);
+            label6.ForeColor = Color.Red;
+            label6.Location = new Point(6, 198);
+            label6.Name = "label6";
+            label6.Size = new Size(576, 62);
+            label6.TabIndex = 99;
+            label6.Text = "USE MAIN SETTINGS TAB";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Red;
+            label2.Location = new Point(117, 133);
+            label2.Name = "label2";
+            label2.Size = new Size(359, 65);
+            label2.TabIndex = 98;
+            label2.Text = "NOT FINISHED";
             // 
             // radioButton_Chams_Basic
             // 
@@ -1342,7 +1432,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // tabPage5
             // 
-            tabPage5.BackColor = Color.Red;
+            tabPage5.BackColor = SystemColors.Control;
+            tabPage5.Controls.Add(label7);
+            tabPage5.Controls.Add(label3);
             tabPage5.Controls.Add(label_WebRadarPassword);
             tabPage5.Controls.Add(textBox_WebRadarPassword);
             tabPage5.Controls.Add(linkLabel_WebRadarLink);
@@ -1360,6 +1452,28 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage5.Size = new Size(592, 330);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Web Radar";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 34F, FontStyle.Bold);
+            label7.ForeColor = Color.Red;
+            label7.Location = new Point(0, 179);
+            label7.Name = "label7";
+            label7.Size = new Size(576, 62);
+            label7.TabIndex = 99;
+            label7.Text = "USE MAIN SETTINGS TAB";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Red;
+            label3.Location = new Point(94, 114);
+            label3.Name = "label3";
+            label3.Size = new Size(359, 65);
+            label3.TabIndex = 98;
+            label3.Text = "NOT FINISHED";
             // 
             // label_WebRadarPassword
             // 
@@ -1474,7 +1588,9 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             // 
             // tabPage6
             // 
-            tabPage6.BackColor = Color.Red;
+            tabPage6.BackColor = SystemColors.Control;
+            tabPage6.Controls.Add(label8);
+            tabPage6.Controls.Add(label4);
             tabPage6.Controls.Add(flowLayoutPanel_NoRecoil);
             tabPage6.Controls.Add(flowLayoutPanel_LTW);
             tabPage6.Controls.Add(flowLayoutPanel_WideLean);
@@ -1492,114 +1608,27 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             tabPage6.TabIndex = 5;
             tabPage6.Text = "Misc";
             // 
-            // checkBox_Loot
+            // label8
             // 
-            checkBox_Loot.Anchor = AnchorStyles.Right;
-            checkBox_Loot.AutoSize = true;
-            checkBox_Loot.Location = new Point(4, 257);
-            checkBox_Loot.Name = "checkBox_Loot";
-            checkBox_Loot.Size = new Size(105, 19);
-            checkBox_Loot.TabIndex = 93;
-            checkBox_Loot.Text = "Show Loot (F3)";
-            checkBox_Loot.UseVisualStyleBackColor = true;
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 34F, FontStyle.Bold);
+            label8.ForeColor = Color.Red;
+            label8.Location = new Point(20, 139);
+            label8.Name = "label8";
+            label8.Size = new Size(576, 62);
+            label8.TabIndex = 99;
+            label8.Text = "USE MAIN SETTINGS TAB";
             // 
-            // checkBox_LootWishlist
+            // label4
             // 
-            checkBox_LootWishlist.Anchor = AnchorStyles.Right;
-            checkBox_LootWishlist.AutoSize = true;
-            checkBox_LootWishlist.Location = new Point(115, 257);
-            checkBox_LootWishlist.Name = "checkBox_LootWishlist";
-            checkBox_LootWishlist.Size = new Size(126, 19);
-            checkBox_LootWishlist.TabIndex = 95;
-            checkBox_LootWishlist.Text = "Show Loot Wishlist";
-            checkBox_LootWishlist.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_ShowContainers
-            // 
-            checkBox_ShowContainers.Anchor = AnchorStyles.Right;
-            checkBox_ShowContainers.AutoSize = true;
-            checkBox_ShowContainers.Location = new Point(247, 257);
-            checkBox_ShowContainers.Name = "checkBox_ShowContainers";
-            checkBox_ShowContainers.Size = new Size(147, 19);
-            checkBox_ShowContainers.TabIndex = 94;
-            checkBox_ShowContainers.Text = "Show Static Containers";
-            checkBox_ShowContainers.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_hideRaidcode
-            // 
-            checkBox_hideRaidcode.AutoSize = true;
-            checkBox_hideRaidcode.Location = new Point(260, 256);
-            checkBox_hideRaidcode.Name = "checkBox_hideRaidcode";
-            checkBox_hideRaidcode.Size = new Size(105, 19);
-            checkBox_hideRaidcode.TabIndex = 85;
-            checkBox_hideRaidcode.Text = "Hide RaidCode";
-            checkBox_hideRaidcode.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_AntiPage
-            // 
-            checkBox_AntiPage.AutoSize = true;
-            checkBox_AntiPage.Enabled = false;
-            checkBox_AntiPage.Location = new Point(371, 256);
-            checkBox_AntiPage.Name = "checkBox_AntiPage";
-            checkBox_AntiPage.Size = new Size(79, 19);
-            checkBox_AntiPage.TabIndex = 84;
-            checkBox_AntiPage.Text = "Anti-Page";
-            checkBox_AntiPage.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_NoRecoilSway
-            // 
-            checkBox_NoRecoilSway.Anchor = AnchorStyles.Right;
-            checkBox_NoRecoilSway.AutoSize = true;
-            checkBox_NoRecoilSway.Location = new Point(118, 281);
-            checkBox_NoRecoilSway.Name = "checkBox_NoRecoilSway";
-            checkBox_NoRecoilSway.Size = new Size(147, 19);
-            checkBox_NoRecoilSway.TabIndex = 79;
-            checkBox_NoRecoilSway.Text = "No Recoil/Sway (Risky)";
-            checkBox_NoRecoilSway.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_WideLean
-            // 
-            checkBox_WideLean.Anchor = AnchorStyles.Right;
-            checkBox_WideLean.AutoSize = true;
-            checkBox_WideLean.Location = new Point(8, 308);
-            checkBox_WideLean.Name = "checkBox_WideLean";
-            checkBox_WideLean.Size = new Size(119, 19);
-            checkBox_WideLean.TabIndex = 83;
-            checkBox_WideLean.Text = "Wide Lean (Risky)";
-            checkBox_WideLean.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_NoVisor
-            // 
-            checkBox_NoVisor.Anchor = AnchorStyles.Right;
-            checkBox_NoVisor.AutoSize = true;
-            checkBox_NoVisor.Location = new Point(133, 308);
-            checkBox_NoVisor.Name = "checkBox_NoVisor";
-            checkBox_NoVisor.Size = new Size(71, 19);
-            checkBox_NoVisor.TabIndex = 80;
-            checkBox_NoVisor.Text = "No Visor";
-            checkBox_NoVisor.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_AlwaysDaySunny
-            // 
-            checkBox_AlwaysDaySunny.Anchor = AnchorStyles.Right;
-            checkBox_AlwaysDaySunny.AutoSize = true;
-            checkBox_AlwaysDaySunny.Location = new Point(210, 308);
-            checkBox_AlwaysDaySunny.Name = "checkBox_AlwaysDaySunny";
-            checkBox_AlwaysDaySunny.Size = new Size(124, 19);
-            checkBox_AlwaysDaySunny.TabIndex = 81;
-            checkBox_AlwaysDaySunny.Text = "Always Day/Sunny";
-            checkBox_AlwaysDaySunny.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_NoWepMalf
-            // 
-            checkBox_NoWepMalf.Anchor = AnchorStyles.Right;
-            checkBox_NoWepMalf.AutoSize = true;
-            checkBox_NoWepMalf.Location = new Point(340, 308);
-            checkBox_NoWepMalf.Name = "checkBox_NoWepMalf";
-            checkBox_NoWepMalf.Size = new Size(142, 19);
-            checkBox_NoWepMalf.TabIndex = 82;
-            checkBox_NoWepMalf.Text = "No Wep Malfunctions";
-            checkBox_NoWepMalf.UseVisualStyleBackColor = true;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Red;
+            label4.Location = new Point(118, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(359, 65);
+            label4.TabIndex = 98;
+            label4.Text = "NOT FINISHED";
             // 
             // flowLayoutPanel_NoRecoil
             // 
@@ -1790,6 +1819,82 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             trackBar_WideLeanAmt.TickStyle = TickStyle.None;
             trackBar_WideLeanAmt.Value = 50;
             // 
+            // checkBox_hideRaidcode
+            // 
+            checkBox_hideRaidcode.AutoSize = true;
+            checkBox_hideRaidcode.Location = new Point(260, 256);
+            checkBox_hideRaidcode.Name = "checkBox_hideRaidcode";
+            checkBox_hideRaidcode.Size = new Size(105, 19);
+            checkBox_hideRaidcode.TabIndex = 85;
+            checkBox_hideRaidcode.Text = "Hide RaidCode";
+            checkBox_hideRaidcode.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_AntiPage
+            // 
+            checkBox_AntiPage.AutoSize = true;
+            checkBox_AntiPage.Enabled = false;
+            checkBox_AntiPage.Location = new Point(371, 256);
+            checkBox_AntiPage.Name = "checkBox_AntiPage";
+            checkBox_AntiPage.Size = new Size(79, 19);
+            checkBox_AntiPage.TabIndex = 84;
+            checkBox_AntiPage.Text = "Anti-Page";
+            checkBox_AntiPage.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_NoRecoilSway
+            // 
+            checkBox_NoRecoilSway.Anchor = AnchorStyles.Right;
+            checkBox_NoRecoilSway.AutoSize = true;
+            checkBox_NoRecoilSway.Location = new Point(118, 281);
+            checkBox_NoRecoilSway.Name = "checkBox_NoRecoilSway";
+            checkBox_NoRecoilSway.Size = new Size(147, 19);
+            checkBox_NoRecoilSway.TabIndex = 79;
+            checkBox_NoRecoilSway.Text = "No Recoil/Sway (Risky)";
+            checkBox_NoRecoilSway.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_WideLean
+            // 
+            checkBox_WideLean.Anchor = AnchorStyles.Right;
+            checkBox_WideLean.AutoSize = true;
+            checkBox_WideLean.Location = new Point(8, 308);
+            checkBox_WideLean.Name = "checkBox_WideLean";
+            checkBox_WideLean.Size = new Size(119, 19);
+            checkBox_WideLean.TabIndex = 83;
+            checkBox_WideLean.Text = "Wide Lean (Risky)";
+            checkBox_WideLean.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_NoVisor
+            // 
+            checkBox_NoVisor.Anchor = AnchorStyles.Right;
+            checkBox_NoVisor.AutoSize = true;
+            checkBox_NoVisor.Location = new Point(133, 308);
+            checkBox_NoVisor.Name = "checkBox_NoVisor";
+            checkBox_NoVisor.Size = new Size(71, 19);
+            checkBox_NoVisor.TabIndex = 80;
+            checkBox_NoVisor.Text = "No Visor";
+            checkBox_NoVisor.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_AlwaysDaySunny
+            // 
+            checkBox_AlwaysDaySunny.Anchor = AnchorStyles.Right;
+            checkBox_AlwaysDaySunny.AutoSize = true;
+            checkBox_AlwaysDaySunny.Location = new Point(210, 308);
+            checkBox_AlwaysDaySunny.Name = "checkBox_AlwaysDaySunny";
+            checkBox_AlwaysDaySunny.Size = new Size(124, 19);
+            checkBox_AlwaysDaySunny.TabIndex = 81;
+            checkBox_AlwaysDaySunny.Text = "Always Day/Sunny";
+            checkBox_AlwaysDaySunny.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_NoWepMalf
+            // 
+            checkBox_NoWepMalf.Anchor = AnchorStyles.Right;
+            checkBox_NoWepMalf.AutoSize = true;
+            checkBox_NoWepMalf.Location = new Point(340, 308);
+            checkBox_NoWepMalf.Name = "checkBox_NoWepMalf";
+            checkBox_NoWepMalf.Size = new Size(142, 19);
+            checkBox_NoWepMalf.TabIndex = 82;
+            checkBox_NoWepMalf.Text = "No Wep Malfunctions";
+            checkBox_NoWepMalf.UseVisualStyleBackColor = true;
+            // 
             // SettingsWidgetForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1878,7 +1983,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private TabPage tabPage5;
         private Label label10;
         private ComboBox comboBox_AimbotTarget_SettingsWidget;
-        private Button button_RandomBoneCfg;
+        private Button button_RandomBoneCfg_SettingsWidget;
         private RadioButton radioButton_Chams_Basic;
         private RadioButton radioButton_Chams_Visible;
         private RadioButton radioButton_Chams_Vischeck;
@@ -1938,7 +2043,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private TrackBar trackBar_EspFontScale;
         private Label label_EspLineScale;
         private TrackBar trackBar_EspLineScale;
-        private Button button_StartESP;
+        public Button button_StartESP_SettingsWidget;
         private Button button_WebRadarStart;
         private CheckBox checkBox_WebRadarUPNP;
         private Label label_WebRadarHost;
@@ -1985,5 +2090,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         private ComboBox comboBox_WideLeanMode;
         private Label label_WideLeanAmt;
         private TrackBar trackBar_WideLeanAmt;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
     }
 }
