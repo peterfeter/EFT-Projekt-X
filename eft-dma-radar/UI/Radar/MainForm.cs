@@ -234,6 +234,7 @@ namespace eft_dma_radar.UI.Radar
             label_ContainerDist.Text = $"Container Dist: {amt}";
             Config.ContainerDrawDistance = amt;
         }
+
         #endregion
 
         #region Render
@@ -1286,12 +1287,19 @@ namespace eft_dma_radar.UI.Radar
             }
             else
             {
+                List<string> checkedItems = new List<string>();
+                foreach (var item in checkedListBox_Containers.CheckedItems)
+                {
+                    checkedItems.Add(item.ToString());
+                }
                 _settingsWidgetForm = new SettingsWidgetForm(this);
-                _settingsWidgetForm.Show();
+                _settingsWidgetForm.SetCheckedItems(checkedItems);
                 _settingsWidgetForm.UpdateCheckboxStates();
                 _settingsWidgetForm.UpdateTrackBarAimFOV(trackBar_AimFOV.Value);
                 _settingsWidgetForm.UpdateLabelAimFOV(trackBar_AimFOV.Value);
                 _settingsWidgetForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget.SelectedIndex);
+                _settingsWidgetForm.UpdateContainersCheckedState();               
+                _settingsWidgetForm.Show(); 
             }
         }
 
@@ -2189,6 +2197,7 @@ namespace eft_dma_radar.UI.Radar
 
             checkBox_LTW.Checked = MemWriteFeature<LootThroughWalls>.Instance.Enabled;
             checkBox_MoveSpeed.Checked = MemWriteFeature<MoveSpeed>.Instance.Enabled;
+            checkBox_MoveSpeed2.Checked = MemWriteFeature<MoveSpeed2>.Instance.Enabled;
             checkBox_WideLean.Checked = MemWriteFeature<WideLean>.Instance.Enabled;
             checkBox_AimBotEnabled.Checked = MemWriteFeature<Aimbot>.Instance.Enabled;
             checkBox_AimbotDisableReLock.Checked = Aimbot.Config.DisableReLock;
@@ -3975,13 +3984,6 @@ namespace eft_dma_radar.UI.Radar
                 _settingsWidgetForm.UpdateContainersList(e.Index, e.NewValue == CheckState.Checked);
             }
         }
-        public void UpdateSettingsWidgetContainersList()
-        {
-            if (_settingsWidgetForm != null)
-            {
-                _settingsWidgetForm.PopulateContainersList();
-            }
-        }
         private void ContainersSelectAll()
         {
             for (int i = 0; i < checkedListBox_Containers.Items.Count; i++)
@@ -4077,8 +4079,15 @@ namespace eft_dma_radar.UI.Radar
                 }
             }
         }
-
-
+        public void UpdateSettingsWidgetContainersList()
+        {
+            // Implementation of the method
+            // For example, you might want to update the list of containers in the settings widget
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.PopulateContainersList();
+            }
+        }
         #endregion
 
         private void linkLabel_CheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

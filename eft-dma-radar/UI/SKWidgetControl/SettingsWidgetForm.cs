@@ -15,6 +15,7 @@ using eft_dma_radar.UI.Misc;
 using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using eft_dma_radar.Features.MemoryWrites.UI;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using static eft_dma_radar.UI.Radar.MainForm;
 
 namespace LonesEFTRadar.UI.SKWidgetControl
 {
@@ -33,12 +34,13 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             InitializeComponent();
             _mainForm = mainForm;
             _mainForm.RefreshQuestHelper();
+            _mainForm.UpdateSettingsWidgetContainersList();
             SetDarkMode(ref _darkmode);
             UpdateCheckboxStates();
             InitializeHeaderText();
             PopulateQuestHelperList();
-            PopulateComboBoxAimbotTarget();
             PopulateContainersList();
+            PopulateComboBoxAimbotTarget();
             trackBar_AimFOV_SettingsWidget.ValueChanged += TrackBar_AimFOV_SettingsWidget_ValueChanged;
             comboBox_AimbotTarget_SettingsWidget.SelectedIndexChanged += ComboBox_AimbotTarget_SettingsWidget_SelectedIndexChanged;
             checkBox_AimRandomBone_SettingsWidget.CheckedChanged += checkBox_AimRandomBone_SettingsWidget_CheckedChanged;
@@ -78,7 +80,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                 checkedListBox_Containers_SettingsWidget.Items.Add(item, _mainForm.checkedListBox_Containers.GetItemChecked(_mainForm.checkedListBox_Containers.Items.IndexOf(item)));
             }
         }
-
         #endregion
 
         #region Event Handlers
@@ -315,7 +316,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_LootWishlist_SettingsWidget.Checked = _mainForm.checkBox_LootWishlist.Checked;
             checkBox_ShowContainers_SettingsWidget.Checked = _mainForm.checkBox_ShowContainers.Checked;
         }
-
         public void UpdateMoveSpeedCheckbox(bool isChecked)
         {
             checkBox_MoveSpeed_SettingsWidget.Checked = isChecked;
@@ -415,6 +415,31 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkedListBox_Containers_SettingsWidget.SetItemChecked(index, isChecked);
             checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
         }
+        public void UpdateContainersCheckedState()
+        {
+            checkedListBox_Containers_SettingsWidget.ItemCheck -= checkedListBox_Containers_SettingsWidget_ItemCheck;
+            checkedListBox_Containers_SettingsWidget.Items.Clear();
+            foreach (var item in _mainForm.checkedListBox_Containers.Items)
+            {
+                bool isChecked = _mainForm.checkedListBox_Containers.GetItemChecked(_mainForm.checkedListBox_Containers.Items.IndexOf(item));
+                checkedListBox_Containers_SettingsWidget.Items.Add(item, isChecked);
+            }
+            checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
+        }
+        public void SetCheckedItems(List<string> checkedItems)
+        {
+            for (int i = 0; i < checkedListBox_Containers_SettingsWidget.Items.Count; i++)
+            {
+                if (checkedItems.Contains(checkedListBox_Containers_SettingsWidget.Items[i].ToString()))
+                {
+                    checkedListBox_Containers_SettingsWidget.SetItemChecked(i, true);
+                }
+                else
+                {
+                    checkedListBox_Containers_SettingsWidget.SetItemChecked(i, false);
+                }
+            }
+        }
         public void UpdateTrackBarAimFOV(int value)
         {
             if (trackBar_AimFOV_SettingsWidget.Value != value)
@@ -461,6 +486,5 @@ namespace LonesEFTRadar.UI.SKWidgetControl
                 SharedPaints.PaintBitmapAlpha.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
             }
         }
-
     }
 }

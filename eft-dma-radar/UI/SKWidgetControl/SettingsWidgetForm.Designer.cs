@@ -480,6 +480,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkedListBox_Containers_SettingsWidget.Name = "checkedListBox_Containers_SettingsWidget";
             checkedListBox_Containers_SettingsWidget.Size = new Size(228, 94);
             checkedListBox_Containers_SettingsWidget.TabIndex = 60;
+         //   checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
             // 
             // checkBox_EnableMemWrite_SettingsWidget
             // 
