@@ -10,7 +10,6 @@ using System.Net.Sockets;
 using eft_dma_radar.Tarkov.WebRadar.Data;
 using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.MessagePack;
-using eft_dma_shared.Common.Misc;
 using eft_dma_radar.Tarkov.Loot;
 
 namespace eft_dma_radar.Tarkov.WebRadar
@@ -45,8 +44,6 @@ namespace eft_dma_radar.Tarkov.WebRadar
             _webHost = Host.CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls($"http://0.0.0.0:{port}");
-
                     webBuilder.UseKestrel()
                         .ConfigureServices(services =>
                         {
@@ -65,15 +62,12 @@ namespace eft_dma_radar.Tarkov.WebRadar
                             {
                                 options.AddDefaultPolicy(builder =>
                                 {
-                                    builder.WithOrigins("http://fd-mambo.org:8080")
+                                    builder.AllowAnyOrigin()
                                            .AllowAnyHeader()
                                            .AllowAnyMethod()
-                                           .SetIsOriginAllowed(_ => true)
-                                           .SetIsOriginAllowedToAllowWildcardSubdomains()
-                                           .AllowCredentials();                                           
+                                           .SetIsOriginAllowedToAllowWildcardSubdomains();
                                 });
                             });
-                         
                         })
                         .Configure(app =>
                         {
