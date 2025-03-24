@@ -1,15 +1,19 @@
-﻿using eft_dma_radar.Tarkov.Features.MemoryWrites;
+﻿using DarkModeForms;
+using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using eft_dma_radar.UI.Misc;
+using eft_dma_shared.Common.Misc;
 
 namespace eft_dma_radar.Features.MemoryWrites.UI
 {
     public sealed partial class AimbotRandomBoneForm : Form
     {
         private static AimbotRandomBoneConfig Config { get; } = Aimbot.Config.RandomBone;
+        private readonly DarkModeCS _darkmode;
 
         public AimbotRandomBoneForm()
         {
             InitializeComponent();
+            SetDarkMode(ref _darkmode);
             if (!Config.Is100Percent)
                 Config.ResetDefaults();
             textBox_Head.Text = Config.HeadPercent.ToString();
@@ -63,6 +67,20 @@ namespace eft_dma_radar.Features.MemoryWrites.UI
             while (!int.TryParse(textBox_Legs.Text, out value) || value < 0)
                 LegsDefault();
             Config.LegsPercent = value;
+        }
+
+        /// <summary>
+        /// Set Dark Mode on startup.
+        /// </summary>
+        /// <param name="darkmode"></param>
+        private void SetDarkMode(ref DarkModeCS darkmode)
+        {
+            darkmode = new DarkModeCS(this);
+            if (darkmode.IsDarkMode)
+            {
+                SharedPaints.PaintBitmap.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
+                SharedPaints.PaintBitmapAlpha.ColorFilter = SharedPaints.GetDarkModeColorFilter(0.7f);
+            }
         }
     }
 }

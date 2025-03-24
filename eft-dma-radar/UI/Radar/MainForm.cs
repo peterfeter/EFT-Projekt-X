@@ -69,6 +69,9 @@ namespace eft_dma_radar.UI.Radar
         public CheckBox checkBox_Chams;
         public CheckBox checkBox_AimBotEnabled;
         public CheckedListBox checkedListBox_QuestHelper;
+        public CheckBox checkBox_SA_SafeLock;
+        public CheckBox checkBox_SA_AutoBone;
+        public RadioButton radioButton_AimTarget_FOV;
         /// <summary>
         /// Main UI/Application Config.
         /// </summary>
@@ -220,6 +223,9 @@ namespace eft_dma_radar.UI.Radar
             var interval = TimeSpan.FromMilliseconds(1000d / Config.RadarTargetFPS);
             _renderTimer = new(interval);
             Shown += MainForm_Shown;
+            trackBar_AimFOV.ValueChanged += TrackBar_AimFOV_ValueChanged;
+            comboBox_AimbotTarget.SelectedIndexChanged += comboBox_AimbotTarget_SelectedIndexChanged;
+            button_StartESP.TextChanged += Button_StartESP_TextChanged;
         }
 
         private void TrackBar_ContainerDist_ValueChanged(object sender, EventArgs e)
@@ -228,6 +234,7 @@ namespace eft_dma_radar.UI.Radar
             label_ContainerDist.Text = $"Container Dist: {amt}";
             Config.ContainerDrawDistance = amt;
         }
+
         #endregion
 
         #region Render
@@ -690,7 +697,11 @@ namespace eft_dma_radar.UI.Radar
         }
         private void checkBox_LootWishlist_CheckedChanged(object sender, EventArgs e)
         {
-            Config.LootWishlist = checkBox_LootWishlist.Checked;
+            bool isChecked = checkBox_LootWishlist.Checked;
+            Config.LootWishlist = isChecked;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLootWishlistCheckbox(isChecked);
         }
 
         private void checkBox_AIAimlines_CheckedChanged(object sender, EventArgs e)
@@ -835,16 +846,23 @@ namespace eft_dma_radar.UI.Radar
                 button_GymHack.Enabled = true;
             }
         }
-        private void checkBox_Containers_HideSearched_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_Containers_HideSearched_CheckedChanged(object sender, EventArgs e)
         {
-            Config.Containers.HideSearched = checkBox_Containers_HideSearched.Checked;
+            bool enabled = checkBox_Containers_HideSearched.Checked;
+            Config.Containers.HideSearched = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateContainersContainersHideSearchedCheckbox(enabled);
         }
 
-        private void checkBox_ShowContainers_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_ShowContainers_CheckedChanged(object sender, EventArgs e)
         {
             bool enabled = checkBox_ShowContainers.Checked;
             Config.Containers.Show = enabled;
             flowLayoutPanel_Loot_Containers.Enabled = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateShowContainersCheckbox (enabled);
         }
         private void TrackBar_LTWAmount_ValueChanged(object sender, EventArgs e)
         {
@@ -942,12 +960,15 @@ namespace eft_dma_radar.UI.Radar
         {
             MemWriteFeature<RageMode>.Instance.Enabled = checkBox_RageMode.Checked;
         }
-        private void checkBox_AimRandomBone_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimRandomBone_CheckedChanged(object sender, EventArgs e)
         {
             bool enabled = checkBox_AimRandomBone.Checked;
             Aimbot.Config.RandomBone.Enabled = enabled;
             button_RandomBoneCfg.Enabled = enabled;
             comboBox_AimbotTarget.Enabled = !enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimRandomBoneCheckbox(enabled);
         }
 
         private void button_RandomBoneCfg_Click(object sender, EventArgs e)
@@ -957,19 +978,31 @@ namespace eft_dma_radar.UI.Radar
             if (!Aimbot.Config.RandomBone.Is100Percent)
                 Aimbot.Config.RandomBone.ResetDefaults();
         }
-        private void checkBox_SA_AutoBone_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_SA_AutoBone_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.SilentAim.AutoBone = checkBox_SA_AutoBone.Checked;
+            bool enabled = checkBox_SA_AutoBone.Checked;
+            Aimbot.Config.SilentAim.AutoBone = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateSA_AutoBoneCheckbox(enabled);
         }
 
         private void checkBox_HeadAI_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.HeadshotAI = checkBox_AimHeadAI.Checked;
+            bool enabled = checkBox_AimHeadAI.Checked;
+            Aimbot.Config.HeadshotAI = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimHeadAICheckbox(enabled);
         }
 
-        private void checkBox_SA_SafeLock_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_SA_SafeLock_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.SilentAim.SafeLock = checkBox_SA_SafeLock.Checked;
+            bool enabled = checkBox_SA_SafeLock.Checked;
+            Aimbot.Config.SilentAim.SafeLock = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateSA_SafeLockCheckbox(enabled);
         }
 
         private void checkBox_TeammateAimlines_CheckedChanged(object sender, EventArgs e)
@@ -1051,9 +1084,13 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
-        private void checkBox_AimbotDisableReLock_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_AimbotDisableReLock_CheckedChanged(object sender, EventArgs e)
         {
-            Aimbot.Config.DisableReLock = checkBox_AimbotDisableReLock.Checked;
+            bool enabled = checkBox_AimbotDisableReLock.Checked;
+            Aimbot.Config.DisableReLock = enabled;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimbotDisableReLockCheckbox(enabled);
         }
 
         /// <summary>
@@ -1147,11 +1184,14 @@ namespace eft_dma_radar.UI.Radar
         /// </summary>
         private void checkBox_Loot_CheckedChanged(object sender, EventArgs e)
         {
-            var enabled = checkBox_Loot.Checked;
+            bool enabled = checkBox_Loot.Checked;
             Config.ShowLoot = enabled;
             button_Loot.Visible = enabled;
             flowLayoutPanel_Loot.Visible = false;
             button_Loot.Enabled = true;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateLootCheckbox(enabled);
         }
 
         /// <summary>
@@ -1247,9 +1287,19 @@ namespace eft_dma_radar.UI.Radar
             }
             else
             {
+                List<string> checkedItems = new List<string>();
+                foreach (var item in checkedListBox_Containers.CheckedItems)
+                {
+                    checkedItems.Add(item.ToString());
+                }
                 _settingsWidgetForm = new SettingsWidgetForm(this);
-                _settingsWidgetForm.Show();
+                _settingsWidgetForm.SetCheckedItems(checkedItems);
                 _settingsWidgetForm.UpdateCheckboxStates();
+                _settingsWidgetForm.UpdateTrackBarAimFOV(trackBar_AimFOV.Value);
+                _settingsWidgetForm.UpdateLabelAimFOV(trackBar_AimFOV.Value);
+                _settingsWidgetForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget.SelectedIndex);
+                _settingsWidgetForm.UpdateContainersCheckedState();               
+                _settingsWidgetForm.Show(); 
             }
         }
 
@@ -1684,9 +1734,23 @@ namespace eft_dma_radar.UI.Radar
 
         private void comboBox_AimbotTarget_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox_AimbotTarget.SelectedItem is BonesListItem entry) Aimbot.Config.Bone = entry.Bone;
-        }
+            if (comboBox_AimbotTarget.SelectedItem is BonesListItem entry)
+            {
+                Aimbot.Config.Bone = entry.Bone;
+            }
 
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateComboBoxAimbotTarget(comboBox_AimbotTarget.SelectedIndex);
+            }
+        }
+        public void UpdateComboBoxAimbotTarget(int selectedIndex)
+        {
+            if (comboBox_AimbotTarget.SelectedIndex != selectedIndex)
+            {
+                comboBox_AimbotTarget.SelectedIndex = selectedIndex;
+            }
+        }
         private void TrackBar_MaxDist_ValueChanged(object sender, EventArgs e)
         {
             Config.MaxDistance = trackBar_MaxDist.Value;
@@ -1718,23 +1782,46 @@ namespace eft_dma_radar.UI.Radar
             MemWriteFeature<AlwaysDaySunny>.Instance.Enabled = checkBox_AlwaysDaySunny.Checked;
         }
 
-        private void radioButton_AimbotDefaultMode_CheckedChanged(object sender, EventArgs e)
+        public void radioButton_AimbotDefaultMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_AimTarget_FOV.Checked)
+            bool isChecked = radioButton_AimTarget_FOV.Checked;
+            if (radioButton_AimTarget_FOV.Enabled = isChecked)
                 Aimbot.Config.TargetingMode = Aimbot.AimbotTargetingMode.FOV;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimTarget_FOVCheckbox(isChecked);
         }
 
-        private void radioButton_AimbotCQBMode_CheckedChanged(object sender, EventArgs e)
+        public void radioButton_AimbotCQBMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_AimTarget_CQB.Checked)
+            bool isChecked = radioButton_AimTarget_CQB.Checked;
+            if (radioButton_AimTarget_CQB.Enabled = isChecked)
                 Aimbot.Config.TargetingMode = Aimbot.AimbotTargetingMode.CQB;
+
+            // Update the SettingsWidgetForm checkbox
+            _settingsWidgetForm?.UpdateAimTarget_CQBCheckbox(isChecked);
         }
 
         private void TrackBar_AimFOV_ValueChanged(object sender, EventArgs e)
         {
+            int value = trackBar_AimFOV.Value;
             float fov = trackBar_AimFOV.Value; // Cache value
             Aimbot.Config.FOV = fov; // Set Global
-            label_AimFOV.Text = $"FOV {(int)fov}";
+            label_AimFOV.Text = $"FOV {value}";
+            _settingsWidgetForm?.UpdateTrackBarAimFOV(value);
+            _settingsWidgetForm?.UpdateLabelAimFOV(value);
+        }
+
+        public void UpdateTrackBarAimFOV(int value)
+        {
+            if (trackBar_AimFOV.Value != value)
+            {
+                trackBar_AimFOV.Value = value;
+            }
+        }
+        public void UpdateLabelAimFOV(int value)
+        {
+            label_AimFOV.Text = $"FOV {value}";
         }
 
         private void checkBox_LootPPS_CheckedChanged(object sender, EventArgs e)
@@ -2110,6 +2197,7 @@ namespace eft_dma_radar.UI.Radar
 
             checkBox_LTW.Checked = MemWriteFeature<LootThroughWalls>.Instance.Enabled;
             checkBox_MoveSpeed.Checked = MemWriteFeature<MoveSpeed>.Instance.Enabled;
+            checkBox_MoveSpeed2.Checked = MemWriteFeature<MoveSpeed2>.Instance.Enabled;
             checkBox_WideLean.Checked = MemWriteFeature<WideLean>.Instance.Enabled;
             checkBox_AimBotEnabled.Checked = MemWriteFeature<Aimbot>.Instance.Enabled;
             checkBox_AimbotDisableReLock.Checked = Aimbot.Config.DisableReLock;
@@ -2328,7 +2416,7 @@ namespace eft_dma_radar.UI.Radar
             textBox_LootImpValue.Text = Config.MinValuableLootValue.ToString();
         }
 
-        private void PopulateComboBoxes()
+        public void PopulateComboBoxes()
         {
             /// Aimbot Bones
             var bones = new List<BonesListItem>();
@@ -3017,12 +3105,13 @@ namespace eft_dma_radar.UI.Radar
                 Config.ESP.SelectedScreen = entry.ScreenNumber;
         }
 
-        private void button_StartESP_Click(object sender, EventArgs e) =>
+        public void button_StartESP_Click(object sender, EventArgs e) =>
             StartESP();
 
         private void StartESP()
         {
             button_StartESP.Text = "Running...";
+            _settingsWidgetForm?.UpdateStartESPButtonText("Running...");
             flowLayoutPanel_ESPSettings.Enabled = false;
             flowLayoutPanel_MonitorSettings.Enabled = false;
             var t = new Thread(() =>
@@ -3042,6 +3131,7 @@ namespace eft_dma_radar.UI.Radar
                     Invoke(() =>
                     {
                         button_StartESP.Text = "Start ESP";
+                        _settingsWidgetForm?.UpdateStartESPButtonText("Start ESP");
                         flowLayoutPanel_ESPSettings.Enabled = true;
                         flowLayoutPanel_MonitorSettings.Enabled = true;
                     });
@@ -3055,7 +3145,13 @@ namespace eft_dma_radar.UI.Radar
             t.Start();
             tabControl1.SelectedIndex = 0; // Switch back to Radar
         }
-
+        private void Button_StartESP_TextChanged(object sender, EventArgs e)
+        {
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateStartESPButtonText(button_StartESP.Text);
+            }
+        }
         private void textBox_EspFpsCap_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(textBox_EspFpsCap.Text, out var value))
@@ -3869,7 +3965,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_Containers_SelectAll.CheckedChanged += checkBox_Containers_SelectAll_CheckedChanged;
         }
 
-        private void CheckedListBox_Containers_ItemCheck(object sender, ItemCheckEventArgs e)
+        public void CheckedListBox_Containers_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var item = checkedListBox_Containers.Items[e.Index] as ContainerListItem;
             if (item is not null)
@@ -3881,8 +3977,13 @@ namespace eft_dma_radar.UI.Radar
                     checkBox_Containers_SelectAll.Checked = false;
                 }
             }
-        }
 
+            // Update the corresponding item in the settings form's checkedListBox_Containers_SettingsWidget
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.UpdateContainersList(e.Index, e.NewValue == CheckState.Checked);
+            }
+        }
         private void ContainersSelectAll()
         {
             for (int i = 0; i < checkedListBox_Containers.Items.Count; i++)
@@ -3891,13 +3992,29 @@ namespace eft_dma_radar.UI.Radar
             }
         }
 
-        private void checkBox_Containers_SelectAll_CheckedChanged(object sender, EventArgs e)
+        public void checkBox_Containers_SelectAll_CheckedChanged(object sender, EventArgs e)
         {
             bool selectAll = checkBox_Containers_SelectAll.Checked;
             Config.Containers.SelectAll = selectAll;
             if (selectAll)
             {
                 ContainersSelectAll();
+            }
+            else
+            {
+                // Uncheck all items if Select All is unchecked
+                for (int i = 0; i < checkedListBox_Containers.Items.Count; i++)
+                {
+                    checkedListBox_Containers.SetItemChecked(i, false);
+                }
+            }
+
+            // Update the corresponding checkbox in the settings form
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged -= _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.Checked = selectAll;
+                _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged += _settingsWidgetForm.checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
             }
         }
 
@@ -3962,8 +4079,15 @@ namespace eft_dma_radar.UI.Radar
                 }
             }
         }
-
-
+        public void UpdateSettingsWidgetContainersList()
+        {
+            // Implementation of the method
+            // For example, you might want to update the list of containers in the settings widget
+            if (_settingsWidgetForm != null)
+            {
+                _settingsWidgetForm.PopulateContainersList();
+            }
+        }
         #endregion
 
         private void linkLabel_CheckForUpdates_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

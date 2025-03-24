@@ -1083,6 +1083,19 @@ namespace eft_dma_radar.UI.Misc
             FilterQuality = SKFilterQuality.High
         };
 
+        public static SKPaint TextRaidTimeESP { get; } = new()
+        {
+            SubpixelText = true,
+            Color = SKColors.LimeGreen,
+            IsStroke = false,
+            TextSize = 25f,
+            TextAlign = SKTextAlign.Left,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = CustomFonts.SKFontFamilyBold,
+            FilterQuality = SKFilterQuality.High
+        };
+
         public static SKPaint PaintBasicESP { get; } = new()
         {
             Color = SKColors.White,

@@ -1833,6 +1833,7 @@ namespace eft_dma_radar.UI.Radar
             comboBox_AimbotTarget.Name = "comboBox_AimbotTarget";
             comboBox_AimbotTarget.Size = new Size(121, 23);
             comboBox_AimbotTarget.TabIndex = 50;
+            comboBox_AimbotTarget.SelectedIndexChanged += comboBox_AimbotTarget_SelectedIndexChanged;
             // 
             // checkBox_AimHeadAI
             // 
@@ -3511,7 +3512,7 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_AimlineLength;
         private Label label_Pos;
         private Label label1;
-        private CheckBox checkBox_Loot;
+        public CheckBox checkBox_Loot;
         private CheckBox checkBox_MapSetup;
         private Button button_Restart;
         private GroupBox groupBox_MapSetup;
@@ -3546,7 +3547,7 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_NoVisor;
         private Button button_HotkeyManager;
         private Label label10;
-        private ComboBox comboBox_AimbotTarget;
+        public ComboBox comboBox_AimbotTarget;
         private TabPage tabPage5;
         private TabPage tabPage6;
         private DataGridView dataGridView_Watchlist;
@@ -3562,9 +3563,8 @@ namespace eft_dma_radar.UI.Radar
         private DataGridViewTextBoxColumn Column_PWReason;
         private DataGridViewTextBoxColumn Column_PWTimestamp;
         private CheckBox checkBox_QuestHelper_Enabled;
-        private RadioButton radioButton_AimTarget_CQB;
-        private RadioButton radioButton_AimTarget_FOV;
-        private Button button_StartESP;
+        public RadioButton radioButton_AimTarget_CQB;
+        public Button button_StartESP;
         private CheckBox checkBox_ESP_Explosives;
         private CheckBox checkBox_ESP_Exfils;
         private CheckBox checkBox_ESP_FPS;
@@ -3601,7 +3601,7 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_ESP_ShowMines;
         private CheckBox checkBox_ShowMines;
         private CheckBox checkBox_ESP_ShowMag;
-        private CheckBox checkBox_AimbotDisableReLock;
+        public CheckBox checkBox_AimbotDisableReLock;
         private Button button_BackupConfig;
         private ComboBox comboBox_ESP_HighAlert;
         private Label label_ESP_HighAlert;
@@ -3638,11 +3638,9 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_CurrentLootFilter_Enabled;
         private Button button_LootFilters_Rename;
         private CheckBox checkBox_TeammateAimlines;
-        private CheckBox checkBox_AimHeadAI;
-        private CheckBox checkBox_SA_AutoBone;
-        private CheckBox checkBox_SA_SafeLock;
+        public CheckBox checkBox_AimHeadAI;
         private Button button_RandomBoneCfg;
-        private CheckBox checkBox_AimRandomBone;
+        public CheckBox checkBox_AimRandomBone;
         private CheckBox checkBox_EnableMemWrite;
         private CheckBox checkBox_RageMode;
         private Button button_AntiAfk;
@@ -3720,17 +3718,17 @@ namespace eft_dma_radar.UI.Radar
         private TrackBar trackBar_LTWAmount;
         private FlowLayoutPanel flowLayoutPanel5;
         private Label label29;
-        private CheckBox checkBox_ShowContainers;
+        public CheckBox checkBox_ShowContainers;
         private Label label_ContainerDist;
         private TrackBar trackBar_ContainerDist;
         private Label label_ESPContainerDist;
         private TrackBar trackBar_ESPContainerDist;
         private FlowLayoutPanel flowLayoutPanel_Loot_Containers;
         private Label label30;
-        private CheckBox checkBox_Containers_SelectAll;
+        public CheckBox checkBox_Containers_SelectAll;
         private Label label31;
-        private CheckedListBox checkedListBox_Containers;
-        private CheckBox checkBox_Containers_HideSearched;
+        public CheckedListBox checkedListBox_Containers;
+        public CheckBox checkBox_Containers_HideSearched;
         private Button button_GymHack;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
@@ -3748,7 +3746,7 @@ namespace eft_dma_radar.UI.Radar
         private RadioButton radioButton_Loot_VendorPrice;
         private CheckBox checkBox_AntiPage;
         private CheckBox checkBox_AIAimlines;
-        private CheckBox checkBox_LootWishlist;
+        public CheckBox checkBox_LootWishlist;
         private FlowLayoutPanel flowLayoutPanel1;
         private Label label34;
         private CheckBox checkBox_hideRaidcode;

@@ -248,6 +248,7 @@ namespace eft_dma_radar.UI.ESP
                             DrawFireportAim(canvas, localPlayer);
                         if (Config.ESP.ShowStatusText)
                             DrawStatusText(canvas);
+                        DrawTime(canvas);
                     }
                 }
             }
@@ -258,6 +259,36 @@ namespace eft_dma_radar.UI.ESP
             canvas.Flush();
         }
 
+        /// <summary>
+        /// Draw current time on ESP Window.
+        /// </summary>
+        private ulong GetUnixTime()
+        {
+            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return (ulong)(DateTime.UtcNow - unixEpoch).TotalMilliseconds;
+        }
+        public static ulong Hrs(ulong num)
+        {
+            return 1000 * 60 * 60 * num;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DrawTime(SKCanvas canvas)
+        {
+            ulong time = GetUnixTime();
+            ulong oneDay = Hrs(24);
+            ulong russia = Hrs(3);
+
+            ulong offsetDay = russia;
+            ulong offsetNight = russia + Hrs(12);
+
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime tarkovTimeDay = epoch.AddSeconds(((offsetDay + (time * 7)) % oneDay) / 1000);
+            DateTime tarkovTimeNight = epoch.AddSeconds(((offsetNight + (time * 7)) % oneDay) / 1000);
+            string raidTime = tarkovTimeDay.ToString("HH:mm:ss") + " - " + tarkovTimeNight.ToString("HH:mm:ss tt");
+            var textPt = new SKPoint(CameraManagerBase.Viewport.Left + 180f * Config.ESP.FontScale,
+                CameraManagerBase.Viewport.Top + 20f * Config.ESP.FontScale);
+            canvas.DrawText(raidTime, textPt, SKPaints.TextRaidTimeESP);
+        }
         /// <summary>
         /// Draw status text on ESP Window (top middle of screen).
         /// </summary>
@@ -329,7 +360,6 @@ namespace eft_dma_radar.UI.ESP
                 LoneLogging.WriteLine($"ERROR Setting ESP Status Text: {ex}");
             }
         }
-
         /// <summary>
         /// Draw fireport aim in front of player.
         /// </summary>
