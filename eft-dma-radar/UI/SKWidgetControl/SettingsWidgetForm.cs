@@ -87,7 +87,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
         {
             if (isMinimized)
             {
-                this.Size = new System.Drawing.Size(600, 273);
+                this.Size = new System.Drawing.Size(600, 390);
                 // this.contentPanel.Visible = true;
                 this.minimizeButton.Text = "-";
             }
