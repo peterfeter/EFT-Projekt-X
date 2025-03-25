@@ -1,13 +1,13 @@
-﻿using arena_dma_radar.Arena.GameWorld;
+﻿using eft_dma_radar.Tarkov.Features;
+using eft_dma_radar.Tarkov.GameWorld;
+using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Features;
 using eft_dma_shared.Common.Misc;
-using eft_dma_shared.Common.DMA.ScatterAPI;
+using eft_dma_shared.Common.Misc.Config;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.LowLevel;
-using arena_dma_radar.Arena.Features;
-using eft_dma_shared.Common.Misc.Config;
 
-namespace arena_dma_radar.Arena.Features.MemoryWrites
+namespace eft_dma_radar.Tarkov.Features.MemoryWrites
 {
     public sealed class Chams : MemWriteFeature<Chams>
     {
@@ -32,6 +32,26 @@ namespace arena_dma_radar.Arena.Features.MemoryWrites
                 {
                     var cm = game.CameraManager;
                     var mode = Config.Mode; // Cache value
+                                            // Vischeck Config
+                    if (mode is ChamsManager.ChamsMode.VisCheck) // Only disable culling for Vischeck Chams
+                    {
+                        ulong fpsView = cm.FPSCamera;
+                        ulong opticView = cm.OpticCamera;
+                        const bool targetCulling = false;
+                        var cullingFps = Memory.ReadValue<bool>(fpsView + UnityOffsets.Camera.OcclusionCulling);
+                        var cullingOptical = Memory.ReadValue<bool>(opticView + UnityOffsets.Camera.OcclusionCulling);
+                        if (cullingFps != targetCulling)
+                        {
+                            writes.AddValueEntry(fpsView + UnityOffsets.Camera.OcclusionCulling, targetCulling);
+                            LoneLogging.WriteLine($"FPS Culling -> {targetCulling}");
+                        }
+                        if (cullingOptical != targetCulling)
+                        {
+                            writes.AddValueEntry(opticView + UnityOffsets.Camera.OcclusionCulling, targetCulling);
+                            LoneLogging.WriteLine($"Optical Culling -> {targetCulling}");
+                        }
+                    }
+                    // Chams
                     var players = game.Players
                         .Where(x => x.IsHostileActive)
                         .Where(x => x.ChamsMode != mode);
@@ -47,7 +67,7 @@ namespace arena_dma_radar.Arena.Features.MemoryWrites
                             materialID = Memory.ReadValue<MonoBehaviour>(opticMonoBehaviour).InstanceID;
                             break;
                         case ChamsManager.ChamsMode.Visible:
-                            if (ChamsManager.Materials!.TryGetValue((ChamsManager.ChamsMode.Visible, "AI"), out var visible) &&
+                            if (ChamsManager.Materials!.TryGetValue(ChamsManager.ChamsMode.Visible, out var visible) &&
                                 visible.InstanceID < 0)
                             {
                                 materialID = visible.InstanceID;
@@ -57,9 +77,8 @@ namespace arena_dma_radar.Arena.Features.MemoryWrites
                                 return;
                             }
                             break;
-                        
-                        case ChamsManager.ChamsMode.VisCheckGlow:
-                            if (ChamsManager.Materials!.TryGetValue((ChamsManager.ChamsMode.VisCheckGlow, "AI"), out var vischeck) &&
+                        case ChamsManager.ChamsMode.VisCheck:
+                            if (ChamsManager.Materials!.TryGetValue(ChamsManager.ChamsMode.VisCheck, out var vischeck) &&
                                 vischeck.InstanceID < 0)
                             {
                                 materialID = vischeck.InstanceID;
