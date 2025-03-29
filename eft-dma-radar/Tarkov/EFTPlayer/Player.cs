@@ -1200,19 +1200,19 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
                 case Enums.WildSpawnType.bossTagillaAgro:
                     return new AIRole()
                     {
-                        Name = "bossTagillaAgro",
+                        Name = "Shadow of Tagilla",
                         Type = PlayerType.AIBoss
                     };
                 case Enums.WildSpawnType.bossKillaAgro:
                     return new AIRole()
                     {
-                        Name = "bossKillaAgro",
+                        Name = "Vengeful Killa",
                         Type = PlayerType.AIBoss
                     };
                 case Enums.WildSpawnType.tagillaHelperAgro:
                     return new AIRole()
                     {
-                        Name = "tagillaHelperAgro",
+                        Name = "Tagilla Helper",
                         Type = PlayerType.AIBoss
                     };
                 default:
