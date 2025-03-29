@@ -75,7 +75,7 @@ namespace eft_dma_shared.Common.Misc.Data
             string json = null;
             if (!defaultOnly &&
                 (!File.Exists(_dataFile) ||
-            File.GetLastWriteTime(_dataFile).AddHours(4) < DateTime.Now)) // only update every 4h
+            File.GetLastWriteTime(_dataFile).AddHours(.5) < DateTime.Now)) // // only update every .5h. Originally set to every 4h by Lone
             {
                 loading.UpdateStatus("Getting Updated Tarkov.Dev Data...", loading.PercentComplete);
                 json = await GetUpdatedDataJsonAsync();

@@ -16,7 +16,6 @@ using eft_dma_shared.Common.Maps;
 using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using eft_dma_shared.Common.ESP;
 using eft_dma_shared.Common.Misc.Data;
-using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Pools;
 using eft_dma_shared.Common.DMA;
 
@@ -1196,6 +1195,24 @@ namespace eft_dma_radar.Tarkov.EFTPlayer
                     return new AIRole()
                     {
                         Name = "Zombie Tagilla",
+                        Type = PlayerType.AIBoss
+                    };
+                case Enums.WildSpawnType.bossTagillaAgro:
+                    return new AIRole()
+                    {
+                        Name = "bossTagillaAgro",
+                        Type = PlayerType.AIBoss
+                    };
+                case Enums.WildSpawnType.bossKillaAgro:
+                    return new AIRole()
+                    {
+                        Name = "bossKillaAgro",
+                        Type = PlayerType.AIBoss
+                    };
+                case Enums.WildSpawnType.tagillaHelperAgro:
+                    return new AIRole()
+                    {
+                        Name = "tagillaHelperAgro",
                         Type = PlayerType.AIBoss
                     };
                 default:

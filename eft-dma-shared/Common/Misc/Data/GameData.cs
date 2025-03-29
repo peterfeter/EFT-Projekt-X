@@ -24,6 +24,7 @@ namespace eft_dma_shared.Common.Misc.Data
             ["bigmap"] = "Customs",
             ["lighthouse"] = "Lighthouse",
             ["tarkovstreets"] = "Streets",
+            ["Labyrinth"] = "The Labyrinth",
             ["Sandbox"] = "Ground Zero",
             ["Sandbox_high"] = "Ground Zero",
             ["Arena_RailwayStation"] = "Skybridge",
@@ -226,6 +227,11 @@ namespace eft_dma_shared.Common.Misc.Data
                 ["scav_e5"] = "Near Kamchatskaya Arch",
                 ["scav_e7"] = "Cardinal Apartment Complex Parking",
                 ["scav_e8"] = "Klimov Shopping Mall Exfil",
+            }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase) },
+            { "Labyrinth", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["labir_exit"] = "The Way Up",
+                ["labyrinth_secret_tagilla_key"] = " Aridane's Path",
             }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase) },
             { "Sandbox", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
