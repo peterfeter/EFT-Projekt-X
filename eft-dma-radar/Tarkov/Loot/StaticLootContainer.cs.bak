@@ -1,5 +1,4 @@
-﻿using System.IO;
-using eft_dma_radar.Tarkov.EFTPlayer;
+﻿using eft_dma_radar.Tarkov.EFTPlayer;
 using eft_dma_radar.UI.ESP;
 using eft_dma_radar.UI.Misc;
 using eft_dma_radar.UI.Radar;
@@ -37,7 +36,7 @@ namespace eft_dma_radar.Tarkov.Loot
         public override void Draw(SKCanvas canvas, LoneMapParams mapParams, ILocalPlayer localPlayer)
         {
             var dist = Vector3.Distance(localPlayer.Position, Position);
-            var paints = GetPaints();
+
             if (dist > MainForm.Config.ContainerDrawDistance)
                 return;
             var heightDiff = Position.Y - localPlayer.Position.Y;
@@ -48,19 +47,19 @@ namespace eft_dma_radar.Tarkov.Loot
             {
                 using var path = point.GetUpArrow(4);
                 canvas.DrawPath(path, SKPaints.ShapeOutline);
-                canvas.DrawPath(path, paints.Item1);
+                canvas.DrawPath(path, SKPaints.PaintCorpseLoot);
             }
             else if (heightDiff < -1.45) // loot is below player
             {
                 using var path = point.GetDownArrow(4);
                 canvas.DrawPath(path, SKPaints.ShapeOutline);
-                canvas.DrawPath(path, paints.Item1);
+                canvas.DrawPath(path, SKPaints.PaintCorpseLoot);
             }
             else // loot is level with player
             {
                 var size = 4 * MainForm.UIScale;
                 canvas.DrawCircle(point, size, SKPaints.ShapeOutline);
-                canvas.DrawCircle(point, size, paints.Item1);
+                canvas.DrawCircle(point, size, SKPaints.PaintCorpseLoot);
             }
         }
 
@@ -95,26 +94,25 @@ namespace eft_dma_radar.Tarkov.Loot
 
         public override void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
-            // Get the container's position on the map
-            var containerPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
-
-            // Check if there is any loot to display
-            IEnumerable<LootItem> filteredLoot = this.FilteredLoot;
-            if (filteredLoot.Count() <= 0)
-                return;
-
             // Save the current canvas state
             canvas.Save();
+
+            // Get the container's position on the map
+            var containerPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
 
             // Apply a rotation transformation to the canvas
             canvas.RotateDegrees(180, containerPosition.X, containerPosition.Y);
 
             // Draw the mouseover text
+            IEnumerable<LootItem> filteredLoot = this.FilteredLoot;
+            if (filteredLoot.Count() <= 0)
+                return;
+
             var lines = new List<string>() { this.Name };
+
             foreach (LootItem lootItem in filteredLoot)
                 lines.Add(lootItem.GetUILabel(MainForm.Config.QuestHelper.Enabled));
-
-            containerPosition.DrawMouseoverText(canvas, lines);
+            Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams).DrawMouseoverText(canvas, lines);
 
             // Restore the canvas state
             canvas.Restore();

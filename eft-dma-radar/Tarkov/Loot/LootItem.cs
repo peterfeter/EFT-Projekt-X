@@ -396,7 +396,7 @@ namespace eft_dma_radar.Tarkov.Loot
             return label;
         }
 
-        private ValueTuple<SKPaint, SKPaint> GetPaints()
+        public ValueTuple<SKPaint, SKPaint> GetPaints()
         {
             if (IsWishlisted)
                 return new(SKPaints.PaintWishlistItem, SKPaints.TextWishlistItem);

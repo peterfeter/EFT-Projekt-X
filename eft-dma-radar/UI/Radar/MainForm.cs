@@ -33,6 +33,10 @@ using System.Timers;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager.HotkeyActionController;
 using Timer = System.Timers.Timer;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using LonesEFTRadar.Tarkov.Features.MemoryWrites;
+using static eft_dma_shared.Common.Unity.UnityOffsets;
+using System.Diagnostics;
 
 namespace eft_dma_radar.UI.Radar
 {
@@ -74,7 +78,6 @@ namespace eft_dma_radar.UI.Radar
         /// Main UI/Application Config.
         /// </summary>
         public static Config Config { get; } = Program.Config;
-
         /// <summary>
         /// Singleton Instance of MainForm.
         /// </summary>
@@ -170,9 +173,9 @@ namespace eft_dma_radar.UI.Radar
             get
             {
                 var players = AllPlayers
-                                  .Where(x => x is not Tarkov.EFTPlayer.LocalPlayer
-                                              && !x.HasExfild && (LootCorpsesVisible ? x.IsAlive : true))
-                              ?? Enumerable.Empty<Player>();
+                                 .Where(x => x is not Tarkov.EFTPlayer.LocalPlayer
+                                           && !x.HasExfild && (LootCorpsesVisible ? x.IsAlive : true))
+                                 ?? Enumerable.Empty<Player>();
 
                 var loot = Loot ?? Enumerable.Empty<IMouseoverEntity>();
                 var containers = Containers ?? Enumerable.Empty<IMouseoverEntity>();
@@ -183,7 +186,7 @@ namespace eft_dma_radar.UI.Radar
                     players = players.Where(x =>
                         x.LootObject is null || !loot.Contains(x.LootObject)); // Don't show both corpse objects
 
-                var result = loot.Concat(containers).Concat(players).Concat(exits).Concat(questZones);
+                var result = loot.Concat(containers).Concat(players).Concat(exits).Concat(questZones).Concat(_switches);
                 return result.Any() ? result : null;
             }
         }
@@ -280,6 +283,7 @@ namespace eft_dma_radar.UI.Radar
                 if (!mapID.Equals(LoneMapManager.Map?.ID, StringComparison.OrdinalIgnoreCase)) // Map changed
                 {
                     LoneMapManager.LoadMap(mapID);
+                    UpdateSwitches();
                 }
                 canvas.Clear(); // Clear canvas
                 if (inRaid && localPlayer is not null) // LocalPlayer is in a raid -> Begin Drawing...
@@ -474,7 +478,24 @@ namespace eft_dma_radar.UI.Radar
                             }
                         } // end exfils
                     }
+                    // Draw switches from the cached list
+                    foreach (var switchInstance in _switches)
+                    {
+                        // Save the current canvas state
+                        //canvas.Save();
 
+                        // Get the switch's position on the map
+                        var switchPosition = switchInstance.Position.ToMapPos(map.Config).ToZoomedPos(mapParams);
+
+                        // Apply a rotation transformation to the canvas
+                        //canvas.RotateDegrees(180, switchPosition.X, switchPosition.Y);
+
+                        // Draw the switch
+                        switchInstance.Draw(canvas, mapParams, localPlayer);
+
+                        // Restore the canvas state
+                        //canvas.Restore();
+                    }
                     if (allPlayers is not null)
                         foreach (var player in allPlayers) // Draw PMCs
                         {
@@ -815,6 +836,28 @@ namespace eft_dma_radar.UI.Radar
         private void checkBox_FastLoadUnload_CheckedChanged(object sender, EventArgs e)
         {
             MemPatchFeature<FastLoadUnload>.Instance.Enabled = checkBox_FastLoadUnload.Checked;
+        }
+        private void checkBox_LongJump_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<LongJump>.Instance.Enabled = checkBox_LongJump.Checked;
+        }
+        private void trackBar_LongJumpMultiplier_ValueChanged(object sender, EventArgs e)
+        {
+            int value = trackBar_LongJumpMultiplier.Value;
+            label_LongJumpMultiplier.Text = $"Long Jump Multiplier: {value}";
+            MemWrites.Config.LongJumpMultiplier = value;
+        }
+        private void checkBox_UnclampFreeLook_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<UnclampFreeLook>.Instance.Enabled = checkBox_UnclampFreeLook.Checked;
+        }
+        private void checkBox_InstantPoseChange_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<InstantPoseChange>.Instance.Enabled = checkBox_InstantPoseChange.Checked;
+        }
+        private void checkBox_InstantPlant_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<InstantPlant>.Instance.Enabled = checkBox_InstantPlant.Checked;
         }
         private void checkBox_FastWeaponOps_CheckedChanged(object sender, EventArgs e)
         {
@@ -1408,14 +1451,16 @@ namespace eft_dma_radar.UI.Radar
             {
                 if (!InRaid)
                 {
-                    ClearRefs();
+                    _mouseOverItem = null;
+                    MouseoverGroup = null;
                     return;
                 }
 
                 var items = MouseOverItems;
                 if (items?.Any() != true)
                 {
-                    ClearRefs();
+                    _mouseOverItem = null;
+                    MouseoverGroup = null;
                     return;
                 }
 
@@ -1428,14 +1473,32 @@ namespace eft_dma_radar.UI.Radar
                 var mouseY = 2 * centerY - e.Y;
 
                 var mouse = new Vector2(mouseX, mouseY); // Get rotated mouse position in control
+
+                // Check for switches first and prioritize them
+                if (_switches?.Any() == true)
+                {
+                    foreach (var switchObj in _switches)
+                    {
+                        float distance = Vector2.Distance(switchObj.MouseoverPosition, mouse);
+                        if (distance < 12)
+                        {
+                            _mouseOverItem = switchObj;
+                            MouseoverGroup = null;
+                            return;
+                        }
+                    }
+                }
+
                 var closest = items.Aggregate(
                     (x1, x2) => Vector2.Distance(x1.MouseoverPosition, mouse)
-                                < Vector2.Distance(x2.MouseoverPosition, mouse)
+                              < Vector2.Distance(x2.MouseoverPosition, mouse)
                         ? x1
                         : x2); // Get object 'closest' to mouse position
+
                 if (Vector2.Distance(closest.MouseoverPosition, mouse) >= 12)
                 {
-                    ClearRefs();
+                    _mouseOverItem = null;
+                    MouseoverGroup = null;
                     return;
                 }
 
@@ -1443,8 +1506,7 @@ namespace eft_dma_radar.UI.Radar
                 {
                     case Player player:
                         _mouseOverItem = player;
-                        if (player.IsHumanHostile
-                            && player.GroupID != -1)
+                        if (player.IsHumanHostile && player.GroupID != -1)
                             MouseoverGroup = player.GroupID; // Set group ID for closest player(s)
                         else
                             MouseoverGroup = null; // Clear Group ID
@@ -1452,19 +1514,14 @@ namespace eft_dma_radar.UI.Radar
                     case LootCorpse corpseObj:
                         _mouseOverItem = corpseObj;
                         var corpse = corpseObj.PlayerObject;
-                        if (corpse is not null)
-                        {
-                            if (corpse.IsHumanHostile && corpse.GroupID != -1)
-                                MouseoverGroup = corpse.GroupID; // Set group ID for closest player(s)
-                        }
+                        if (corpse is not null && corpse.IsHumanHostile && corpse.GroupID != -1)
+                            MouseoverGroup = corpse.GroupID; // Set group ID for closest player(s)
                         else
-                        {
                             MouseoverGroup = null;
-                        }
-
                         break;
                     case LootContainer ctr:
                         _mouseOverItem = ctr;
+                        MouseoverGroup = null;
                         break;
                     case IExitPoint exit:
                         _mouseOverItem = exit;
@@ -1474,15 +1531,14 @@ namespace eft_dma_radar.UI.Radar
                         _mouseOverItem = quest;
                         MouseoverGroup = null;
                         break;
-                    default:
-                        ClearRefs();
+                    case Tarkov.GameWorld.Exits.Switch switchObj:
+                        _mouseOverItem = switchObj;
+                        MouseoverGroup = null;
                         break;
-                }
-
-                void ClearRefs()
-                {
-                    _mouseOverItem = null;
-                    MouseoverGroup = null;
+                    default:
+                        _mouseOverItem = null;
+                        MouseoverGroup = null;
+                        break;
                 }
             }
         }
@@ -2014,6 +2070,11 @@ namespace eft_dma_radar.UI.Radar
             toolTip1.SetToolTip(button_VischeckVisColorPick, "Set the VISIBLE color of the Vischeck Chams. Must be set before chams are injected.");
             toolTip1.SetToolTip(button_VischeckInvisColorPick, "Set the INVISIBLE color of the Vischeck Chams. Must be set before chams are injected.");
             toolTip1.SetToolTip(checkBox_FastLoadUnload, "Allows you to pack/unpack magazines super fast.");
+            toolTip1.SetToolTip(checkBox_LongJump, "Allows for jumping further. (Risky)");
+            toolTip1.SetToolTip(trackBar_LongJumpMultiplier, "Jump Length Multiplier.");
+            toolTip1.SetToolTip(checkBox_UnclampFreeLook, "Unclamps free looking. (Only visible client-side)");
+            toolTip1.SetToolTip(checkBox_InstantPoseChange, "Disables the animation when changing crouching pose level. (Only visible client-side)");
+            toolTip1.SetToolTip(checkBox_InstantPlant, "Disables the countdown when planting a quest item.");
             toolTip1.SetToolTip(checkBox_FastWeaponOps, "Makes weapon operations (instant ADS, reloading mag,etc.) faster for your player.\n" +
                 "NOTE: Trying to heal or do other actions while reloading a mag can cause the 'hands busy' bug.");
             toolTip1.SetToolTip(checkBox_FullBright, "Enables the Full Bright Feature. This will make the game world brighter.");
@@ -2120,6 +2181,7 @@ namespace eft_dma_radar.UI.Radar
                 "Sets the ESP Rendering Options for Human Players in Fuser ESP.");
             toolTip1.SetToolTip(flowLayoutPanel_ESP_AIRender, "Sets the ESP Rendering Options for AI Bots in Fuser ESP.");
             toolTip1.SetToolTip(checkBox_ESP_Exfils, "Enables the rendering of Exfil Points in the ESP Window.");
+            toolTip1.SetToolTip(checkBox_ESP_Switches, "Enables the rendering of Switch Points in the ESP Window.");
             toolTip1.SetToolTip(checkBox_ESP_Explosives, "Enables the rendering of Grenades in the ESP Window.");
             toolTip1.SetToolTip(checkBox_ESP_AimFov,
                 "Enables the rendering of an 'Aim FOV Circle' in the center of your ESP Window. This is used for Aimbot Targeting.");
@@ -2289,6 +2351,10 @@ namespace eft_dma_radar.UI.Radar
             checkBox_FullBright.Checked = MemWriteFeature<FullBright>.Instance.Enabled;
             checkBox_FastWeaponOps.Checked = MemWriteFeature<FastWeaponOps>.Instance.Enabled;
             checkBox_FastLoadUnload.Checked = MemPatchFeature<FastLoadUnload>.Instance.Enabled;
+            checkBox_LongJump.Checked = MemWriteFeature<LongJump>.Instance.Enabled;
+            checkBox_UnclampFreeLook.Checked = MemWriteFeature<UnclampFreeLook>.Instance.Enabled;
+            checkBox_InstantPoseChange.Checked = MemWriteFeature<InstantPoseChange>.Instance.Enabled;
+            checkBox_InstantPlant.Checked = MemWriteFeature<InstantPlant>.Instance.Enabled;
 
             switch (Aimbot.Config.TargetingMode)
             {
@@ -3116,6 +3182,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_ESPAIRender_Dist.Checked = Config.ESP.AIRendering.ShowDist;
             textBox_EspFpsCap.Text = Config.ESP.FPSCap.ToString();
             checkBox_ESP_Exfils.Checked = Config.ESP.ShowExfils;
+            checkBox_ESP_Switches.Checked = Config.ESP.ShowSwitches;
             checkBox_ESP_Loot.Checked = Config.ESP.ShowLoot;
             checkBox_ESP_Explosives.Checked = Config.ESP.ShowExplosives;
             checkBox_ESP_AimFov.Checked = Config.ESP.ShowAimFOV;
@@ -3286,7 +3353,10 @@ namespace eft_dma_radar.UI.Radar
         {
             Config.ESP.ShowExfils = checkBox_ESP_Exfils.Checked;
         }
-
+        private void checkBox_ESP_Switches_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.ESP.ShowSwitches = checkBox_ESP_Switches.Checked;
+        }
         private void checkBox_ESP_Explosives_CheckedChanged(object sender, EventArgs e)
         {
             Config.ESP.ShowExplosives = checkBox_ESP_Explosives.Checked;
@@ -3598,6 +3668,7 @@ namespace eft_dma_radar.UI.Radar
             AutoReset = false,
             Interval = 250
         };
+        private List<Tarkov.GameWorld.Exits.Switch> _switches = new List<Tarkov.GameWorld.Exits.Switch>();
         /// <summary>
         /// Current selected Tarkov Market Item in the Loot Filters UI.
         /// </summary>
@@ -4196,6 +4267,17 @@ namespace eft_dma_radar.UI.Radar
                 FileName = updatesUrl,
                 UseShellExecute = true
             });
+        }
+        private void UpdateSwitches()
+        {
+            _switches.Clear();
+            if (GameData.Switches.TryGetValue(MapID, out var switchesDict))
+            {
+                foreach (var kvp in switchesDict)
+                {
+                    _switches.Add(new Tarkov.GameWorld.Exits.Switch(kvp.Value, kvp.Key));
+                }
+            }
         }
 
 

@@ -288,6 +288,30 @@ namespace eft_dma_radar.UI.Misc
             FilterQuality = SKFilterQuality.High
         };
 
+        internal static SKPaint PlayerInfoText { get; } = new()
+        {
+            SubpixelText = true,
+            Color = SKColors.White,
+            IsStroke = false,
+            TextSize = 12,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = SKTypeface.FromFamilyName("Consolas"), // Do NOT change this font
+            FilterQuality = SKFilterQuality.High
+        };
+
+        public static SKPaint LootInfoText { get; } = new()
+        {
+            SubpixelText = true,
+            Color = SKColors.White,
+            IsStroke = false,
+            TextSize = 12,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = SKTypeface.FromFamilyName("Consolas"), // Do NOT change this font
+            FilterQuality = SKFilterQuality.High
+        };
+
         #endregion
 
         #region Loot Paints
@@ -343,6 +367,14 @@ namespace eft_dma_radar.UI.Misc
         };
 
         public static SKPaint PaintCorpse { get; } = new()
+        {
+            Color = SKColors.Silver,
+            StrokeWidth = 0.25f,
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true,
+            FilterQuality = SKFilterQuality.High
+        };
+        public static SKPaint PaintCorpseLoot { get; } = new()
         {
             Color = SKColors.Silver,
             StrokeWidth = 0.25f,
@@ -1027,7 +1059,19 @@ namespace eft_dma_radar.UI.Misc
             Typeface = CustomFonts.SKFontFamilyMedium,
             FilterQuality = SKFilterQuality.High
         };
-
+        public static SKPaint TextSwitchesESP { get; } = new()
+        {
+            Color = SKColors.Orange,
+            SubpixelText = true,
+            IsStroke = false,
+            TextSize = 16f,
+            FakeBoldText = true,
+            TextAlign = SKTextAlign.Center,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = CustomFonts.SKFontFamilyMedium,
+            FilterQuality = SKFilterQuality.High
+        };
         #region ESP Readonly Paints
 
         public static SKPaint PaintCrosshairESP { get; } = new()
