@@ -73,7 +73,7 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
             MouseoverPosition = new Vector2(point.X, point.Y);
 
             SKPaints.ShapeOutline.StrokeWidth = 1f;
-            float size = 4f * MainForm.UIScale;
+            float size = 8f * MainForm.UIScale;
 
             if (heightDiff > 1.75f) // switch is above player
             {
@@ -89,8 +89,8 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
             }
             else // switch is level with player
             {
-                canvas.DrawCircle(point, size, SKPaints.ShapeOutline);
-                canvas.DrawCircle(point, size, paint);
+                canvas.DrawRect(point.X - size / 2, point.Y - size / 2, size, size, SKPaints.ShapeOutline);
+                canvas.DrawRect(point.X - size / 2, point.Y - size / 2, size, size, paint);
             }
         }
 
