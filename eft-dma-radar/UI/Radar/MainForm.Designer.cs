@@ -135,6 +135,13 @@ namespace eft_dma_radar.UI.Radar
             checkBox_MoveSpeed2 = new CheckBox();
             checkBox_FastWeaponOps = new CheckBox();
             checkBox_FastLoadUnload = new CheckBox();
+
+            checkBox_LongJump = new CheckBox();
+            label_LongJumpMultiplier = new Label();
+            trackBar_LongJumpMultiplier = new TrackBar();
+            checkBox_UnclampFreeLook = new CheckBox();
+            checkBox_InstantPoseChange = new CheckBox();
+            checkBox_InstantPlant = new CheckBox();
             checkBox_LTW = new CheckBox();
             checkBox_WideLean = new CheckBox();
             checkBox_NoVisor = new CheckBox();
@@ -1428,6 +1435,13 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_MoveSpeed2);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_FastWeaponOps);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_FastLoadUnload);
+
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_LongJump);
+            flowLayoutPanel_MemWrites.Controls.Add(label_LongJumpMultiplier);
+            flowLayoutPanel_MemWrites.Controls.Add(trackBar_LongJumpMultiplier);
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_UnclampFreeLook);
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_InstantPoseChange);
+            flowLayoutPanel_MemWrites.Controls.Add(checkBox_InstantPlant);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_LTW);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_WideLean);
             flowLayoutPanel_MemWrites.Controls.Add(checkBox_NoVisor);
@@ -1602,6 +1616,70 @@ namespace eft_dma_radar.UI.Radar
             checkBox_FastLoadUnload.Text = "Fast Load/Unload";
             checkBox_FastLoadUnload.UseVisualStyleBackColor = true;
             checkBox_FastLoadUnload.CheckedChanged += checkBox_FastLoadUnload_CheckedChanged;
+            // 
+            // checkBox_LongJump
+            // 
+            checkBox_LongJump.Anchor = AnchorStyles.Right;
+            checkBox_LongJump.AutoSize = true;
+            checkBox_LongJump.Name = "checkBox_LongJump";
+            checkBox_LongJump.Text = "Long Jump (Risky)";
+            checkBox_LongJump.UseVisualStyleBackColor = true;
+            checkBox_LongJump.CheckedChanged += checkBox_LongJump_CheckedChanged;
+
+
+
+
+
+
+
+
+
+            // 
+            // label_LongJumpMultiplier
+            // 
+            label_LongJumpMultiplier.Anchor = AnchorStyles.Right;
+            label_LongJumpMultiplier.AutoSize = true;
+            label_LongJumpMultiplier.Name = "label_LongJumpMultiplier";
+            label_LongJumpMultiplier.Text = "Long Jump Multiplier: 10";
+            // 
+            // trackBar_LongJumpMultiplier
+            // 
+            trackBar_LongJumpMultiplier.Anchor = AnchorStyles.Right;
+            trackBar_LongJumpMultiplier.Name = "trackBar_LongJumpMultiplier";
+            trackBar_LongJumpMultiplier.Size = new Size(78, 45);
+            trackBar_LongJumpMultiplier.BackColor = SystemColors.Window;
+            trackBar_LongJumpMultiplier.Maximum = 50;
+            trackBar_LongJumpMultiplier.Minimum = 1;
+            trackBar_LongJumpMultiplier.TickStyle = TickStyle.None;
+            trackBar_LongJumpMultiplier.Value = 10;
+            trackBar_LongJumpMultiplier.ValueChanged += trackBar_LongJumpMultiplier_ValueChanged;
+            // 
+            // checkBox_UnclampFreeLook
+            // 
+            checkBox_UnclampFreeLook.Anchor = AnchorStyles.Right;
+            checkBox_UnclampFreeLook.AutoSize = true;
+            checkBox_UnclampFreeLook.Name = "checkBox_UnclampFreeLook";
+            checkBox_UnclampFreeLook.Text = "Unclamp Free Look";
+            checkBox_UnclampFreeLook.UseVisualStyleBackColor = true;
+            checkBox_UnclampFreeLook.CheckedChanged += checkBox_UnclampFreeLook_CheckedChanged;
+            // 
+            // checkBox_InstantPoseChange
+            // 
+            checkBox_InstantPoseChange.Anchor = AnchorStyles.Right;
+            checkBox_InstantPoseChange.AutoSize = true;
+            checkBox_InstantPoseChange.Name = "checkBox_InstantPoseChange";
+            checkBox_InstantPoseChange.Text = "Instant Pose Change";
+            checkBox_InstantPoseChange.UseVisualStyleBackColor = true;
+            checkBox_InstantPoseChange.CheckedChanged += checkBox_InstantPoseChange_CheckedChanged;
+            // 
+            // checkBox_InstantPlant
+            // 
+            checkBox_InstantPlant.Anchor = AnchorStyles.Right;
+            checkBox_InstantPlant.AutoSize = true;
+            checkBox_InstantPlant.Name = "checkBox_InstantPlant";
+            checkBox_InstantPlant.Text = "Instant Plant";
+            checkBox_InstantPlant.UseVisualStyleBackColor = true;
+            checkBox_InstantPlant.CheckedChanged += checkBox_InstantPlant_CheckedChanged;
             // 
             // checkBox_LTW
             // 
@@ -3865,6 +3943,12 @@ namespace eft_dma_radar.UI.Radar
         private Button button_GymHack;
         private CheckBox checkBox_AdvancedMemWrites;
         private CheckBox checkBox_FastWeaponOps;
+        private CheckBox checkBox_LongJump;
+        private Label label_LongJumpMultiplier;
+        private TrackBar trackBar_LongJumpMultiplier;
+        private CheckBox checkBox_UnclampFreeLook;
+        private CheckBox checkBox_InstantPoseChange;
+        private CheckBox checkBox_InstantPlant;
         private FlowLayoutPanel flowLayoutPanel_AdvancedChams;
         private Label label14;
         private Label label15;

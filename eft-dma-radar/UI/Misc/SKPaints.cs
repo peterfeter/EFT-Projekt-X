@@ -288,6 +288,30 @@ namespace eft_dma_radar.UI.Misc
             FilterQuality = SKFilterQuality.High
         };
 
+        internal static SKPaint PlayerInfoText { get; } = new()
+        {
+            SubpixelText = true,
+            Color = SKColors.White,
+            IsStroke = false,
+            TextSize = 12,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = SKTypeface.FromFamilyName("Consolas"), // Do NOT change this font
+            FilterQuality = SKFilterQuality.High
+        };
+
+        public static SKPaint LootInfoText { get; } = new()
+        {
+            SubpixelText = true,
+            Color = SKColors.White,
+            IsStroke = false,
+            TextSize = 12,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = SKTypeface.FromFamilyName("Consolas"), // Do NOT change this font
+            FilterQuality = SKFilterQuality.High
+        };
+
         #endregion
 
         #region Loot Paints
@@ -343,6 +367,14 @@ namespace eft_dma_radar.UI.Misc
         };
 
         public static SKPaint PaintCorpse { get; } = new()
+        {
+            Color = SKColors.Silver,
+            StrokeWidth = 0.25f,
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true,
+            FilterQuality = SKFilterQuality.High
+        };
+        public static SKPaint PaintCorpseLoot { get; } = new()
         {
             Color = SKColors.Silver,
             StrokeWidth = 0.25f,

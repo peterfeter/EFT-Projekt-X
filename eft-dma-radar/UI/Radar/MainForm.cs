@@ -33,6 +33,10 @@ using System.Timers;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager;
 using static eft_dma_radar.UI.Hotkeys.HotkeyManager.HotkeyActionController;
 using Timer = System.Timers.Timer;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using LonesEFTRadar.Tarkov.Features.MemoryWrites;
+using static eft_dma_shared.Common.Unity.UnityOffsets;
+using System.Diagnostics;
 
 namespace eft_dma_radar.UI.Radar
 {
@@ -74,7 +78,6 @@ namespace eft_dma_radar.UI.Radar
         /// Main UI/Application Config.
         /// </summary>
         public static Config Config { get; } = Program.Config;
-
         /// <summary>
         /// Singleton Instance of MainForm.
         /// </summary>
@@ -815,6 +818,28 @@ namespace eft_dma_radar.UI.Radar
         private void checkBox_FastLoadUnload_CheckedChanged(object sender, EventArgs e)
         {
             MemPatchFeature<FastLoadUnload>.Instance.Enabled = checkBox_FastLoadUnload.Checked;
+        }
+        private void checkBox_LongJump_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<LongJump>.Instance.Enabled = checkBox_LongJump.Checked;
+        }
+        private void trackBar_LongJumpMultiplier_ValueChanged(object sender, EventArgs e)
+        {
+            int value = trackBar_LongJumpMultiplier.Value;
+            label_LongJumpMultiplier.Text = $"Long Jump Multiplier: {value}";
+            MemWrites.Config.LongJumpMultiplier = value;
+        }
+        private void checkBox_UnclampFreeLook_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<UnclampFreeLook>.Instance.Enabled = checkBox_UnclampFreeLook.Checked;
+        }
+        private void checkBox_InstantPoseChange_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<InstantPoseChange>.Instance.Enabled = checkBox_InstantPoseChange.Checked;
+        }
+        private void checkBox_InstantPlant_CheckedChanged(object sender, EventArgs e)
+        {
+            MemWriteFeature<InstantPlant>.Instance.Enabled = checkBox_InstantPlant.Checked;
         }
         private void checkBox_FastWeaponOps_CheckedChanged(object sender, EventArgs e)
         {
@@ -2014,6 +2039,11 @@ namespace eft_dma_radar.UI.Radar
             toolTip1.SetToolTip(button_VischeckVisColorPick, "Set the VISIBLE color of the Vischeck Chams. Must be set before chams are injected.");
             toolTip1.SetToolTip(button_VischeckInvisColorPick, "Set the INVISIBLE color of the Vischeck Chams. Must be set before chams are injected.");
             toolTip1.SetToolTip(checkBox_FastLoadUnload, "Allows you to pack/unpack magazines super fast.");
+            toolTip1.SetToolTip(checkBox_LongJump, "Allows for jumping further. (Risky)");
+            toolTip1.SetToolTip(trackBar_LongJumpMultiplier, "Jump Length Multiplier.");
+            toolTip1.SetToolTip(checkBox_UnclampFreeLook, "Unclamps free looking. (Only visible client-side)");
+            toolTip1.SetToolTip(checkBox_InstantPoseChange, "Disables the animation when changing crouching pose level. (Only visible client-side)");
+            toolTip1.SetToolTip(checkBox_InstantPlant, "Disables the countdown when planting a quest item.");
             toolTip1.SetToolTip(checkBox_FastWeaponOps, "Makes weapon operations (instant ADS, reloading mag,etc.) faster for your player.\n" +
                 "NOTE: Trying to heal or do other actions while reloading a mag can cause the 'hands busy' bug.");
             toolTip1.SetToolTip(checkBox_FullBright, "Enables the Full Bright Feature. This will make the game world brighter.");
@@ -2289,6 +2319,10 @@ namespace eft_dma_radar.UI.Radar
             checkBox_FullBright.Checked = MemWriteFeature<FullBright>.Instance.Enabled;
             checkBox_FastWeaponOps.Checked = MemWriteFeature<FastWeaponOps>.Instance.Enabled;
             checkBox_FastLoadUnload.Checked = MemPatchFeature<FastLoadUnload>.Instance.Enabled;
+            checkBox_LongJump.Checked = MemWriteFeature<LongJump>.Instance.Enabled;
+            checkBox_UnclampFreeLook.Checked = MemWriteFeature<UnclampFreeLook>.Instance.Enabled;
+            checkBox_InstantPoseChange.Checked = MemWriteFeature<InstantPoseChange>.Instance.Enabled;
+            checkBox_InstantPlant.Checked = MemWriteFeature<InstantPlant>.Instance.Enabled;
 
             switch (Aimbot.Config.TargetingMode)
             {

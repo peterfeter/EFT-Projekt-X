@@ -794,6 +794,36 @@ namespace eft_dma_radar.UI.Misc
         /// </summary>
         [JsonPropertyName("fastLoadUnload")]
         public bool FastLoadUnload { get; set; } = false;
+
+        /// <summary>
+        /// Unclamps free look.
+        /// </summary>
+        [JsonPropertyName("unclampFreeLook")]
+        public bool UnclampFreeLook { get; set; } = false;
+        
+        /// <summary>
+        /// Enables long jumping.
+        /// </summary>
+        [JsonPropertyName("longJump")]
+        public bool LongJump { get; set; } = false;
+        
+        /// <summary>
+        /// Long jumping length multiplier.
+        /// </summary>
+        [JsonPropertyName("longJumpMultiplier")]
+        public float LongJumpMultiplier { get; set; } = 10f;
+
+        /// <summary>
+        /// Disables the lerp animation when changing pose level.
+        /// </summary>
+        [JsonPropertyName("instantPoseChange")]
+        public bool InstantPoseChange { get; set; } = false;
+
+        /// <summary>
+        /// Skips the countdown when planting .
+        /// </summary>
+        [JsonPropertyName("instantPlant")]
+        public bool InstantPlant { get; set; } = false;
     }
 
     public sealed class SuperSpeedConfig
