@@ -9,73 +9,181 @@ using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Unity;
 using SkiaSharp;
+using System;
+using System.Collections.Generic;
 
 namespace eft_dma_radar.Tarkov.GameWorld.Exits
 {
-    public sealed class Switch
+    /// <summary>
+    /// Represents an interactive switch on the map
+    /// </summary>
+    public sealed class Switch : IMouseoverEntity, IMapEntity
     {
-        public Vector3 Position { get; }
-        public string Name { get; }
+        private Vector3 _position;
+        public ref Vector3 Position => ref _position;
+
+        public string Name { get; set; }
+        public string SwitchInfo { get; set; }
 
         public Switch(Vector3 position, string name)
         {
-            Position = position;
+            _position = position;
             Name = name;
+            SwitchInfo = GetDescriptionFromName(name);
         }
 
+        /// <summary>
+        /// Generate a description based on the switch name
+        /// </summary>
+        private string GetDescriptionFromName(string name)
+        {
+            if (name.Contains("power", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Controls power to an area";
+            }
+            else if (name.Contains("alarm", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Triggers an alarm when activated";
+            }
+            else if (name.Contains("door", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Opens a locked door";
+            }
+            else if (name.Contains("extract", StringComparison.OrdinalIgnoreCase) ||
+                     name.Contains("exfil", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Activates an extraction point";
+            }
+            else if (name.Contains("light", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Controls lighting in an area";
+            }
+
+            return "Activates something on the map";
+        }
+
+        /// <summary>
+        /// Draw the switch on the radar map
+        /// </summary>
         public void Draw(SKCanvas canvas, LoneMapParams mapParams, ILocalPlayer localPlayer)
         {
             var heightDiff = localPlayer.Position.Y - Position.Y;
             var paint = GetPaint();
             var point = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
-            var mouseoverPosition = new Vector2(point.X, point.Y);
-            SKPaints.ShapeOutline.StrokeWidth = 2f;
+            MouseoverPosition = new Vector2(point.X, point.Y);
+
+            SKPaints.ShapeOutline.StrokeWidth = 1f;
+            float size = 4f * MainForm.UIScale;
 
             if (heightDiff > 1.75f) // switch is above player
             {
-                using var path = point.GetUpArrow(6.5f);
+                using var path = point.GetUpArrow(5f * MainForm.UIScale);
                 canvas.DrawPath(path, SKPaints.ShapeOutline);
                 canvas.DrawPath(path, paint);
             }
             else if (heightDiff < -1.75f) // switch is below player
             {
-                using var path = point.GetDownArrow(6.5f);
+                using var path = point.GetDownArrow(5f * MainForm.UIScale);
                 canvas.DrawPath(path, SKPaints.ShapeOutline);
                 canvas.DrawPath(path, paint);
             }
             else // switch is level with player
             {
-                float size = 4.75f * MainForm.UIScale;
                 canvas.DrawCircle(point, size, SKPaints.ShapeOutline);
                 canvas.DrawCircle(point, size, paint);
             }
         }
 
+        /// <summary>
+        /// Draw mouseover information when hovering over the switch
+        /// </summary>
         public void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
+            var point = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+
             // Save the current canvas state
             canvas.Save();
 
-            // Get the switch's position on the map
-            var switchMapPosition = Position.ToMapPos(mapParams.Map).ToZoomedPos(mapParams);
+            // Rotate the canvas 180 degrees around the switch point to counteract the main rotation
+            canvas.RotateDegrees(180, point.X, point.Y);
 
-            // Apply a rotation transformation to the canvas
-            canvas.RotateDegrees(180, switchMapPosition.X, switchMapPosition.Y);
+            // Create lines for the mouseover text
+            List<string> lines = new List<string>
+            {
+                $"Switch: {Name}"
+            };
 
-            // Draw the mouseover text
-            List<string> lines = new();
-            var name = Name ?? "unknown";
-            lines.Add($"{name}");
-            switchMapPosition.DrawMouseoverText(canvas, lines);
+            if (!string.IsNullOrEmpty(SwitchInfo))
+            {
+                lines.Add(SwitchInfo);
+            }
+
+            // Calculate dimensions
+            float padding = 4f * MainForm.UIScale;
+            float lineHeight = 14f * MainForm.UIScale;
+            float maxWidth = 0;
+
+            // Measure text width for each line
+            foreach (var line in lines)
+            {
+                float width = SKPaints.TextMouseover.MeasureText(line);
+                maxWidth = Math.Max(maxWidth, width);
+            }
+
+            // Calculate total height needed
+            float totalHeight = lines.Count * lineHeight + (padding * 2);
+
+            // Draw background with proper dimensions
+            SKRect rect = new SKRect(
+                point.X - maxWidth / 2 - padding,
+                point.Y - totalHeight + padding,
+                point.X + maxWidth / 2 + padding,
+                point.Y + padding
+            );
+
+            canvas.DrawRect(rect, SKPaints.PaintTransparentBacker);
+
+            // Calculate starting Y position for the first line of text
+            float startY = point.Y - totalHeight + padding + lineHeight;
+
+            // Draw text lines with proper spacing
+            for (int i = 0; i < lines.Count; i++)
+            {
+                float yPos = startY + (i * lineHeight);
+                canvas.DrawText(
+                    lines[i],
+                    point.X - SKPaints.TextMouseover.MeasureText(lines[i]) / 2,
+                    yPos,
+                    SKPaints.TextMouseover
+                );
+            }
 
             // Restore the canvas state
             canvas.Restore();
         }
 
+        /// <summary>
+        /// Cached mouseover position for hover detection
+        /// </summary>
+        public Vector2 MouseoverPosition { get; set; }
+
+        /// <summary>
+        /// Get the appropriate paint color based on switch type
+        /// </summary>
         private SKPaint GetPaint()
         {
-            // Implement the logic to get the appropriate paint for the switch
-            return SKPaints.PaintExfilOpen; // Example paint, replace with actual logic
+            if (Name?.Contains("power", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return SKPaints.PaintExfilOpen; // Green color for power switches
+            }
+            else if (Name?.Contains("alarm", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                return SKPaints.PaintExfilPending; // Yellow color for alarm switches
+            }
+            else
+            {
+                return SKPaints.PaintExfilTransit; // Blue color for other switches
+            }
         }
     }
 }

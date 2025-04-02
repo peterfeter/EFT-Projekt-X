@@ -1,4 +1,5 @@
 ﻿using System.Collections.Frozen;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace eft_dma_shared.Common.Misc.Data
@@ -567,7 +568,6 @@ namespace eft_dma_shared.Common.Misc.Data
                 ["Steam Trap Switch"] = new Vector3(2.659f, 2.109861f, -31.705f),
             }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase),
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
-
 
 
         public static IReadOnlyDictionary<int, int> XPTable { get; } = new Dictionary<int, int>
