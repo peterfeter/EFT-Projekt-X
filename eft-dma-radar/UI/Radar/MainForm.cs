@@ -2181,6 +2181,7 @@ namespace eft_dma_radar.UI.Radar
                 "Sets the ESP Rendering Options for Human Players in Fuser ESP.");
             toolTip1.SetToolTip(flowLayoutPanel_ESP_AIRender, "Sets the ESP Rendering Options for AI Bots in Fuser ESP.");
             toolTip1.SetToolTip(checkBox_ESP_Exfils, "Enables the rendering of Exfil Points in the ESP Window.");
+            toolTip1.SetToolTip(checkBox_ESP_Switches, "Enables the rendering of Switch Points in the ESP Window.");
             toolTip1.SetToolTip(checkBox_ESP_Explosives, "Enables the rendering of Grenades in the ESP Window.");
             toolTip1.SetToolTip(checkBox_ESP_AimFov,
                 "Enables the rendering of an 'Aim FOV Circle' in the center of your ESP Window. This is used for Aimbot Targeting.");
@@ -3181,6 +3182,7 @@ namespace eft_dma_radar.UI.Radar
             checkBox_ESPAIRender_Dist.Checked = Config.ESP.AIRendering.ShowDist;
             textBox_EspFpsCap.Text = Config.ESP.FPSCap.ToString();
             checkBox_ESP_Exfils.Checked = Config.ESP.ShowExfils;
+            checkBox_ESP_Switches.Checked = Config.ESP.ShowSwitches;
             checkBox_ESP_Loot.Checked = Config.ESP.ShowLoot;
             checkBox_ESP_Explosives.Checked = Config.ESP.ShowExplosives;
             checkBox_ESP_AimFov.Checked = Config.ESP.ShowAimFOV;
@@ -3351,7 +3353,10 @@ namespace eft_dma_radar.UI.Radar
         {
             Config.ESP.ShowExfils = checkBox_ESP_Exfils.Checked;
         }
-
+        private void checkBox_ESP_Switches_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.ESP.ShowSwitches = checkBox_ESP_Switches.Checked;
+        }
         private void checkBox_ESP_Explosives_CheckedChanged(object sender, EventArgs e)
         {
             Config.ESP.ShowExplosives = checkBox_ESP_Explosives.Checked;

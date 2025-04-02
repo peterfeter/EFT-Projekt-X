@@ -1059,7 +1059,19 @@ namespace eft_dma_radar.UI.Misc
             Typeface = CustomFonts.SKFontFamilyMedium,
             FilterQuality = SKFilterQuality.High
         };
-
+        public static SKPaint TextSwitchesESP { get; } = new()
+        {
+            Color = SKColors.Orange,
+            SubpixelText = true,
+            IsStroke = false,
+            TextSize = 16f,
+            FakeBoldText = true,
+            TextAlign = SKTextAlign.Center,
+            TextEncoding = SKTextEncoding.Utf8,
+            IsAntialias = true,
+            Typeface = CustomFonts.SKFontFamilyMedium,
+            FilterQuality = SKFilterQuality.High
+        };
         #region ESP Readonly Paints
 
         public static SKPaint PaintCrosshairESP { get; } = new()

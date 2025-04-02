@@ -8,6 +8,7 @@ using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Unity;
+using Microsoft.AspNetCore.Builder.Extensions;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,87 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
         }
 
         /// <summary>
+        /// Draw ESP for the switch, similar to exfil points
+        /// </summary>
+        /*
+        public void DrawESP(SKCanvas canvas, LocalPlayer localPlayer)
+        {
+
+            // Get distance to switch
+            var distance = Vector3.Distance(localPlayer.Position, Position);
+
+            // Use standard ESP distance settings
+            float maxDistance = 150f;
+            float minScale = 0.5f;
+
+            // Check distance
+            if (distance > maxDistance)
+                return;
+
+            // Get screen position
+            var screenPos = WorldToScreen(Position);
+            if (!screenPos.IsValid)
+                return;
+
+            // Calculate scale based on distance
+            float scale = Math.Max(minScale, 1.0f - (distance / maxDistance));
+            float boxSize = 10f * scale;
+
+            SKColor espColor = GetESPColor();
+
+            // Create paints for drawing
+            using var boxPaint = new SKPaint { Color = espColor, IsAntialias = true, Style = SKPaintStyle.Stroke, StrokeWidth = 2 };
+            using var textPaint = new SKPaint
+            {
+                Color = espColor,
+                IsAntialias = true,
+                TextSize = 12 * scale,
+                TextAlign = SKTextAlign.Center
+            };
+
+            // Draw a small box for the switch
+            canvas.DrawRect(screenPos.X - boxSize / 2, screenPos.Y - boxSize / 2, boxSize, boxSize, boxPaint);
+
+            // Draw text for the switch
+            string text = $"Switch: {Name} [{distance:F1}m]";
+            canvas.DrawText(text, screenPos.X, screenPos.Y + boxSize + 10 * scale, textPaint);
+
+            // Draw additional info if available
+            if (!string.IsNullOrEmpty(SwitchInfo))
+            {
+                canvas.DrawText(SwitchInfo, screenPos.X, screenPos.Y + boxSize + 25 * scale, textPaint);
+            }
+        }
+        */
+        /// <summary>
+        /// Convert world position to screen position
+        /// </summary>
+        private ScreenPoint WorldToScreen(Vector3 worldPos)
+        {
+            // Replace this with the actual implementation for converting world coordinates to screen coordinates
+            // This is a placeholder implementation
+            return new ScreenPoint { X = 400, Y = 300, IsValid = true };
+        }
+
+        /// <summary>
+        /// Simple screen point structure
+        /// </summary>
+        private struct ScreenPoint
+        {
+            public float X;
+            public float Y;
+            public bool IsValid;
+        }
+
+        /// <summary>
+        /// Get the appropriate ESP color based on switch type
+        /// </summary>
+        private SKColor GetESPColor()
+        {
+            return SKColors.Orange; // Orange color for all switches
+        }
+
+        /// <summary>
         /// Cached mouseover position for hover detection
         /// </summary>
         public Vector2 MouseoverPosition { get; set; }
@@ -172,18 +254,12 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
         /// </summary>
         private SKPaint GetPaint()
         {
-            if (Name?.Contains("power", StringComparison.OrdinalIgnoreCase) == true)
+            return new SKPaint
             {
-                return SKPaints.PaintExfilOpen; // Green color for power switches
-            }
-            else if (Name?.Contains("alarm", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                return SKPaints.PaintExfilPending; // Yellow color for alarm switches
-            }
-            else
-            {
-                return SKPaints.PaintExfilTransit; // Blue color for other switches
-            }
+                Color = SKColors.Orange, // Orange color for all switches
+                IsAntialias = true,
+                Style = SKPaintStyle.Fill
+            };
         }
     }
 }

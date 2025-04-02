@@ -476,7 +476,12 @@ namespace eft_dma_radar.UI.Misc
         /// </summary>
         [JsonPropertyName("showExfils")]
         public bool ShowExfils { get; set; } = true;
-
+       
+        /// <summary>
+        /// Indicates whether to show switches on the ESP.
+        /// </summary>
+        [JsonPropertyName("showSwitches")]
+        public bool ShowSwitches { get; set; } = true;
         /// <summary>
         /// Display loot in ESP.
         /// </summary>
