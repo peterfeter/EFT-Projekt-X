@@ -5,6 +5,7 @@ using eft_dma_radar.UI.Misc;
 using eft_dma_radar.UI.Radar;
 using eft_dma_shared.Common.ESP;
 using eft_dma_shared.Common.Maps;
+using eft_dma_shared.Common.Misc;
 using eft_dma_shared.Common.Misc.Data;
 using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Unity;
@@ -67,7 +68,7 @@ namespace eft_dma_radar.Tarkov.Loot
         public override void DrawESP(SKCanvas canvas, LocalPlayer localPlayer)
         {
             var dist = Vector3.Distance(localPlayer.Position, Position);
-
+            var paints = GetPaints();
             if (dist > ESP.Config.ContainerDrawDistance)
                 return;
             if (!CameraManagerBase.WorldToScreen(ref Position, out var scrPos))
@@ -79,7 +80,22 @@ namespace eft_dma_radar.Tarkov.Loot
             canvas.DrawRect(boxPt, SKPaints.PaintContainerLootESP);
             var textPt = new SKPoint(scrPos.X,
                 scrPos.Y + 16f * ESP.Config.FontScale);
-            textPt.DrawESPText(canvas, this, localPlayer, showDist, SKPaints.TextContainerLootESP, this.Name);
+
+            // Define the custom SKPaint object with desired font properties
+            var customTextPaint = new SKPaint
+            {
+                SubpixelText = true,
+                Color = paints.Item1.Color, // Use the color from paints.Item1
+                IsStroke = false,
+                TextSize = SKPaints.TextContainerLootESP.TextSize, // Use the text size from TextContainerLootESP
+                TextAlign = SKTextAlign.Center,
+                TextEncoding = SKTextEncoding.Utf8,
+                IsAntialias = true,
+                Typeface = SKPaints.TextContainerLootESP.Typeface, // Use the typeface from TextContainerLootESP
+                FilterQuality = SKFilterQuality.High
+            };
+
+            textPt.DrawESPText(canvas, this, localPlayer, showDist, customTextPaint, this.Name);
 
             IEnumerable<LootItem> filteredLoot = this.FilteredLoot;
             if (filteredLoot.Count() <= 0)
@@ -89,10 +105,9 @@ namespace eft_dma_radar.Tarkov.Loot
             foreach (LootItem lootItem in filteredLoot)
                 lines.Add(lootItem.GetUILabel(MainForm.Config.QuestHelper.Enabled));
 
-            var lootItemPt = new SKPoint(scrPos.X, scrPos.Y + SKPaints.TextContainerLootESP.TextSize + 16f * ESP.Config.FontScale);
-            lootItemPt.DrawESPText(canvas, this, localPlayer, false, SKPaints.TextContainerLootESP, lines.ToArray());
+            var lootItemPt = new SKPoint(scrPos.X, scrPos.Y + customTextPaint.TextSize + 16f * ESP.Config.FontScale);
+            lootItemPt.DrawESPText(canvas, this, localPlayer, false, customTextPaint, lines.ToArray());
         }
-
         public override void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {
             // Get the container's position on the map
