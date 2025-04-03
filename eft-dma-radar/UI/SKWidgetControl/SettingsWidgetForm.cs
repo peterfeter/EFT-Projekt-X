@@ -49,7 +49,6 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             button_StartESP_SettingsWidget.Enabled = button_StartESP_SettingsWidget.Text != "Running...";
             checkedListBox_Containers_SettingsWidget.ItemCheck += checkedListBox_Containers_SettingsWidget_ItemCheck;
             checkBox_Containers_SelectAll_SettingsWidget.CheckedChanged += checkBox_Containers_SelectAll_SettingsWidget_CheckedChanged;
-            //checkBox_Chams_SettingsWidget.CheckedChanged += checkBox_Chams_SettingsWidget_CheckedChanged;
         }
         #endregion
 
