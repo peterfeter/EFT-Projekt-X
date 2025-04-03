@@ -105,8 +105,8 @@ namespace eft_dma_radar.Tarkov.Loot
             foreach (LootItem lootItem in filteredLoot)
                 lines.Add(lootItem.GetUILabel(MainForm.Config.QuestHelper.Enabled));
 
-            var lootItemPt = new SKPoint(scrPos.X, scrPos.Y + customTextPaint.TextSize + 16f * ESP.Config.FontScale);
-            lootItemPt.DrawESPText(canvas, this, localPlayer, false, customTextPaint, lines.ToArray());
+            var lootItemPt = new SKPoint(scrPos.X, scrPos.Y + SKPaints.TextContainerLootESP.TextSize + 16f * ESP.Config.FontScale);
+            lootItemPt.DrawESPText(canvas, this, localPlayer, false, SKPaints.TextContainerLootESP, lines.ToArray());
         }
         public override void DrawMouseover(SKCanvas canvas, LoneMapParams mapParams, LocalPlayer localPlayer)
         {

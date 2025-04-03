@@ -644,7 +644,6 @@ namespace eft_dma_shared.Common.Unity
                 ArgumentOutOfRangeException.ThrowIfZero(staticFieldData, nameof(staticFieldData));
                 return staticFieldData;
             }
-
             public static MonoClass Find(string assemblyName, string className, out ulong addressOf)
             {
                 var rootDomain = MonoRootDomain.Get();
