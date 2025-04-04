@@ -315,6 +315,7 @@ namespace LonesEFTRadar.UI.SKWidgetControl
             checkBox_Loot_SettingsWidget.Checked = _mainForm.checkBox_Loot.Checked;
             checkBox_LootWishlist_SettingsWidget.Checked = _mainForm.checkBox_LootWishlist.Checked;
             checkBox_ShowContainers_SettingsWidget.Checked = _mainForm.checkBox_ShowContainers.Checked;
+            checkBox_Chams_SettingsWidget.Checked = _mainForm.checkBox_Chams.Checked;   
         }
         public void UpdateMoveSpeedCheckbox(bool isChecked)
         {

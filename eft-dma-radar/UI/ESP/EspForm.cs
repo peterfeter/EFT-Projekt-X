@@ -512,7 +512,7 @@ namespace eft_dma_radar.UI.ESP
                     {
                         var distance = Vector3.Distance(localPlayer.Position, switchPos);
                         var distanceText = $"{distance:F0}m";
-                        var distancePoint = new SKPoint(screenPos.X, screenPos.Y + SKPaints.TextSwitchesESP.TextSize);
+                        var distancePoint = new SKPoint(screenPos.X, screenPos.Y + 16f * ESP.Config.FontScale);
                         canvas.DrawText(distanceText, distancePoint, SKPaints.TextSwitchesESP);
                     }
                 }
