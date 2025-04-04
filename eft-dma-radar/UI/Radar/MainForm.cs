@@ -1,4 +1,4 @@
-﻿using DarkModeForms;
+using DarkModeForms;
 using eft_dma_radar.Features.MemoryWrites.UI;
 using eft_dma_radar.Tarkov.API;
 using eft_dma_radar.Tarkov.EFTPlayer;
@@ -3081,7 +3081,6 @@ namespace eft_dma_radar.UI.Radar
 
         private void EngageAimbot_HotkeyStateChanged(object sender, HotkeyEventArgs e)
         {
-            Aimbot.Engaged = e.State;
         }
 
         private void ToggleInfo_HotkeyStateChanged(object sender, HotkeyEventArgs e)
