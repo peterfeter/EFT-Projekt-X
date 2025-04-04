@@ -1,4 +1,4 @@
-﻿using eft_dma_radar.Tarkov.EFTPlayer;
+using eft_dma_radar.Tarkov.EFTPlayer;
 using eft_dma_radar.Tarkov.EFTPlayer.Plugins;
 using eft_dma_radar.Tarkov.GameWorld;
 using eft_dma_radar.UI.Misc;
@@ -11,22 +11,31 @@ using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Ballistics;
 using eft_dma_shared.Common.Unity;
 using eft_dma_shared.Common.Unity.Collections;
-using eft_dma_shared.Common.Misc.Commercial;
 using eft_dma_shared.Common.Misc.Pools;
 using static eft_dma_shared.Common.Unity.UnityTransform;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace eft_dma_radar.Tarkov.Features.MemoryWrites
 {
     public sealed class Aimbot : MemWriteFeature<Aimbot>
     {
         #region Fields / Properties / Startup
+        private const float BaseFOV = 30f;
+        private const float MaxFOV = 55f;
+        private const float SpeedThreshold = 1.5f; // Lowered threshold for better responsiveness
+        private const float MaxSpeed = 3.7f; // Increased max speed for wider FOV range
+        private const float FOVSmoothing = 1.0f; // Smoothing factor for FOV transitions
 
-        public static bool Engaged = false;
+        private float _currentDynamicFOV = BaseFOV; // Current smoothed FOV value
 
         /// <summary>
         /// Aimbot Configuration.
         /// </summary>
         public static AimbotConfig Config { get; } = Program.Config.MemWrites.Aimbot;
+
         /// <summary>
         /// Aimbot Supported Bones.
         /// </summary>
@@ -42,6 +51,7 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
         private bool _firstLock;
         private sbyte _lastShotIndex = -1;
         private Bones _lastRandomBone = Config.Bone;
+
         /// <summary>
         /// Aimbot Info.
         /// </summary>
@@ -55,12 +65,6 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 Priority = ThreadPriority.Highest
             }.Start();
         }
-
-        //public override void OnGameStop()
-        //{
-        //    _weaponDirectionGetter = null;
-        //    _weaponDirectionPatched = default;
-        //}
 
         public override bool Enabled
         {
@@ -82,14 +86,13 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                     {
                         while (Enabled && MemWrites.Enabled && game.InRaid)
                         {
-                            //_weaponDirectionGetter ??= GetWeaponDirectionGetter();
                             SetAimbot(game);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    LoneLogging.WriteLine($"CRITICAL ERROR on Aimbot Thread: {ex}"); // Log CRITICAL error
+                    LoneLogging.WriteLine($"CRITICAL ERROR on Aimbot Thread: {ex}");
                 }
                 finally
                 {
@@ -98,11 +101,9 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 }
             }
         }
-
         #endregion
 
         #region Aimbot Execution
-
         /// <summary>
         /// Executes Aimbot features on the AimbotDMAWorker Thread.
         /// </summary>
@@ -110,7 +111,7 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
         {
             try
             {
-                if (Engaged && Memory.LocalPlayer is LocalPlayer localPlayer && ILocalPlayer.HandsController is ulong handsController && handsController.IsValidVirtualAddress())
+                if (Memory.LocalPlayer is LocalPlayer localPlayer && ILocalPlayer.HandsController is ulong handsController && handsController.IsValidVirtualAddress())
                 {
                     /// Check if the cache is still valid
                     /// This checks if the HandsController (FirearmController) address has changed for LocalPlayer
@@ -139,9 +140,10 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                     }
                     Cache.FireportTransform ??= GetFireport(handsController);
 
-                    /// If already locked on, check if the target has died
+                    /// If already locked on, check if the target has died or left FOV
                     if (Cache.AimbotLockedPlayer is not null)
                     {
+                        // Check if target died
                         ulong corpseAddr = Cache.AimbotLockedPlayer.CorpseAddr;
                         if (corpseAddr.IsValidVirtualAddress())
                         {
@@ -152,26 +154,34 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                                 Cache.ResetLock();
                             }
                         }
+
+                        // Check if target left FOV
+                        if (Config.SilentAim.SafeLock && IsSafeLockTripped(Cache.AimbotLockedPlayer))
+                        {
+                            _firstLock = false; // Allow re-lock
+                            Cache.ResetLock();
+                        }
                     }
+
                     /// If we do not have a target, acquire one
                     if (Cache.AimbotLockedPlayer is null)
                     {
                         if (_firstLock && Config.DisableReLock) // Disable re-locking if configured
                         {
                             ResetAimbot();
-                            while (Engaged)
-                                Thread.Sleep(1);
                             return;
                         }
 
                         Cache.AimbotLockedPlayer = GetBestAimbotTarget(game, localPlayer);
                     }
+
                     /// If we still do not have a target, Sleep and return
                     if (Cache.AimbotLockedPlayer is null)
                     {
                         Thread.Sleep(1);
                         return;
                     }
+
                     /// We have a valid target and Aimbot can continue
                     _firstLock = true;
                     BeginSilentAim(localPlayer);
@@ -190,109 +200,18 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             }
         }
 
-        ///// <summary>
-        ///// Begin Silent Aim Aimbot.
-        ///// </summary>
-        //private void BeginSilentAim(LocalPlayer localPlayer)
-        //{
-        //    try
-        //    {
-        //        var target = Cache.AimbotLockedPlayer;
-        //        var bone = Config.Bone;
-
-        //        if (MemWriteFeature<RageMode>.Instance.Enabled || Config.HeadshotAI && target.IsAI)
-        //            bone = Bones.HumanHead;
-        //        else if (Config.RandomBone.Enabled) // Random Bone
-        //        {
-        //            var shotIndex = Memory.ReadValue<sbyte>(Cache + Offsets.ClientFirearmController.ShotIndex, false);
-        //            if (shotIndex != _lastShotIndex)
-        //            {
-        //                _lastRandomBone = Config.RandomBone.GetRandomBone();
-        //                _lastShotIndex = shotIndex;
-        //                LoneLogging.WriteLine($"New Random Bone {_lastRandomBone.GetDescription()} ({shotIndex})");
-        //            }
-        //            bone = _lastRandomBone;
-        //        }
-        //        else if (Config.SilentAim.AutoBone)
-        //        {
-        //            var boneTargets = new List<PossibleAimbotTarget>();
-        //            foreach (var tr in target.Skeleton.Bones)
-        //            {
-        //                if (tr.Key is Bones.HumanBase)
-        //                    continue;
-        //                if (CameraManagerBase.WorldToScreen(ref tr.Value.Position, out var scrPos, true))
-        //                {
-        //                    boneTargets.Add(
-        //                    new PossibleAimbotTarget()
-        //                    {
-        //                        Player = target,
-        //                        FOV = CameraManagerBase.GetFovMagnitude(scrPos),
-        //                        Bone = tr.Key
-        //                    });
-        //                }
-        //            }
-        //            if (boneTargets.Count > 0)
-        //                bone = boneTargets.MinBy(x => x.FOV).Bone;
-        //        }
-        //        if (bone == Bones.Legs) // Pick a leg
-        //        {
-        //            bool isLeft = Random.Shared.Next(0, 2) == 1;
-        //            if (isLeft)
-        //                bone = Bones.HumanLThigh2;
-        //            else
-        //                bone = Bones.HumanRThigh2;
-        //        }
-
-        //        /// Target Bone Position
-        //        Vector3 bonePosition = target.Skeleton.Bones[bone].UpdatePosition();
-
-        //        if (Config.SilentAim.SafeLock)
-        //        {
-        //            if (IsSafeLockTripped()) // Unlock if target has left FOV
-        //            {
-        //                _firstLock = false; // Allow re-lock
-        //                ResetAimbot();
-        //                return;
-        //            }
-        //            bool IsSafeLockTripped()
-        //            {
-        //                foreach (var tr in target.Skeleton.Bones)
-        //                {
-        //                    if (tr.Key is Bones.HumanBase)
-        //                        continue;
-        //                    if (CameraManagerBase.WorldToScreen(ref tr.Value.Position, out var scrPos, true) &&
-        //                        CameraManagerBase.GetFovMagnitude(scrPos) is float fov && fov < Config.FOV)
-        //                        return false; // At least one bone in FOV - exit early
-        //                }
-        //                return true;
-        //            }
-        //        }
-
-        //        /// Get Fireport Position & Run Prediction
-        //        Vector3 fireportPosition;
-        //        try
-        //        {
-        //            fireportPosition = Cache.FireportTransform.UpdatePosition();
-        //        }
-        //        catch
-        //        {
-        //            Cache.FireportTransform = null;
-        //            throw;
-        //        }
-        //        Vector3 newWeaponDirection = CalculateSilentAimTrajectory(target, ref fireportPosition, ref bonePosition);
-        //        newWeaponDirection.ThrowIfAbnormal();
-
-        //        Memory.WriteValue(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.ShotNeedsFovAdjustments, false);
-        //        PatchWeaponDirectionGetter(newWeaponDirection);
-        //        Cache.LastFireportPos = fireportPosition;
-        //        Cache.LastPlayerPos = bonePosition;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LoneLogging.WriteLine($"Silent Aim [FAIL] {ex}");
-        //        ResetSilentAim();
-        //    }
-        //}
+        private bool IsSafeLockTripped(Player target)
+        {
+            foreach (var tr in target.Skeleton.Bones)
+            {
+                if (tr.Key is Bones.HumanBase)
+                    continue;
+                if (CameraManagerBase.WorldToScreen(ref tr.Value.Position, out var scrPos, true) &&
+                    CameraManagerBase.GetFovMagnitude(scrPos) is float fov && fov < _currentDynamicFOV) // Use current dynamic FOV
+                    return false; // At least one bone in FOV - exit early
+            }
+            return true;
+        }
 
         /// <summary>
         /// Begin Silent Aim Aimbot.
@@ -350,28 +269,6 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 /// Target Bone Position
                 Vector3 bonePosition = target.Skeleton.Bones[bone].UpdatePosition();
 
-                if (Config.SilentAim.SafeLock)
-                {
-                    if (IsSafeLockTripped()) // Unlock if target has left FOV
-                    {
-                        _firstLock = false; // Allow re-lock
-                        ResetAimbot();
-                        return;
-                    }
-                    bool IsSafeLockTripped()
-                    {
-                        foreach (var tr in target.Skeleton.Bones)
-                        {
-                            if (tr.Key is Bones.HumanBase)
-                                continue;
-                            if (CameraManagerBase.WorldToScreen(ref tr.Value.Position, out var scrPos, true) &&
-                                CameraManagerBase.GetFovMagnitude(scrPos) is float fov && fov < Config.FOV)
-                                return false; // At least one bone in FOV - exit early
-                        }
-                        return true;
-                    }
-                }
-
                 /// Get Fireport Position & Run Prediction
                 Vector3 fireportPosition;
                 Quaternion fireportRotation;
@@ -392,10 +289,6 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 Memory.WriteValue(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.ShotNeedsFovAdjustments, false);
                 Memory.WriteValue(localPlayer.PWA + Offsets.ProceduralWeaponAnimation._shotDirection, fireportRotation.InverseTransformDirection(newWeaponDirection));
 
-
-                //Memory.WriteValue(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.ShotNeedsFovAdjustments, false);
-                //PatchWeaponDirectionGetter(newWeaponDirection);
-
                 Cache.LastFireportPos = fireportPosition;
                 Cache.LastPlayerPos = bonePosition;
             }
@@ -406,11 +299,7 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             }
         }
 
-        #endregion
-
-        #region Helper Methods
-
-        private static Player GetBestAimbotTarget(LocalGameWorld game, Player localPlayer)
+        private Player GetBestAimbotTarget(LocalGameWorld game, Player localPlayer)
         {
             var players = game.Players?
                 .Where(x => x.IsHostileActive && x is not BtrOperator);
@@ -418,49 +307,72 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             if (players is null || !players.Any())
                 return null;
 
-            // Calculate fov, distance and build Target Collection
             var targets = new List<PossibleAimbotTarget>();
             foreach (var player in players)
             {
+                // Get target velocity
+                Vector3 targetVelocity;
+                if (player is ObservedPlayer)
+                    targetVelocity = Memory.ReadValue<Vector3>(player.MovementContext + Offsets.ObservedMovementController.Velocity, false);
+                else
+                    targetVelocity = default;
+
+                // Calculate speed magnitude
+                float speed = targetVelocity.Length(); // Oder targetVelocity.Magnitude, wenn Length nicht verfügbar ist
+
+                // Calculate dynamic FOV based on speed with smoothing
+                float targetFOV = BaseFOV;
+                if (speed > SpeedThreshold)
+                {
+                    float speedFactor = Math.Min((speed - SpeedThreshold) / (MaxSpeed - SpeedThreshold), 1f);
+                    targetFOV = BaseFOV + (MaxFOV - BaseFOV) * speedFactor;
+                }
+                _currentDynamicFOV = Lerp(_currentDynamicFOV, targetFOV, FOVSmoothing);
+
                 var distance = Vector3.Distance(localPlayer.Position, player.Position);
                 if (distance > MainForm.Config.MaxDistance)
                     continue;
-                foreach (var tr in player.Skeleton.Bones)
+
+                foreach (var bonePair in player.Skeleton.Bones)
                 {
-                    if (tr.Key is Bones.HumanBase)
+                    if (bonePair.Key is Bones.HumanBase)
                         continue;
-                    if (CameraManagerBase.WorldToScreen(ref tr.Value.Position, out var scrPos, true) &&
-                        CameraManagerBase.GetFovMagnitude(scrPos) is float fov && fov < Config.FOV)
+
+                    if (CameraManagerBase.WorldToScreen(ref bonePair.Value.Position, out var scrPos, true) &&
+                        CameraManagerBase.GetFovMagnitude(scrPos) is float fov && fov < _currentDynamicFOV)
                     {
-                        var target = new PossibleAimbotTarget()
+                        targets.Add(new PossibleAimbotTarget
                         {
                             Player = player,
                             FOV = fov,
-                            Distance = Vector3.Distance(localPlayer.Position, tr.Value.Position)
-                        };
-                        targets.Add(target);
+                            Bone = bonePair.Key,
+                            Distance = distance,
+                            DynamicFOV = _currentDynamicFOV
+                        });
+                        LoneLogging.WriteLine($"[Dynamic FOV] Target: {player.Name}, Speed: {speed:F2}, FOV: {_currentDynamicFOV:F2}, Bone: {bonePair.Key}");
                     }
                 }
             }
 
             if (targets.Count == 0)
                 return null;
-            switch (Config.TargetingMode)
+
+            return Config.TargetingMode switch
             {
-                case AimbotTargetingMode.FOV:
-                    return targets.MinBy(x => x.FOV).Player;
-                case AimbotTargetingMode.CQB:
-                    return targets.MinBy(x => x.Distance).Player;
-                default:
-                    throw new NotImplementedException(nameof(Config.TargetingMode));
-            }
+                AimbotTargetingMode.FOV => targets.OrderBy(x => x.FOV).FirstOrDefault().Player,
+                AimbotTargetingMode.CQB => targets.OrderBy(x => x.Distance).FirstOrDefault().Player,
+                _ => throw new NotImplementedException(nameof(Config.TargetingMode))
+            };
+        }
+
+        private static float Lerp(float a, float b, float t)
+        {
+            return a + (b - a) * Math.Clamp(t, 0, 1);
         }
 
         /// <summary>
         /// Get LocalPlayer Fireport Transform.
         /// </summary>
-        /// <param name="handsController"></param>
-        /// <returns></returns>
         private static UnityTransform GetFireport(ulong handsController)
         {
             handsController.ThrowIfInvalidVirtualAddress();
@@ -472,8 +384,6 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
         /// Recurses a given weapon for the total velocity on attachments.
         /// Used by Aimbot.
         /// </summary>
-        /// <param name="lootItemBase">Item (Weapon) to recurse.</param>
-        /// <param name="velocityModifier">Percentage to adjust the base velocity of a muzzle by.</param>
         private static void RecurseWeaponAttachVelocity(ulong lootItemBase, ref float velocityModifier)
         {
             try
@@ -506,17 +416,11 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
         /// <summary>
         /// Runs Aimbot Prediction between a source -> target.
         /// </summary>
-        /// <param name="target">Target player.</param>
-        /// <param name="sourcePosition">Source position.</param>
-        /// <param name="targetPosition">Target position.</param>
-        /// <returns>Weapon direction for the Source Position to aim towards the Target Position accounting for prediction results.</returns>
         private Vector3 CalculateSilentAimTrajectory(Player target, ref Vector3 sourcePosition, ref Vector3 targetPosition)
         {
             /// Get Current Ammo Details
             try
             {
-                // Chambered bullet's velocity - this needs to be updated independently of the aimbot to improve performance
-
                 int weaponVersion = Memory.ReadValue<int>(Cache.ItemBase + Offsets.LootItem.Version);
                 if (Cache.LastWeaponVersion != weaponVersion) // New round in chamber
                 {
@@ -530,19 +434,15 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                         Cache.Ballistics.BallisticCoefficient =
                             Memory.ReadValue<float>(ammoTemplate + Offsets.AmmoTemplate.BallisticCoeficient);
 
-                        /// Calculate Muzzle Velocity. There is a base value based on the Ammo Type,
-                        /// however certain attachments/barrels will apply a % modifier to that base value.
-                        /// These calculations will get the correct value.
+                        /// Calculate Muzzle Velocity
                         float bulletSpeed = Memory.ReadValue<float>(ammoTemplate + Offsets.AmmoTemplate.InitialSpeed);
                         float velMod = 0f;
                         velMod += Memory.ReadValue<float>(Cache.ItemTemplate + Offsets.WeaponTemplate.Velocity);
-                        RecurseWeaponAttachVelocity(Cache.ItemBase, ref velMod); // Expensive operation
-                        velMod = 1f + (velMod / 100f); // Get percentage (the game will give us 15.00, we want to turn it into 1.15)
-                        // Integrity check -> Should be between 0.01 and 1.99
+                        RecurseWeaponAttachVelocity(Cache.ItemBase, ref velMod);
+                        velMod = 1f + (velMod / 100f);
                         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(velMod, 0d, nameof(velMod));
                         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(velMod, 2d, nameof(velMod));
                         bulletSpeed *= velMod;
-                        // Calcs OK -> Cache Weapon/Ammo
                         Cache.Ballistics.BulletSpeed = bulletSpeed;
                         Cache.LoadedAmmo = ammoTemplate;
                     }
@@ -553,12 +453,14 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             {
                 LoneLogging.WriteLine($"Aimbot [WARNING] - Unable to set/update Ballistics: {ex}");
             }
+
             /// Target Velocity
             Vector3 targetVelocity;
             if (target is ObservedPlayer)
                 targetVelocity = Memory.ReadValue<Vector3>(target.MovementContext + Offsets.ObservedMovementController.Velocity, false);
             else
-                targetVelocity = default; // No lateral prediction
+                targetVelocity = default;
+
             /// Run Prediction Simulation
             if (Cache.IsAmmoValid)
             {
@@ -583,7 +485,7 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 LoneLogging.WriteLine("Aimbot [WARNING] - Invalid Ammo Ballistics! Running without prediction.");
             }
 
-            return Vector3.Normalize(targetPosition - sourcePosition); // Return direction
+            return Vector3.Normalize(targetPosition - sourcePosition);
         }
 
         /// <summary>
@@ -594,113 +496,13 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             Cache?.ResetLock();
             Cache = null;
             _lastShotIndex = -1;
+            _currentDynamicFOV = BaseFOV; // Reset to base FOV
             ResetSilentAim();
         }
 
         #endregion
 
         #region Silent Aim Internal
-
-        //private static ulong? _weaponDirectionGetter;
-        //private static bool _weaponDirectionPatched;
-
-        //private static readonly byte[] _weaponDirectionGetterOriginalBytes = new byte[] // The original bytes of the WeaponDirection getter method.
-        //{
-        //    0x55,                    					// push rbp
-        //    0x48, 0x8B, 0xEC,              				// mov rbp,rsp
-        //    0x48, 0x81, 0xEC, 0x90, 0x00, 0x00, 0x00,   // sub rsp,00000090
-        //    0x48, 0x89, 0x7D, 0xF8,           			// mov [rbp-08],rdi
-        //    0x48, 0x89, 0x55, 0xF0,           			// mov [rbp-10],rdx
-        //    0x48, 0x8B, 0xF9,              				// mov rdi,rcx
-        //    0x49, 0xBB,                                 // mov r11
-        //};
-
-        //private const string _patchMask = "xx????xxx????xxx????xxxx";
-        //private static byte[] _weaponDirectionGetterPatchBytes = new byte[] // The silent aim bytes of the WeaponDirection getter method.
-        //{
-        //    0xC7, 0x02, // mov [rdx], xBytes
-        //    0x0, 0x0, 0x0, 0x0, // X
-
-        //    0xC7, 0x42, 0x04, // mov [rdx+4], yBytes
-        //    0x0, 0x0, 0x0, 0x0, // Y
-
-        //    0xC7, 0x42, 0x08, // mov [rdx+8], zBytes
-        //    0x0, 0x0, 0x0, 0x0, // Z
-
-        //    0x48, 0x89, 0xD0, // mov rax, rdx
-
-        //    0xC3 // ret
-        //};
-
-        //private static ulong GetWeaponDirectionGetter()
-        //{
-        //    var fClass = MonoLib.MonoClass.Find("Assembly-CSharp", ClassNames.FirearmController.ClassName, out _);
-        //    ulong fMethod = fClass.FindJittedMethod("get_WeaponDirection");
-        //    fMethod.ThrowIfInvalidVirtualAddress();
-        //    var scan = new byte[32];
-        //    Memory.ReadBuffer(fMethod, scan.AsSpan(), false, false);
-        //    // Make sure the method signature matches by checking the first two bytes
-        //    if (scan.FindSignatureOffset(_weaponDirectionGetterOriginalBytes) != -1 ||
-        //        scan.FindSignatureOffset(_weaponDirectionGetterPatchBytes, _patchMask) != -1)
-        //    {
-        //        LoneLogging.WriteLine("[AIMBOT] WeaponDirectionGetter method found!");
-        //        return fMethod;
-        //    }
-        //    throw new Exception("WeaponDirectionGetter method not found!");
-        //}
-
-        //private static void PatchWeaponDirectionGetter(Vector3 newWeaponDirection)
-        //{
-        //    if (_weaponDirectionGetter is not ulong weaponDirectionGetter)
-        //        throw new Exception("WeaponDirectionGetter is not set!");
-
-        //    BinaryPrimitives.WriteSingleLittleEndian(_weaponDirectionGetterPatchBytes.AsSpan(2), newWeaponDirection.X);
-        //    BinaryPrimitives.WriteSingleLittleEndian(_weaponDirectionGetterPatchBytes.AsSpan(9), newWeaponDirection.Y);
-        //    BinaryPrimitives.WriteSingleLittleEndian(_weaponDirectionGetterPatchBytes.AsSpan(16), newWeaponDirection.Z);
-
-        //    // Patch getter
-        //    Memory.WriteBuffer(weaponDirectionGetter, _weaponDirectionGetterPatchBytes.AsSpan());
-        //    _weaponDirectionPatched = true;
-        //}
-
-        //private static bool RestoreWeaponDirectionGetter()
-        //{
-        //    try
-        //    {
-        //        if (_weaponDirectionGetter is not ulong weaponDirectionGetter)
-        //            return true; // Already unset
-
-        //        for (int i = 0; i < 3; i++)
-        //        {
-        //            try
-        //            {
-        //                Memory.WriteBufferEnsure(weaponDirectionGetter, _weaponDirectionGetterOriginalBytes.AsSpan());
-        //                _weaponDirectionPatched = false;
-        //                return true;
-        //            }
-        //            catch { }
-        //        }
-        //        throw new Exception("Failed to restore Original Weapon Getter!");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LoneLogging.WriteLine($"[AIMBOT] RestoreWeaponDirectionGetter(): {ex}");
-        //    }
-
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Reset the Shot Direction (Silent Aim) back to default state.
-        ///// </summary>
-        //private static void ResetSilentAim()
-        //{
-        //    if (_weaponDirectionPatched)
-        //    {
-        //        RestoreWeaponDirectionGetter();
-        //        LoneLogging.WriteLine("Silent Aim [WEAPON GETTER RESET]");
-        //    }
-        //}
 
         /// <summary>
         /// Reset the Shot Direction (Silent Aim) back to default state.
@@ -730,87 +532,36 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
             [Description(nameof(CQB))]
             CQB = 2
         }
+
         /// <summary>
         /// Encapsulates Aimbot Targeting Results.
         /// </summary>
-        private readonly struct PossibleAimbotTarget
+        public struct PossibleAimbotTarget
         {
-            /// <summary>
-            /// Target Player that this result belongs to.
-            /// </summary>
-            public readonly Player Player { get; init; }
-            /// <summary>
-            /// LocalPlayer's FOV towards this Player.
-            /// </summary>
-            public readonly float FOV { get; init; }
-            /// <summary>
-            /// Target's Bone Type.
-            /// </summary>
-            public readonly Bones Bone { get; init; }
-            /// <summary>
-            /// LocalPlayer's Distance towards this Player.
-            /// </summary>
-            public readonly float Distance { get; init; }
+            public Player Player { get; set; }
+            public float FOV { get; set; }
+            public Bones Bone { get; set; }
+            public float Distance { get; set; }
+            public float DynamicFOV { get; set; }
         }
 
-        /// <summary>
-        /// Cached Values for the AimBot.
-        /// Wraps the HandsController Base Address.
-        /// </summary>
         public sealed class AimbotCache
         {
             public static implicit operator ulong(AimbotCache x) => x?.HandsBase ?? 0x0;
 
-            /// <summary>
-            /// Returns true if Ammo/Ballistics values are valid.
-            /// </summary>
             public bool IsAmmoValid => Ballistics.IsAmmoValid;
 
-            /// <summary>
-            /// Address for Player.AbstractHandsController.
-            /// Will change to a unique value each time a player changes what is in their hands (Weapon/Item/Grenade,etc.)
-            /// </summary>
             private ulong HandsBase { get; }
-            /// <summary>
-            /// EFT.InventoryLogic.Item
-            /// </summary>
             public ulong ItemBase { get; }
-            /// <summary>
-            /// EFT.InventoryLogic.ItemTemplate
-            /// </summary>
             public ulong ItemTemplate { get; }
-            /// <summary>
-            /// Player that is currently 'locked on' to in Phase 1.
-            /// </summary>
             public Player AimbotLockedPlayer { get; set; }
-            /// <summary>
-            /// Ammo Template of the ammo currently in the chamber.
-            /// </summary>
             public ulong LoadedAmmo { get; set; }
-            /// <summary>
-            /// Ballistics Information.
-            /// </summary>
             public BallisticsInfo Ballistics { get; } = new();
-            /// <summary>
-            /// Fireport Transform for LocalPlayer.
-            /// </summary>
             public UnityTransform FireportTransform { get; set; }
-            /// <summary>
-            /// Last position of the Fireport from previous cycle.
-            /// Null if first cycle.
-            /// </summary>
             public Vector3? LastFireportPos { get; set; }
-            /// <summary>
-            /// Last position of the Last Player from previous cycle.
-            /// Null if first cycle.
-            /// </summary>
             public Vector3? LastPlayerPos { get; set; }
-            /// <summary>
-            /// Last weapon 'version', updates as shots are fired.
-            /// </summary>
             public int LastWeaponVersion { get; set; } = -1;
 
-            /// <param name="handsBase">Player.AbstractHandsController Address</param>
             public AimbotCache(ulong handsBase)
             {
                 HandsBase = handsBase;
@@ -818,9 +569,6 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                 ItemTemplate = Memory.ReadPtr(ItemBase + Offsets.LootItem.Template, false);
             }
 
-            /// <summary>
-            /// Reset this Cache to a 'Non-Locked' state.
-            /// </summary>
             public void ResetLock()
             {
                 LastFireportPos = null;
